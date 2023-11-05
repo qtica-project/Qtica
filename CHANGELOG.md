@@ -64,5 +64,3 @@
   - StyleAnimation
   - ProgressStyleAnimation
   - Animation
-
-<!-- ## [1.0.2] - yyyy-mm-dd -->

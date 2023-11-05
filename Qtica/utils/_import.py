@@ -19,14 +19,12 @@ class Imports:
         return load_package(os.path.basename(path).split(".")[-1], path)
 
     @staticmethod
-    def method(path: str) -> object:
+    def method(path: str, 
+               name: str, 
+               default: object = None) -> object:
         """
-        >>> py = method("/path/to/script.py")
-        >>> py("attribute")
+        >>> py = method("/path/to/script.py", "method")
+        >>> py() # call method
         ...
         """
-
-        def get(name: str, default: object = None) -> object:
-            return getattr(Imports.import_(path), name, default)
-
-        return get
+        return getattr(Imports.import_(path), name, default)
