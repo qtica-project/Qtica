@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "Qtica"
+version = "1.0.1"
+description = " Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python."
+
+license = "GPL-3.0"
+
+authors = ["Osama Mohammed Al-zabidi"]
+
+repository = "https://github.com/omamkaz/Qtica.git"
+homepage = "https://github.com/omamkaz/Qtica"
+
+readme = ["README.md", "LICENSE"]
+
+keywords = ["qt", "pyside6", "python", "declarative", "qml", "Qtica"]
+
+[tool.poetry.dependencies]
+python = ">=3.7"
+PySide6 = "^6.5.0"
+
+# Python-style entrypoints and scripts are easily expressed
+# [tool.poetry.scripts]
+# my-script = "Qtica:main"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
