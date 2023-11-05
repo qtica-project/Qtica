@@ -8,6 +8,7 @@ readme = "README.md"
 keywords = ["qt", "pyside6", "python", "declarative", "qml", "Qtica"]
 homepage = "https://github.com/omamkaz/Qtica"
 
+
 [tool.poetry.dependencies]
 python = "^3.10"
 PySide6 = "^6.5.0"
