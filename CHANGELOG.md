@@ -5,6 +5,8 @@
 ### Added
 
 - parent-child-widgets example
+- QLineEdit
+- QSpinBox
 
 ## [0.1.1] - 2023-11-05
 
@@ -64,3 +66,10 @@
   - StyleAnimation
   - ProgressStyleAnimation
   - Animation
+
+## [0.1.2] - 2023-11-05
+
+### Added
+
+- version_generator.py example
+- resources, and fonts into the <code>Application</code> class.
