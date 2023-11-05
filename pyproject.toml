@@ -4,7 +4,7 @@ version = "0.1.1"
 description = "Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python."
 authors = ["Osama Mohammed Al-zabidi <omamkaz@gmail.com>"]
 license = "GPL-3.0"
-readme = "README.md"
+readme = ["README.md", "CHANGELOG.md"]
 keywords = ["qt", "pyside6", "python", "declarative", "qml", "Qtica"]
 homepage = "https://github.com/omamkaz/Qtica"
 packages = [{ include = "Qtica" }]
