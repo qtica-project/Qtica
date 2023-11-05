@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QStackedLayout, QWidget, QLayoutItem
+from ..core.base import ObjectBase
 from typing import Union
-from ...core.base import ObjectBase
 
 
 class StackedLayout(ObjectBase, QStackedLayout):

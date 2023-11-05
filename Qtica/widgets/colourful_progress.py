@@ -4,7 +4,7 @@
 from PySide6.QtCore import QRect, Qt, QRectF, QLineF
 from PySide6.QtGui import QColor, QPainter, QPen, QTransform, QPainterPath
 from PySide6.QtWidgets import QProgressBar, QStyleOptionProgressBar
-from ...animation.style_animation import ProgressStyleAnimation
+from ..animation.style_animation import ProgressStyleAnimation
 
 
 class _ColourfulProgressBar(QProgressBar):
@@ -121,9 +121,9 @@ class _ColourfulProgressBar(QProgressBar):
 
 
 
-from ...core.base import WidgetBase
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
+from ..core.base import WidgetBase
+from ..enums.events import EventTypeVar
+from ..enums.signals import SignalTypeVar
 
 
 class ColourfulProgressBar(WidgetBase, _ColourfulProgressBar):
