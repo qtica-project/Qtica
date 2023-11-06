@@ -1,5 +1,13 @@
-# Qtica
+<p align="center">
+  <a href="https://github.com/Qtica">
+    <img alt="docsify" src="./docs/_media/logo.svg">
+  </a>
+</p>
 
-Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python. Qtica is available under the GPLv3 license.
+<p align="center">
+  A Fast Way to Done Your Idea!
+</p>
 
-# It's ready to use wait for the doc!
+Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python.
+
+# It's ready to use, Please waiting for the docs!
