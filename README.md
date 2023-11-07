@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://omamkaz.gitbook.io/qtica-docs/quick-start">
+  <a href="https://omamkaz.gitbook.io/qtica/">
     <img alt="Qtica" src="./logo.png">
   </a>
 </p>
@@ -12,4 +12,4 @@ Qtica is a Python library that provides a lightweight API around native PySide6,
 
 # Documention
 
-[Get Start](https://omamkaz.gitbook.io/qtica-docs/quick-start)
+[Get Start](https://omamkaz.gitbook.io/qtica/)
