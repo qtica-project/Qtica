@@ -1,12 +1,12 @@
 # Changelog
 
-## [Unreleased]
+## Unreleased - (Soon!)
 
 ### Added
 
 - parent_child_widgets.py example
 
-## [0.1.1] - 2023-11-05
+## 0.1.1 - (2023-11-05)
 
 ### Added
 
@@ -65,7 +65,7 @@
   - ProgressStyleAnimation
   - Animation
 
-## [0.1.2] - 2023-11-07
+## 0.1.2 - (2023-11-07)
 
 ### Added
 
