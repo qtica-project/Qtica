@@ -81,8 +81,6 @@
 
 - `enums.Sizes.size_hint` -> `enums.Sizes.hint`
 
-### Removed
-
 ### Fixed
 
 - `core.BehaviorDeclarative`, no uid in `__init__` parameters
