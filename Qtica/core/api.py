@@ -9,6 +9,20 @@ from .base import (
 
 
 class Api:
+    '''
+
+    ```
+    api = Api(parent)
+    obj = api.get('uid')
+    >> obj = object
+    ```
+
+    ### Direct Access
+    ```
+    Api.fetch('uid')
+    >> object
+    ```
+    '''
     def __init__(self, 
                  parent: QObject = None,
                  w_type: WidgetTypeVar | object = Widgets.any):
@@ -87,3 +101,6 @@ class Api:
     @staticmethod
     def dec_fetch(uid: str) -> Any:
         return Api.declarative_fetch(uid)
+
+    def __call__(self, *args: Any, **kwds: Any) -> Any:
+        return self.get(*args, **kwds)

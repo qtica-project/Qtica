@@ -4,9 +4,7 @@
 
 ### Added
 
-- parent-child-widgets example
-- QLineEdit
-- QSpinBox
+- parent_child_widgets.py example
 
 ## [0.1.1] - 2023-11-05
 
@@ -34,7 +32,7 @@
   - QStackedLayout
   - QVBoxLayout
 
-- #### PySide6 Aditional Widgets
+- #### PySide6 Additional Widgets
 
   - WigglyWidget
   - WaterRippleProgressBar
@@ -62,7 +60,7 @@
 
   - QPropertyAnimation
 
-- #### PySide6 Aditional Core
+- #### PySide6 Additional Core
   - StyleAnimation
   - ProgressStyleAnimation
   - Animation
@@ -72,4 +70,19 @@
 ### Added
 
 - version_generator.py example
-- resources, and fonts into the <code>Application</code> class.
+- status_edge.py example
+- resources, and fonts into the `Application` class.
+- `tools.Painter class`
+- `tools.PaintStatusEdge`
+- Qtica `logo.png`
+- `widgets.FramelessWindowSizeGrip`
+
+### Changed
+
+- `enums.Sizes.size_hint` -> `enums.Sizes.hint`
+
+### Removed
+
+### Fixed
+
+- `core.BehaviorDeclarative`, no uid in `__init__` parameters

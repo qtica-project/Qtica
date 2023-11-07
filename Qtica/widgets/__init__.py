@@ -9,7 +9,8 @@ from .application import Application, App
 from .window import (
     MainWindow, 
     RoutingWindow, 
-    FramelessWindow
+    FramelessWindow,
+    FramelessWindowSizeGrip
 )
 
 from .side_bar import (

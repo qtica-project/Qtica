@@ -10,3 +10,8 @@ from .picker import ColorPicker
 from .modifiers import Modifiers
 from .size_policy import SizePolicy
 from .alignment import Alignment
+from .painter import Painter
+
+from .painters import (
+    PaintStatusEdge
+)

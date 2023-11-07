@@ -1,6 +1,5 @@
-from PySide6.QtCore import QUrl, Qt
 from PySide6.QtQuickWidgets import QQuickWidget
-from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import QUrl, Qt
 from typing import Tuple, Any
 
 from ...enums.events import EventTypeVar
@@ -45,4 +44,3 @@ class QuickWidget(WidgetBase, QQuickWidget):
         if status == self.Status.Error:
             for error in self.errors():
                 print("qml-widget-error: ", error.toString())
-            # QApplication.exit(0)

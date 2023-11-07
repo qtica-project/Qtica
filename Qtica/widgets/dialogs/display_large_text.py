@@ -11,7 +11,7 @@ from ...core.base import WidgetBase
 
 
 class _DisplayLargText(QDialog):
-    def __init__(self, 
+    def __init__(self,
                  parent = None,
                  close_on_mouse_press: bool = True) -> None:
         QDialog.__init__(self, parent)
@@ -97,7 +97,7 @@ class LargTextDialog(WidgetBase, _DisplayLargText):
 
         self.display_text(text, font_size, timeout)
 
-    def run(self, 
+    def run(self,
             text: str,
             font_size: int = 50,
             timeout: int = 2000) -> None:

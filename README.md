@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://github.com/Qtica">
-    <img alt="docsify" src="./docs/_media/logo.svg">
+  <a href="https://omamkaz.gitbook.io/qtica-docs/quick-start">
+    <img alt="Qtica" src="./logo.png">
   </a>
 </p>
 

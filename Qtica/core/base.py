@@ -145,50 +145,6 @@ class WidgetBase(AbstractBase):
         self.qss._set_parent(self)
         self.qss._set_qss(self.qss._qss)
 
-    # def update_qss(self, 
-    #                qss: Union[str, dict],
-    #                *,
-    #                save: bool = False) -> None:
-
-    #     if (isinstance(qss, dict) 
-    #         and isinstance(self.__qss, dict)):
-    #         _qss = self.__qss.copy()
-    #         _qss.update(qss)
-    #         self.__qss = qss if save else self.__qss
-    #         return self._set_qss(_qss)
-    #     else:
-    #         self._set_qss(qss)
-
-    # def _set_qss(self, qss: Union[str, dict]) -> None:
-    #     if isinstance(qss, str):
-    #         if not os.path.exists(qss):
-    #             return self.setStyleSheet(qss)
-
-    #         with open(qss, "r") as fr:
-    #             self.setStyleSheet(fr.read())
-    #     else:
-    #         style_sheet = ""
-    #         _obj_style = ""
-
-    #         for k, v in qss.items():
-    #             if isinstance(v, dict):
-    #                 style_sheet += "%s {\n" % k
-    #                 for sk, sv in v.items():
-    #                     style_sheet += f"{sk}: {sv};\n"
-    #                 style_sheet += "}\n"
-    #             else:
-    #                 _obj_style += f"{k}: {v};\n"
-
-    #         if (obj_name := self.objectName()):
-    #             style_sheet += "#%s {\n" % obj_name
-    #             style_sheet += _obj_style
-    #             style_sheet += "}"
-
-    #         elif not style_sheet:
-    #             style_sheet = _obj_style
-
-    #         self.setStyleSheet(style_sheet)
-
 
 class Return:
     def __init__(self, 
@@ -238,19 +194,22 @@ class _TrackingDeclarative:
         self._instances_dict = dict()
 
     def _register(self, uid: str, obj: Any) -> None:
-        if uid is not None:
-            if uid in self._instances_dict:
-                raise DuplicateKeyError(uid)
+        if not isinstance(uid, str):
+            raise ValueError("invalid uid, must be str type.")
 
-            self._instances_dict[uid] = obj
+        if uid in self._instances_dict:
+            raise DuplicateKeyError(uid)
+        self._instances_dict[uid] = obj
 
     def _deregister(self, uid: str) -> Any:
         """ deregister widget from manager """
-        if uid is not None:
-            if uid not in self._instances_dict:
-                return
+        if not isinstance(uid, str):
+            raise ValueError("invalid uid, must be str type.")
 
-            return self._instances_dict.pop(uid)
+        if uid not in self._instances_dict:
+            return
+
+        return self._instances_dict.pop(uid)
 
     def pop(self, uid: str) -> Any:
        self._deregister(uid)
@@ -266,20 +225,31 @@ TrackingDeclarative = _TrackingDeclarative()
 
 class BehaviorDeclarative:
     """
-    the __init__ method can know return value
-    any class abstract from this class is return the widget
-    you can't type this class as widget, if you want to do this
-    you need to use one of those classes ObjectDeclarative or WidgetDeclarative
+    `__init__` method can now return a value
+
+    ### usage example
+    ```python
+    class Object(BehaviorDeclarative):
+        def __init__(self, *args, **kwargs):
+            return ...
+    ```
+    
+    #### NOTE: you use `uid` parameter to store this class in `TrackingDeclarative`, \
+        and call it with Api.fetch
     """
 
     def __new__(cls, *args, **kwargs) -> Any:
         instance = super().__new__(cls)
-        if (uid := kwargs.pop("uid", None)) is not None:
-            TrackingDeclarative._register(uid, instance)
+        _uid = (kwargs.pop
+                if 'uid' not in
+                instance.__init__.__code__.co_varnames
+                else kwargs.get)("uid", None)
+
+        if _uid is not None:
+            TrackingDeclarative._register(_uid, instance)
+
         return instance.__init__(*args, **kwargs)
 
-    # def build(self):
-    #     raise NotImplementedError
 
 class ObjectDeclarative(ObjectBase, BehaviorDeclarative):
     pass

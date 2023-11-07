@@ -25,7 +25,7 @@ class Application(ObjectBase, QApplication):
                  resources: list[str] = None,
                  fonts: list[str] = None,
                  uid: str = None, 
-                 signals: SignalTypeVar = None, 
+                 signals: SignalTypeVar = None,
                  events: EventTypeVar = None, 
                  **kwargs):
         QApplication.__init__(self, arg or [])

@@ -1,3 +1,4 @@
+from typing import Union
 from PySide6.QtGui import QShowEvent, QCloseEvent
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
@@ -20,7 +21,7 @@ class MainWindow(WidgetBase, QMainWindow):
                  uid: str = None, 
                  signals: SignalTypeVar = None, 
                  events: EventTypeVar = None, 
-                 home: QWidget = None,
+                 home: Union[QWidget, QLayout] = None,
                  tool_bar: QToolBar = None,
                  status_bar: QStatusBar = None,
                  dock_widget: QDockWidget = None,
@@ -33,10 +34,17 @@ class MainWindow(WidgetBase, QMainWindow):
         self.setAnimated(True)
         self.setUpdatesEnabled(True)
 
-        self._set_home(home)
-        self._set_tool_bar(tool_bar)
-        self._set_status_bar(status_bar)
-        self._set_dock_widget(dock_widget)
+        if home is not None:
+            self._set_home(home)
+        
+        if tool_bar is not None:
+            self._set_tool_bar(tool_bar)
+
+        if status_bar is not None:
+            self._set_status_bar(status_bar)
+
+        if dock_widget is not None:
+            self._set_dock_widget(dock_widget)
 
     def closeEvent(self, event: QCloseEvent) -> None:
         self.__is_startup = False
@@ -50,31 +58,26 @@ class MainWindow(WidgetBase, QMainWindow):
         return super().showEvent(event)
 
     def _set_home(self, home: QWidget) -> None:
-        if home is not None:
-            if isinstance(home, QLayout):
-                self.centralwidget = QWidget(self)
-                self.centralwidget.setObjectName("centralwidget")
-                home.setProperty("parent", self.centralwidget)
-                self.centralwidget.setLayout(home)
-                self.setCentralWidget(self.centralwidget)
+        if isinstance(home, QLayout):
+            self.centralwidget = QWidget(self)
+            self.centralwidget.setObjectName("centralwidget")
+            home.setProperty("parent", self.centralwidget)
+            self.centralwidget.setLayout(home)
+            self.setCentralWidget(self.centralwidget)
 
-            elif isinstance(home, QWidget):
-                home.setParent(self)
-                self.setCentralWidget(home)
+        elif isinstance(home, QWidget):
+            home.setParent(self)
+            self.setCentralWidget(home)
 
-            else:
-                raise ValueError("the 'home' argument must be one of \
-                    the QWidget or QLayout instance.")
+        else:
+            raise ValueError("the 'home' argument must be one of \
+                the QWidget or QLayout instance.")
 
     def _set_tool_bar(self, tool_bar: QToolBar) -> None:
-        if tool_bar is not None:
-            return self.addToolBar(tool_bar)
+        self.addToolBar(tool_bar)
 
     def _set_status_bar(self, status_bar: QStatusBar) -> None:
-        if status_bar is not None:
-            return self.setStatusBar(status_bar)
+        self.setStatusBar(status_bar)
 
     def _set_dock_widget(self, dock_widget: QDockWidget) -> None:
-        if dock_widget is not None:
-            self.addDockWidget(dock_widget)
-
+        self.addDockWidget(dock_widget)

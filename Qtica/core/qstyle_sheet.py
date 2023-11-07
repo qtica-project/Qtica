@@ -17,7 +17,9 @@ class QStyleSheet:
         uid="label",
         qss=QStyleSheet(
             qss={
-                "background-color": "--themeColor"
+                "background-color": "--themeColor",
+                "color": "white",
+                "font-size": "24px"
             },
             vars={
                 "themeColor": "blue"

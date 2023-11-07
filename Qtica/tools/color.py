@@ -7,7 +7,7 @@ from ..enums.colors import Colors
 
 class Color(BehaviorDeclarative):
     '''
-    Color(Colors.red) -> QColor
+    e.g Color(Colors.red) -> QColor
     '''
     def __init__(self, 
                  color: Union[QColor, 
@@ -15,14 +15,19 @@ class Color(BehaviorDeclarative):
                               Any,
                               Qt.GlobalColor, 
                               Colors,
-                              str, int, 
+                              str, 
+                              int, 
                               Tuple[int, int, int, Optional[int]],
-                              Tuple[QColor.Spec, int, int, int, int, Optional[int]]]) -> QColor:
-        super().__init__()
+                              Tuple[QColor.Spec, 
+                                    int, 
+                                    int, 
+                                    int, 
+                                    int, 
+                                    Optional[int]]]) -> QColor:
 
         if isinstance(color, Colors):
             return color.value
- 
+
         if isinstance(color, (list, tuple)):
             return QColor(*color)
 

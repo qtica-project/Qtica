@@ -1,11 +1,15 @@
-from PySide6.QtCore import QPoint, Qt
-from PySide6.QtGui import QMouseEvent, QResizeEvent, QScreen
+from typing import Union
+from PySide6.QtCore import QPoint, QSize, Qt, Signal
+from PySide6.QtGui import QCloseEvent, QMouseEvent, QResizeEvent, QScreen, QShowEvent
 from PySide6.QtWidgets import (
-    QApplication, 
+    QApplication,
+    QDockWidget, 
     QLayout, 
-    QSizeGrip, 
-    QVBoxLayout, 
+    QSizeGrip,
+    QStatusBar, 
+    QVBoxLayout,
     QWidget, 
+    QMainWindow,
     QSizePolicy
 )
 
@@ -13,33 +17,41 @@ from ...enums.events import EventTypeVar
 from ...enums.signals import SignalTypeVar
 from ...core.base import WidgetBase
 
-'''
-TODO:
- - [] let user to choose grip edge
- - [] let user to set CustomGrip widget
-'''
 
-class FramelessWindow(WidgetBase, QWidget):
+class FramelessWindowSizeGrip(QSizeGrip):
+    def __init__(self,
+                 size: Union[tuple[int, int], QSize] = QSize(12, 12)) -> None:
+        super().__init__(None)
+
+        self.resize(*size if not isinstance(size, QSize) else size)
+        self.setCursor(Qt.CursorShape.SizeHorCursor)
+
+
+class FramelessWindow(WidgetBase, QMainWindow):
+    startup_changed = Signal()
+
     def __init__(self, 
                  uid: str = None, 
                  signals: SignalTypeVar = None, 
                  events: EventTypeVar = None, 
                  qss: str | dict = None,
-                 resizable: bool = True,
-                 grip_size: int = 12,
                  title_bar: QWidget = None,
-                 home: QWidget = None,
+                 home: Union[QWidget, QLayout] = None,
+                 status_bar: QStatusBar = None,
+                 dock_widget: QDockWidget = None,
+                 size_grip: QSizeGrip = None,
                  **kwargs):
-        QWidget.__init__(self)
+        QMainWindow.__init__(self)
         super().__init__(uid, signals, events, qss, **kwargs)
 
-        self._vlayout = QVBoxLayout(self)
+        self.__is_startup = False
 
         self._old_pos = self.pos()
         self._is_pressed = False
-        self._grip_size = grip_size
-        self._resizable = resizable
+        self._size_grip = size_grip
         self._title_bar = title_bar
+
+        self._set_central_widget()
 
         if self._title_bar is not None:
             self._set_title_bar(self._title_bar)
@@ -48,10 +60,8 @@ class FramelessWindow(WidgetBase, QWidget):
             self.mousePressEvent = self._mousePressEvent
             self.mouseReleaseEvent = self._mouseReleaseEvent
 
-        if self._resizable:
-            self._grip = QSizeGrip(self)
-            self._grip.setCursor(Qt.CursorShape.SizeHorCursor)
-            self._grip.resize(self._grip_size, self._grip_size)
+        if size_grip is not None:
+            self._size_grip.setParent(self)
 
         if home is not None:
             self._set_home(home)
@@ -66,14 +76,46 @@ class FramelessWindow(WidgetBase, QWidget):
 
         self.setAutoFillBackground(True)
         self.setUpdatesEnabled(True)
+        self.setDocumentMode(True)
+        self.setAnimated(True)
+
+        if status_bar is not None:
+            self._set_status_bar(status_bar)
+
+        if dock_widget is not None:
+            self._set_dock_widget(dock_widget)
+
+    def closeEvent(self, event: QCloseEvent) -> None:
+        self.__is_startup = False
+        return super().closeEvent(event)
+
+    def showEvent(self, event: QShowEvent) -> None:
+        if not self.__is_startup:
+            self.__is_startup = True
+            self.startup_changed.emit()
+
+        return super().showEvent(event)
+
+    def _set_central_widget(self):
+        self.__centralwidget = QWidget(self)
+        self._vlayout = QVBoxLayout(self.__centralwidget)
+
+        self.__centralwidget.setObjectName("__centralwidget")
+        self.setCentralWidget(self.__centralwidget)
 
     def _set_home(self, home: QWidget):
         if isinstance(home, QLayout):
-            widget = QWidget(self)
-            widget.setLayout(home)
-            self._vlayout.addWidget(widget)
-        else:
+            home.setProperty("parent", 
+                             self.__centralwidget)
+            self._vlayout.addLayout(home)
+
+        elif isinstance(home, QWidget):
+            home.setParent(self)
             self._vlayout.addWidget(home)
+
+        else:
+            raise ValueError("the 'home' argument must be one of \
+                the QWidget or QLayout instance.")
 
     def _set_title_bar(self, title_bar: QWidget):
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, 
@@ -90,23 +132,16 @@ class FramelessWindow(WidgetBase, QWidget):
 
         self._vlayout.addWidget(title_bar)
 
-    def setResizeEnabled(self, enabled: bool):
-        """ set whether resizing is enabled """
-        self._resizable = enabled
-
     def resizeEvent(self, event: QResizeEvent):
-
-        if self._resizable:
-            # self.windowHandle().startSystemResize()
-
+        if self._size_grip is not None:
             # top right
             # x, y = self.rect().topRight().toTuple()
-            # self._grip.move(x - (self._grip_size - 5), y - 1)
+            # self._size_grip.move(x - (self._size_grip.width() - 5), y - 1)
 
             # bottom right
             rect = self.rect()
-            self._grip.move(rect.right() - self._grip_size - 1,
-                            rect.bottom() - self._grip_size - 1)
+            self._size_grip.move(rect.right() - self._size_grip.width() - 1, 
+                                 rect.bottom() - self._size_grip.height() - 1)
 
         if self._title_bar is not None:
             self._title_bar.resize(self.width(), 
@@ -135,8 +170,14 @@ class FramelessWindow(WidgetBase, QWidget):
     def _mouseMoveEvent(self, event: QMouseEvent) -> None:
         if self._is_pressed:
             delta = QPoint(event.globalPos() - self._old_pos)
-            self.move(self.x() + delta.x(), 
-                    self.y() + delta.y())
+            self.move(self.x() + delta.x(),
+                      self.y() + delta.y())
             self._old_pos = event.globalPos()
 
         return super().mouseMoveEvent(event)
+
+    def _set_status_bar(self, status_bar: QStatusBar) -> None:
+        self.setStatusBar(status_bar)
+
+    def _set_dock_widget(self, dock_widget: QDockWidget) -> None:
+        self.addDockWidget(dock_widget)

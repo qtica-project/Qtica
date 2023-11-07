@@ -123,7 +123,8 @@ class _ProgressIndicator(QWidget):
                                 self._step_size)
 
             # draw rounded step
-            if self._is_steps and not self._is_icon_step_value(self._get_step_value(step)):
+            if (self._is_steps and not 
+                self._is_icon_step_value(self._get_step_value(step))):
                 if step < self.current_step or step == self.current_step:
                     qp.setPen(QColor(Qt.GlobalColor.transparent))
                     qp.setBrush(self._style_color)
