@@ -65,7 +65,7 @@
   - ProgressStyleAnimation
   - Animation
 
-## [0.1.2] - 2023-11-05
+## [0.1.2] - 2023-11-07
 
 ### Added
 
