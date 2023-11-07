@@ -69,12 +69,12 @@
 
 ### Added
 
+- Qtica `logo.png`
 - version_generator.py example
 - status_edge.py example
 - resources, and fonts into the `Application` class.
 - `tools.Painter class`
 - `tools.PaintStatusEdge`
-- Qtica `logo.png`
 - `widgets.FramelessWindowSizeGrip`
 
 ### Changed

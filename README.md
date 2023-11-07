@@ -10,4 +10,6 @@
 
 Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python.
 
-# It's ready to use, Please waiting for the docs!
+# Documention
+
+[Get Start](https://omamkaz.gitbook.io/qtica-docs/quick-start)
