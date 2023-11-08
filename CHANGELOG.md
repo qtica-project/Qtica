@@ -84,3 +84,21 @@
 ### Fixed
 
 - `core.BehaviorDeclarative`, no uid in `__init__` parameters
+
+## 0.1.3 - ()
+
+### Added
+
+- `widgets.ThemeSwitchButton`
+- `enums.AbstractIcons` to make enum icons that work with Qtica tools
+- `tools.Icon`
+
+### Changed
+
+- `Theme.system_theme` to static method type.
+
+### Fixed
+
+- pixmap error when you try to add `QIcon` to `tools.Icon` with color value.
+
+### Removed

@@ -42,3 +42,4 @@ from .system_tray import SystemTray
 from .progress_indicator import ProgressIndicator
 from .label import Label
 from .movie_view import MovieView
+from .theme_switch_button import ThemeSwitchButton

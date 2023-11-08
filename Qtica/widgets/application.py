@@ -12,6 +12,7 @@ from ..enums.events import EventTypeVar
 from ..enums.signals import SignalTypeVar
 from ..core.base import ObjectBase
 from ..utils._import import Imports
+from .._rc.resource import qInitResources
 
 
 class Application(ObjectBase, QApplication):
@@ -30,6 +31,9 @@ class Application(ObjectBase, QApplication):
                  **kwargs):
         QApplication.__init__(self, arg or [])
         super().__init__(uid, signals, events, **kwargs)
+
+        # init Qtica default resource
+        qInitResources()
 
         if resources is not None:
             self._set_resources(resources)

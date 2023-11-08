@@ -7,5 +7,6 @@ class Theme(Enum):
     light = auto()
     system = auto()
 
-    def system_theme(self):
+    @staticmethod
+    def system_theme():
         return Theme(theme().lower())
