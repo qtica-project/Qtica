@@ -70,17 +70,15 @@ def get_color_from_hex(s):
     return value
 
 
-def get_hex_from_color(color):
-    '''Transform a kivy :class:`~kivy.graphics.Color` to a hex value::
-
+def get_hex_from_color(*rgb: list[int]):
+    '''Transform a rgb(0, 0, 0) color to hex value::
         >>> get_hex_from_color((0, 1, 0))
         '#00ff00'
-        >>> get_hex_from_color((.25, .77, .90, .5))
+        >>> get_hex_from_color((25, 77, 90, 5))
         '#3fc4e57f'
 
-    .. versionadded:: 1.5.0
     '''
-    return '#' + ''.join(['{0:02x}'.format(int(x * 255)) for x in color])
+    return '#' + ''.join(['{0:02x}'.format(int(x)) for x in rgb])
 
 
 def get_random_color(alpha=1.0):

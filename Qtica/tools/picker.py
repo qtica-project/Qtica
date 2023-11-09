@@ -5,8 +5,7 @@ from PySide6.QtCore import Signal, QObject
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QApplication
 from .icon import Icon
-from ..enums.colors import Colors
-from .color import Color
+
 
 
 class ColorPicker(QObject):
@@ -39,10 +38,10 @@ class ColorPicker(QObject):
             QApplication.restoreOverrideCursor()
         self._mouse_listener.stop()
 
-    def _get_color(self, x, y):
+    def _get_color(self, x: int, y: int):
         im = ImageGrab.grab(bbox=(x, y, x + 1, y + 1))
         rgbim = im.convert('RGB')
-        r,g,b = rgbim.getpixel((0,0))
+        r,g,b,*_ = rgbim.getpixel((0,0))
         return r, g, b
 
     def _on_click(self, x, y, button, pressed):

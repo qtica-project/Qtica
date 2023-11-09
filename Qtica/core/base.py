@@ -1,5 +1,6 @@
 from typing import Any, Callable, Union
 from PySide6.QtCore import Qt, QObject
+from PySide6.QtWidgets import QGraphicsEffect
 
 from ..enums.widgets import Widgets, WidgetTypeVar
 from ..enums.signals import Signals, SignalTypeVar
@@ -89,13 +90,19 @@ class AbstractBase:
                     self._getattr(name).connect(value)
                 elif snake_case in Events._member_names_:
                     self.__setattr__(name, value)
+                elif self.property(name) is not None:
+                    self.setProperty(name, value)
+                elif name.lower().startswith("set"):
+                    value.setProperty("parent", self)
+                    value.setParent(self)
+                    if (func := self._getattr(name)) is not None:
+                        func(value)
                 else:
                     self.setProperty(name, value)
 
 
 class ObjectBase(AbstractBase):
     pass
-
 
 class WidgetBase(AbstractBase):
     def __init__(self, 
@@ -107,11 +114,15 @@ class WidgetBase(AbstractBase):
                               dict[Qt.WidgetAttribute, bool]] = None,
                  flags: Union[list[Qt.WindowType], 
                               dict[Qt.WindowType, bool]] = None,
+                 effect: QGraphicsEffect = None,
                  **kwargs):
         super().__init__(uid, signals, events, **kwargs)
 
         self.setUpdatesEnabled(True)
         self.setMouseTracking(True)
+
+        if effect is not None:
+            self._set_effect(effect)
 
         if qss is not None:
             self._set_qss(qss)
@@ -121,6 +132,11 @@ class WidgetBase(AbstractBase):
 
         if flags is not None:
             self._set_flags(flags)
+
+    def _set_effect(self, effect: QGraphicsEffect):
+        effect.setProperty("parent", self)
+        effect.setParent(self)
+        self.setGraphicsEffect(effect)
 
     def _set_flags(self, flags):
         if isinstance(flags, dict):

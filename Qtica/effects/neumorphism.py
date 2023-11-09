@@ -508,11 +508,10 @@ class _InsideNeumorphismEffect(QtWidgets.QGraphicsEffect):
 
 
 
-from ..core import ObjectDeclarative
+from ..core import ObjectBase
 
-class OutsideNeumorphismEffect(ObjectDeclarative, _OutsideNeumorphismEffect):
+class OutsideNeumorphismEffect(ObjectBase, _OutsideNeumorphismEffect):
     def __init__(self, 
-                 child: QtWidgets.QWidget,
                  light_color: QtGui.QColor = QtGui.QColor("#FFFFFF"),
                  dark_color: QtGui.QColor = QtGui.QColor("#7d7d7d"),
                  clip_radius: int = 4,
@@ -522,9 +521,6 @@ class OutsideNeumorphismEffect(ObjectDeclarative, _OutsideNeumorphismEffect):
         _OutsideNeumorphismEffect.__init__(self)
         super().__init__(**kwargs)
 
-        self.setParent(child)
-        self._set_child(child)
-
         if clip_radius is not None:
             self.setClipRadius(clip_radius)
 
@@ -538,18 +534,9 @@ class OutsideNeumorphismEffect(ObjectDeclarative, _OutsideNeumorphismEffect):
         if origin is not None:
             self.setOrigin(origin)
 
-        return child
 
-    def _set_child(self, child):
-        child.setGraphicsEffect(self)
-
-    def build(self):
-        return self
-
-
-class InsideNeumorphismEffect(ObjectDeclarative, _InsideNeumorphismEffect):
+class InsideNeumorphismEffect(ObjectBase, _InsideNeumorphismEffect):
     def __init__(self, 
-                 child: QtWidgets.QWidget,
                  light_color: QtGui.QColor = QtGui.QColor("#FFFFFF"),
                  dark_color: QtGui.QColor = QtGui.QColor("#7d7d7d"),
                  clip_radius: int = 4,
@@ -559,9 +546,6 @@ class InsideNeumorphismEffect(ObjectDeclarative, _InsideNeumorphismEffect):
         _InsideNeumorphismEffect.__init__(self)
         super().__init__(**kwargs)
 
-        self.setParent(child)
-        self._set_child(child)
-
         if clip_radius is not None:
             self.setClipRadius(clip_radius)
 
@@ -574,8 +558,3 @@ class InsideNeumorphismEffect(ObjectDeclarative, _InsideNeumorphismEffect):
 
         if origin is not None:
             self.setOrigin(origin)
-
-        return child
-
-    def _set_child(self, child):
-        child.setGraphicsEffect(self)
