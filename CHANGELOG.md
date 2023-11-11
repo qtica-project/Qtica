@@ -85,7 +85,7 @@
 
 - `core.BehaviorDeclarative`, no uid in `__init__` parameters
 
-## 0.1.3 - ()
+## 0.1.3 - (2023-11-12)
 
 ### Added
 
