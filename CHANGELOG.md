@@ -92,13 +92,20 @@
 - `widgets.ThemeSwitchButton`
 - `enums.AbstractIcons` to make enum icons that work with Qtica tools
 - `tools.Icon`
+- `utils.color.DetectImageColors`, using to get an image colors map.
+- `utils.color.get_image_average_color`, get an image rgb color
+- `widgets.LineEdit`
+- `core.WidgetBase` effect argument.
+- `core.AbstractBase` \*\*kwargs, can now accept set value for method.
+- `widgets.ScrollArea`
+- get_start.py example
 
 ### Changed
 
 - `Theme.system_theme` to static method type.
+- `effects.*` from ObjectDeclarative class type to `ObjectBase`
+- `utils.color.get_hex_from_color` color arg to \*rgb arg
 
 ### Fixed
 
 - pixmap error when you try to add `QIcon` to `tools.Icon` with color value.
-
-### Removed

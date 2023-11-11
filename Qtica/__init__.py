@@ -1,12 +1,12 @@
-# decpys
-__version__ = "0.1.2"
-__version_info__ = (0, 1, 2, "", "")
+# Qtica
+__version__ = "0.1.3"
+__version_info__ = (0, 1, 3, "", "")
 
-# python
+# Python
 __minimum_python_version__ = (3, 7)
 __maximum_python_version__ = (3, 11)
 
-# pyside
+# PySide6
 __pyside_version__ = "6.5.0"
 
 # base classes

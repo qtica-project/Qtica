@@ -1,12 +1,10 @@
-from typing import Any, Callable, Union
-from PySide6.QtCore import Qt, QObject
-from PySide6.QtWidgets import QGraphicsEffect
-
 from ..enums.widgets import Widgets, WidgetTypeVar
 from ..enums.signals import Signals, SignalTypeVar
 from ..enums.events import Events, EventTypeVar
 from .qstyle_sheet import QStyleSheet
-
+from typing import Any, Callable, Union
+from PySide6.QtCore import Qt, QObject
+from PySide6.QtWidgets import QGraphicsEffect
 import caseconverter
 
 
@@ -92,13 +90,16 @@ class AbstractBase:
                     self.__setattr__(name, value)
                 elif self.property(name) is not None:
                     self.setProperty(name, value)
-                elif name.lower().startswith("set"):
-                    value.setProperty("parent", self)
-                    value.setParent(self)
-                    if (func := self._getattr(name)) is not None:
-                        func(value)
-                else:
-                    self.setProperty(name, value)
+                # elif name.lower().startswith("set"):                  
+                elif (func := self._getattr(name)) is not None:
+                    if func.__class__.__name__ in (
+                        "builtin_function_or_method",
+                        "method_descriptor",
+                        "function"):
+                        try:
+                            func(value)
+                        except Exception:
+                            ...
 
 
 class ObjectBase(AbstractBase):
@@ -180,18 +181,23 @@ class Return:
 
 
 class NoneCheck:
-    """
+    '''
+    e.g
     NoneCheck(icon, self.setIcon)
-    NoneCheck(text, self.setText)
-    NoneCheck(font, self.setFont)
-    ...
-    """
+    
+    # the same!
+    if icon is not None:
+        self.setIcon()
+    '''
+
     def __new__(cls, *args, **kwargs) -> Any:
         instance = super().__new__(cls)
-        _return = instance.__init__(*args, **kwargs)
-        return _return
+        return instance.__init__(*args, **kwargs)
 
-    def __init__(self, value: Any, _callable: Callable) -> Any:
+    def __init__(self, 
+                 _callable: Callable,
+                 value: Any) -> Any:
+
         if value is not None:
             return _callable(value)
 
@@ -250,7 +256,7 @@ class BehaviorDeclarative:
             return ...
     ```
     
-    #### NOTE: you use `uid` parameter to store this class in `TrackingDeclarative`, \
+    #### NOTE: use `uid` parameter to store this class in `TrackingDeclarative`, \
         and call it with Api.fetch
     """
 

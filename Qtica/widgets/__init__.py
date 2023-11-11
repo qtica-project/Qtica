@@ -43,3 +43,5 @@ from .progress_indicator import ProgressIndicator
 from .label import Label
 from .movie_view import MovieView
 from .theme_switch_button import ThemeSwitchButton
+from .line_edit import LineEdit
+from .scroll_area import ScrollArea

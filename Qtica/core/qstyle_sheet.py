@@ -57,7 +57,6 @@ class QStyleSheet:
         elif os.path.exists(qss):
             with open(qss, "r") as fr:
                 return fr.read()
-
         return qss
 
     def _get_qss_from_dict(self, qss: dict) -> str:
@@ -120,3 +119,8 @@ class QStyleSheet:
             _style = self._temp.safe_substitute(self._vars)
 
         self._parent.setStyleSheet(_style)
+
+    def update(self, qss: Union[str, dict], vars: dict = None, *, save: bool = False) -> None:
+        if vars is not None:
+            self.update_vars(vars)
+        self.update_qss(qss, save=save)
