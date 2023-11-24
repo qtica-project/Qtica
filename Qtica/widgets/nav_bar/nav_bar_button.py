@@ -7,9 +7,10 @@ from PySide6.QtWidgets import QGridLayout, QLabel, QToolButton, QWidget
 
 from ..teaching_tip.tool_tip import _TeachingTip
 from ...enums.teaching_tip_tails import TeachingTipTailPositions
+from ...core.base import WidgetBase
 
 
-class NavBarButton(QToolButton):
+class NavBarButton(WidgetBase, QToolButton):
     class Alignment(Enum):
         left = auto()
         right = auto()
@@ -20,16 +21,17 @@ class NavBarButton(QToolButton):
         icon: QIcon,
         tool_tip: Optional[str] = None,
         radius: int = 8,
-        parent: Optional[QWidget] = None,
         bg_color: QColor = QColor("#191E23"),
         on_color: QColor = QColor("#282D32"),
         edge_color: QColor = None,
         icon_off: QIcon = None,
         icon_on: QIcon = None,
-        clicked: Callable = None
+        clicked: Callable = None,
+        **kwargs
     ) -> None:
-        super().__init__(parent)
-    
+        QToolButton.__init__(self)
+        super().__init__(**kwargs)
+
         if clicked is not None:
             self.clicked.connect(clicked)
 
@@ -156,43 +158,6 @@ class NavBarButton(QToolButton):
                 self._radius, 
                 self._radius
             )
-
-            # Draw Top active area
-            # painter.setBrush(self._on_color)
-            # painter.drawRect(
-            #     QRect(
-            #         radius, 
-            #         0, 
-            #         width - 2 * radius, 
-            #         2 * radius
-            #     )
-            # )
-
-            # Draw right corners area (background)
-            # painter.setBrush(QColor("blue"))
-            # painter.setBrush(self._on_color)
-            # painter.drawRoundedRect(
-            #     QRect(
-            #         0,
-            #         0, 
-            #         width, 
-            #         radius * 3
-            #     ),
-            #     self._radius * 2, 
-            #     self._radius * 2
-            # )
-
-            # painter.drawRoundedRect(
-            #     QRect(
-            #         width - radius,
-            #         -radius,
-            #         3 * radius,
-            #         2 * radius
-            #     ),
-            #     self._radius, 
-            #     self._radius
-            # )
-
             self._icon_on.paint(painter, self.rect_icon)
 
         elif self.underMouse():

@@ -22,7 +22,7 @@ class Container(WidgetBase, QFrame):
         super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
 
         self.setFrameShape(QFrame.Shape.NoFrame)
-        self.setFrameShadow(QFrame.Shadow.Plain)
+        self.setFrameShadow(QFrame.Shadow.Raised)
 
         if child is not None:
             if isinstance(child, QWidget):

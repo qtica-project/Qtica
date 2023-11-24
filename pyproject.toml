@@ -1,20 +1,49 @@
 [tool.poetry]
 name = "Qtica"
-version = "0.1.3"
+version = "0.1.4"
 description = "Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python."
 authors = ["Osama Mohammed Al-zabidi <omamkaz@gmail.com>"]
 license = "GPL-3.0"
 readme = ["README.md", "CHANGELOG.md"]
-keywords = ["qt", "pyside6", "python", "declarative", "qml", "Qtica"]
-homepage = "https://github.com/omamkaz/Qtica"
+keywords = [
+    "qt",
+    "pyside6",
+    "python",
+    "declarative",
+    "qml",
+    "Qtica",
+    "fast",
+    "easy",
+]
+documentation = "https://omamkaz.gitbook.io/qtica"
+repository = "https://github.com/omamkaz/Qtica"
 packages = [{ include = "Qtica" }]
-
 
 [tool.poetry.dependencies]
 python = ">= 3.10, < 3.12"
 PySide6 = "^6.5"
 pynput = "^1.7.6"
 
+# Icons
+elusive_icons = { path = "../icons/elusive", develop = true }
+feather_icons = { path = "../icons/feather", develop = true }
+fluent_icons = { path = "../icons/fluent", develop = true }
+fontawesome_icons = { path = "../icons/fontawesome", develop = true }
+material_icons = { path = "../icons/material", develop = true }
+
+[tool.poetry.extras]
+elusive_icons = ["elusive_icons"]
+feather_icons = ["feather_icons"]
+fluent_icons = ["fluent_icons"]
+fontawesome_icons = ["fontawesome_icons"]
+material_icons = ["material_icons"]
+icons = [
+    "elusive_icons",
+    "feather_icons",
+    "fluent_icons",
+    "fontawesome_icons",
+    "material_icons",
+]
 
 [build-system]
 requires = ["poetry-core"]

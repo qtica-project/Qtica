@@ -28,7 +28,14 @@ from .nav_bar import (
 )
 
 from .stacked_widget import (
-    SlidingStackedWidget
+    SlidingStackedWidget,
+    StackedWidget
+)
+
+from .dialogs import (
+    MaskDialog,
+    SilentTextDialog,
+    LargTextDialog
 )
 
 from .teaching_tip import TeachingTip
@@ -45,3 +52,4 @@ from .movie_view import MovieView
 from .theme_switch_button import ThemeSwitchButton
 from .line_edit import LineEdit
 from .scroll_area import ScrollArea
+from .icon_widget import IconWidget

@@ -1,5 +1,5 @@
 from typing import Union
-from PySide6.QtCore import QPoint, QSize, Qt, Signal
+from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
 from PySide6.QtGui import QCloseEvent, QMouseEvent, QResizeEvent, QScreen, QShowEvent
 from PySide6.QtWidgets import (
     QApplication,
@@ -16,15 +16,55 @@ from PySide6.QtWidgets import (
 from ...enums.events import EventTypeVar
 from ...enums.signals import SignalTypeVar
 from ...core.base import WidgetBase
+from ...utils.methods import qt_corner_to_edge
 
 
 class FramelessWindowSizeGrip(QSizeGrip):
     def __init__(self,
-                 size: Union[tuple[int, int], QSize] = QSize(12, 12)) -> None:
+                 size: Union[tuple[int, int], QSize] = QSize(12, 12),
+                 corner: Qt.Corner = Qt.Corner.BottomRightCorner) -> None:
         super().__init__(None)
 
+        self._corner = corner
         self.resize(*size if not isinstance(size, QSize) else size)
-        self.setCursor(Qt.CursorShape.SizeHorCursor)
+        self.get_cursor_for_position()
+
+    def get_cursor_for_position(self):
+        self.setCursor({
+            Qt.Corner.TopLeftCorner: Qt.CursorShape.SizeFDiagCursor,
+            Qt.Corner.TopRightCorner: Qt.CursorShape.SizeBDiagCursor,
+            Qt.Corner.BottomLeftCorner: Qt.CursorShape.SizeBDiagCursor,
+            Qt.Corner.BottomRightCorner: Qt.CursorShape.SizeFDiagCursor,
+        }.get(self._corner, Qt.CursorShape.ArrowCursor))
+
+    def _move(self) -> None:
+        if self.parent() is not None:
+            rect: QRect = self.parent().rect()
+
+            if self._corner == Qt.Corner.TopRightCorner:
+                x, y = rect.topRight().toTuple()
+                self.move(x - (self.width() + 5), y - 5)
+
+            elif self._corner == Qt.Corner.TopLeftCorner:
+                self.move(
+                    rect.x(),
+                    0
+                )
+
+            elif self._corner == Qt.Corner.BottomRightCorner:
+                self.move(rect.right() - self.width() - 1, 
+                          rect.bottom() - self.height() - 1)
+
+            elif self._corner == Qt.Corner.BottomLeftCorner:
+                self.move(0, rect.bottom() - self.height())
+
+    def mousePressEvent(self, arg__1: QMouseEvent) -> None:
+        self.parent().windowHandle().startSystemResize(qt_corner_to_edge(self._corner))
+        return super().mousePressEvent(arg__1)
+
+    def updateGeometry(self) -> None:
+        self._move()
+        return super().updateGeometry()
 
 
 class FramelessWindow(WidgetBase, QMainWindow):
@@ -47,7 +87,7 @@ class FramelessWindow(WidgetBase, QMainWindow):
         self.__is_startup = False
 
         self._old_pos = self.pos()
-        self._is_pressed = False
+        self._is_system_move = False
         self._size_grip = size_grip
         self._title_bar = title_bar
 
@@ -58,7 +98,6 @@ class FramelessWindow(WidgetBase, QMainWindow):
         else:
             self.mouseMoveEvent = self._mouseMoveEvent
             self.mousePressEvent = self._mousePressEvent
-            self.mouseReleaseEvent = self._mouseReleaseEvent
 
         if size_grip is not None:
             self._size_grip.setParent(self)
@@ -128,25 +167,14 @@ class FramelessWindow(WidgetBase, QMainWindow):
 
         title_bar.mouseMoveEvent = self._mouseMoveEvent
         title_bar.mousePressEvent = self._mousePressEvent
-        title_bar.mouseReleaseEvent = self._mouseReleaseEvent
 
         self._vlayout.addWidget(title_bar)
 
     def resizeEvent(self, event: QResizeEvent):
-        if self._size_grip is not None:
-            # top right
-            # x, y = self.rect().topRight().toTuple()
-            # self._size_grip.move(x - (self._size_grip.width() - 5), y - 1)
-
-            # bottom right
-            rect = self.rect()
-            self._size_grip.move(rect.right() - self._size_grip.width() - 1, 
-                                 rect.bottom() - self._size_grip.height() - 1)
-
+        self._size_grip.updateGeometry()
         if self._title_bar is not None:
             self._title_bar.resize(self.width(), 
                                    self._title_bar.height())
-
         return QWidget.resizeEvent(self, event)
 
     def center_window(self, screen: QScreen = None):
@@ -157,24 +185,18 @@ class FramelessWindow(WidgetBase, QMainWindow):
 
     def _mousePressEvent(self, event: QMouseEvent) -> None:
         if event.button() == event.buttons().LeftButton:
-            self._is_pressed = True
             self._old_pos = event.globalPos()
-            self.windowHandle().startSystemMove()
-
+            self._is_system_move = self.windowHandle().startSystemMove()
         return super().mousePressEvent(event)
 
-    def _mouseReleaseEvent(self, event: QMouseEvent) -> None:
-        self._is_pressed = False
-        return super().mouseReleaseEvent(event)
-
     def _mouseMoveEvent(self, event: QMouseEvent) -> None:
-        if self._is_pressed:
+        if not self._is_system_move:
             delta = QPoint(event.globalPos() - self._old_pos)
             self.move(self.x() + delta.x(),
                       self.y() + delta.y())
             self._old_pos = event.globalPos()
-
-        return super().mouseMoveEvent(event)
+        else:
+            return super().mouseMoveEvent(event)
 
     def _set_status_bar(self, status_bar: QStatusBar) -> None:
         self.setStatusBar(status_bar)

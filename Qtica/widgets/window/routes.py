@@ -25,7 +25,7 @@ class Routes:
         self._routes: dict = {}
 
     def add(self, route: str, widget: QWidget) -> None:
-        self._routes[route] = self._stacked_widget.addWidget(widget)
+        self._routes[route.strip()] = self._stacked_widget.addWidget(widget)
 
     def push(self, route: str) -> None:
         self._stacked_widget.setCurrentIndex(self._routes[route])

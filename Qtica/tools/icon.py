@@ -31,20 +31,16 @@ class Icon(BehaviorDeclarative):
 
         return QIcon(icon)
 
-    def _colored_icon(self,
-                      icon: Union[QPixmap, QImage, str],
-                      color: QColor = None,
+    @classmethod
+    def _colored_icon(cls,
+                      icon,
+                      color,
                       size: QSize = None) -> QIcon:
-
-        if isinstance(icon, (QIcon, QIconEngine)):
-            pixmap = icon.pixmap(size
-                                if size is not None 
-                                else icon.availableSizes()[0])
-        else:
-            pixmap = QPixmap(icon)
-            if size is not None:
-                pixmap = pixmap.scaled(size, 
-                                       Qt.AspectRatioMode.KeepAspectRatio)
+        icon = QIcon(icon)
+        _size = (icon.availableSizes()[0] 
+                 if len(icon.availableSizes()) > 0 
+                 else icon.actualSize(QSize(32, 32)))
+        pixmap = icon.pixmap(size if size is not None else _size)
 
         pixmap_painter = QPainter(pixmap)
         pixmap_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
@@ -55,8 +51,9 @@ class Icon(BehaviorDeclarative):
         pixmap_painter.end()
         return QIcon(pixmap)
 
-    @staticmethod
-    def make_svg(svg: str, 
+    @classmethod
+    def make_svg(cls, 
+                 svg: str,
                  color: QColor = None) -> QIcon:
 
         image = QImage()
@@ -72,8 +69,8 @@ class Icon(BehaviorDeclarative):
 
         return QIcon(pixmap)
 
-    @staticmethod
-    def file_provider(icon: str | QFileInfo) -> QIcon:
+    @classmethod
+    def file_provider(cls, icon: str | QFileInfo) -> QIcon:
         '''
         param: icon = [file.ext, /path/to/file.ext]
         '''

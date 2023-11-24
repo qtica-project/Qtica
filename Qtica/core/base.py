@@ -4,7 +4,7 @@ from ..enums.events import Events, EventTypeVar
 from .qstyle_sheet import QStyleSheet
 from typing import Any, Callable, Union
 from PySide6.QtCore import Qt, QObject
-from PySide6.QtWidgets import QGraphicsEffect
+from PySide6.QtWidgets import QApplication, QGraphicsEffect
 import caseconverter
 
 
@@ -84,22 +84,51 @@ class AbstractBase:
         for (name, value) in kwargs.items():
             if hasattr(self, name) or self.property(name) is not None:
                 snake_case = caseconverter.snakecase(name)
+
+                # handle signals
                 if snake_case in Signals._member_names_:
                     self._getattr(name).connect(value)
+
+                # handle events
                 elif snake_case in Events._member_names_:
                     self.__setattr__(name, value)
+
+                # handle parent parametar
+                elif name == "parent":
+                    if isinstance(value, str):
+                        for parent in QApplication.topLevelWidgets():
+                            if parent.objectName().strip() == value.strip():
+                                self.setParent(parent)
+                                break
+
+                            elif (widget := parent.findChild(QObject, 
+                                                             value.strip(), 
+                                                             Qt.FindChildOption.FindChildrenRecursively)) is not None:
+                                self.setParent(widget)
+                                break
+
+                    elif value.__class__.__name__ in (
+                        "builtin_function_or_method",
+                        "method_descriptor",
+                        "function"
+                    ):
+                        self.setParent(value())
+                    else:
+                        self.setParent(value)
+
+                # handle properties
                 elif self.property(name) is not None:
                     self.setProperty(name, value)
-                # elif name.lower().startswith("set"):                  
+
+                # handle callables
                 elif (func := self._getattr(name)) is not None:
                     if func.__class__.__name__ in (
                         "builtin_function_or_method",
                         "method_descriptor",
-                        "function"):
-                        try:
-                            func(value)
-                        except Exception:
-                            ...
+                        "function"
+                    ):
+                        func(value)
+
 
 
 class ObjectBase(AbstractBase):

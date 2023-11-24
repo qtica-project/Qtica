@@ -109,3 +109,24 @@
 ### Fixed
 
 - pixmap error when you try to add `QIcon` to `tools.Icon` with color value.
+
+## 0.1.4 (2023-11-24)
+
+### Added
+
+- extras `icons` modules `elusive` `feather` `fluent` `fontawesome` `material`
+- `widgets.FramelessWindowSizeGrip` edge option.
+- `utils.methods.qt_corner_to_edge` convert Qt.Corner inputs to Qt.Edge values.
+- `widgets.StackedWidget` QStackedWidget built-in PySide6 class
+- `widgets.IconWidget`
+- `widgets.MaskDialog`
+
+### Fixed
+
+- `widgets.FramelessWindow` window geometry changed when move window.
+- `widgets.FramelessWindowSizeGrip` cursor shape for SizeGrip hover.
+- `tools.Icon` list index out of range, when used colored icon
+
+### Updated
+
+- `widgets.NavBarButton` it's now subclass from `core.WidgetBase`

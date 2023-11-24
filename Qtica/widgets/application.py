@@ -3,9 +3,10 @@
 import os
 import sys
 
-from typing import Sequence
+from typing import Sequence, Union, Iterable
+# from PySide6 import QtCore
 from PySide6.QtGui import QFontDatabase
-from PySide6.QtCore import QResource, Qt, Signal
+from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
 from PySide6.QtWidgets import QApplication, QStyleFactory
 
 from ..enums.events import EventTypeVar
@@ -23,7 +24,7 @@ class Application(ObjectBase, QApplication):
 
     def __init__(self,
                  arg: Sequence[str] = None,
-                 resources: list[str] = None,
+                 resources: list[Union[str, tuple]] = None,
                  fonts: list[str] = None,
                  uid: str = None, 
                  signals: SignalTypeVar = None,
@@ -92,19 +93,25 @@ class Application(ObjectBase, QApplication):
 
             self.add_font(fonts)
 
-    def _set_resources(self, resources: list[str]):
+    def _set_resources(self, resources: list[Union[str, tuple]]):
         '''
         * resource.py file must contain the qInitResources method
         * Please comment qInitResources calling in the tail of resource.py the file.
+        :param: resource
+            str = "/path/to/file.py
+            tuple = (qt_resource_struct, qt_resource_name, qt_resource_data)
         '''
         for res in resources:
-            if not os.path.exists(res):
-                raise FileNotFoundError(f"'{res}' resource file not found!")
+            if isinstance(res, Iterable):
+                qRegisterResourceData(0x03, *res)
 
-            try:
-                Imports.method(res, "qInitResources")()
-            except Exception as err:
-                raise ValueError(f"Resource error: '{res}', {err}")
+            elif res.endswith((".py", ".pyc")):
+                if not os.path.exists(res):
+                    raise FileNotFoundError(f"'{res}' resource file not found!")
+                try:
+                    Imports.method(res, "qInitResources")()
+                except Exception as err:
+                    raise ValueError(f"Resource error: '{res}', {err}")
 
 
 class App(Application):

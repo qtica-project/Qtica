@@ -75,7 +75,7 @@ class _MetroCircleProgress(QWidget):
         painter.setPen(Qt.PenStyle.NoPen)
 
         for item, _ in self._items:
-            painter.save()
+            # painter.save()
             color = self.color.toRgb()
             color.setAlphaF(item.opacity)
             painter.setBrush(color)
@@ -89,7 +89,7 @@ class _MetroCircleProgress(QWidget):
                     (self.height() - radius) / 2,
                     diameter, diameter
                 ), radius, radius)
-            painter.restore()
+            # painter.restore()
 
     def _initAnimations(self):
         for index in range(5):
