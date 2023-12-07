@@ -3,10 +3,7 @@
 from PySide6.QtWidgets import QLabel
 from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
 from PySide6.QtGui import QFont, QFontMetrics, QResizeEvent, QTextLayout
-
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import WidgetBase
+from ..core import WidgetBase
 
 
 class _ElidingLabel(QLabel):
@@ -124,15 +121,13 @@ class _ElidingLabel(QLabel):
 
 
 class ElidingLabel(WidgetBase, _ElidingLabel):
-    def __init__(self, 
+    def __init__(self,
+                 *,
                  text: str = None,
                  elide_mode: Qt.TextElideMode = None,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None,
                  **kwargs):
         _ElidingLabel.__init__(self, text)
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
         if elide_mode is not None:
             self.setElideMode(elide_mode)

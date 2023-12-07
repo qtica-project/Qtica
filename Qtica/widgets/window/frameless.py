@@ -6,21 +6,21 @@ from PySide6.QtWidgets import (
     QDockWidget, 
     QLayout, 
     QSizeGrip,
-    QStatusBar, 
+    QStatusBar,
+    QSystemTrayIcon, 
     QVBoxLayout,
     QWidget, 
     QMainWindow,
     QSizePolicy
 )
 
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-from ...core.base import WidgetBase
+from ...core import WidgetBase
 from ...utils.methods import qt_corner_to_edge
 
 
 class FramelessWindowSizeGrip(QSizeGrip):
     def __init__(self,
+                 *,
                  size: Union[tuple[int, int], QSize] = QSize(12, 12),
                  corner: Qt.Corner = Qt.Corner.BottomRightCorner) -> None:
         super().__init__(None)
@@ -71,18 +71,16 @@ class FramelessWindow(WidgetBase, QMainWindow):
     startup_changed = Signal()
 
     def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None,
+                 *,
                  title_bar: QWidget = None,
                  home: Union[QWidget, QLayout] = None,
                  status_bar: QStatusBar = None,
                  dock_widget: QDockWidget = None,
                  size_grip: QSizeGrip = None,
+                 sys_tray: QSystemTrayIcon = None,
                  **kwargs):
         QMainWindow.__init__(self)
-        super().__init__(uid, signals, events, qss, **kwargs)
+        super().__init__(**kwargs)
 
         self.__is_startup = False
 
@@ -124,16 +122,19 @@ class FramelessWindow(WidgetBase, QMainWindow):
         if dock_widget is not None:
             self._set_dock_widget(dock_widget)
 
+        if sys_tray is not None:
+            sys_tray.setParent(self)
+            sys_tray.show()
+
     def closeEvent(self, event: QCloseEvent) -> None:
+        super().closeEvent(event)
         self.__is_startup = False
-        return super().closeEvent(event)
 
     def showEvent(self, event: QShowEvent) -> None:
+        super().showEvent(event)
         if not self.__is_startup:
             self.__is_startup = True
             self.startup_changed.emit()
-
-        return super().showEvent(event)
 
     def _set_central_widget(self):
         self.__centralwidget = QWidget(self)

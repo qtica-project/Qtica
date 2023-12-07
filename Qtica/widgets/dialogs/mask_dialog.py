@@ -1,23 +1,12 @@
 #!/usr/bin/python3
 # coding:utf-8
 
-from PySide6.QtWidgets import QDialog, QGraphicsOpacityEffect, QGridLayout, QWidget
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt, QEvent
+from typing import Union
+from PySide6.QtWidgets import QDialog, QGraphicsOpacityEffect, QGridLayout, QWidget, QApplication
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, QSize, QTimer, Qt, QEvent
 from PySide6.QtGui import QColor, QResizeEvent
-from darkdetect import isDark
-from ...core.base import WidgetBase
-
-
-class MaskDialog:
-    @classmethod
-    def display(cls,
-                parent: QWidget,
-                child: QWidget,
-                mask: QWidget = None,
-                auto_close: bool = False,
-                **kwargs):
-        mask_dialog = _MaskDialog(parent, child, mask, auto_close, **kwargs)
-        mask_dialog.show()
+from ...utils.theme_detect import isDark
+from ...core import WidgetBase
 
 
 class _MaskDialog(WidgetBase, QDialog):
@@ -28,13 +17,24 @@ class _MaskDialog(WidgetBase, QDialog):
                  child: QWidget,
                  mask: QWidget = None,
                  auto_close: bool = False,
+                 padding: Union[QSize, tuple, int] = 90,
+                 timeout: int = None,
                  **kwargs):
         QDialog.__init__(self, parent)
         super().__init__(**kwargs)
 
         self._grid_layout = QGridLayout(self)
-
         self._auto_close = auto_close
+        self._timeout = timeout
+        self._padding = padding
+
+        child.closeEvent = self._child_close_event
+
+        if isinstance(padding, int):
+            self._padding = QSize(padding, padding)
+
+        if isinstance(padding, (tuple, list)):
+            self._padding = QSize(*padding[:2])
 
         if child is not None:
             self.child = child
@@ -57,12 +57,15 @@ class _MaskDialog(WidgetBase, QDialog):
         self.setGeometry(0, 0, parent.width(), parent.height())
 
         c = 0 if isDark() else 255
-        self._mask.setStyleSheet(f'background:rgba({c}, {c}, {c}, 0.6)')
+        self._mask.setStyleSheet(f'background: rgba({c}, {c}, {c}, 0.6)')
         self._mask.resize(self.size())
 
         self._grid_layout.addWidget(self.child)
 
         self.window().installEventFilter(self)
+
+    def _child_close_event(self, e):
+        self.close()
 
     def showEvent(self, e):
         """ fade in """
@@ -78,6 +81,9 @@ class _MaskDialog(WidgetBase, QDialog):
         opacityAni.start()
 
         super().showEvent(e)
+
+        if self._timeout is not None:
+            QTimer.singleShot(self._timeout, self.close)
 
     def closeEvent(self, e):
         """ fade out """
@@ -97,6 +103,10 @@ class _MaskDialog(WidgetBase, QDialog):
         super().closeEvent(e)
 
     def resizeEvent(self, e):
+        self.child.blockSignals(True)
+        self.child.setFixedSize(self.width() -  self._padding.width(),
+                                self.height() - self._padding.height())
+        self.child.blockSignals(False)
         self._mask.resize(self.size())
 
     def eventFilter(self, obj, e: QEvent):
@@ -110,3 +120,27 @@ class _MaskDialog(WidgetBase, QDialog):
 
         return super().eventFilter(obj, e)
 
+
+class MaskDialog:
+    @classmethod
+    def display(cls,
+                *,
+                child: QWidget,
+                parent: QWidget = None,
+                mask: QWidget = None,
+                auto_close: bool = False,
+                padding: Union[QSize, tuple, int] = 90,
+                timeout: int = None,
+                **kwargs):
+
+        if not parent:
+            parent = QApplication.activeWindow()
+
+        mask_dialog = _MaskDialog(parent, 
+                                  child, 
+                                  mask, 
+                                  auto_close,
+                                  padding,
+                                  timeout,
+                                  **kwargs)
+        mask_dialog.show()

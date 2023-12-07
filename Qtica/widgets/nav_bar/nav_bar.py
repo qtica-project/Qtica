@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 from PySide6.QtGui import QColor, QResizeEvent
 from PySide6.QtWidgets import QFrame, QSizePolicy, QSpacerItem, QHBoxLayout, QWidget
 from .nav_bar_button import NavBarButton
@@ -21,9 +21,9 @@ class NavBar(QWidget):
 
         # Define attributes
         self._first_button = True
-        self._left_buttons: List[NavBarButton] = []
-        self._right_buttons: List[NavBarButton] = []
-        self._center_buttons: List[NavBarButton] = []
+        self._left_buttons: list[NavBarButton] = []
+        self._right_buttons: list[NavBarButton] = []
+        self._center_buttons: list[NavBarButton] = []
 
         # Layout for this widget
         self._layout = QHBoxLayout(self)
@@ -81,7 +81,7 @@ class NavBar(QWidget):
     def resizeEvent(self, event: QResizeEvent) -> None:
         super().resizeEvent(event)
 
-        buttons: List[NavBarButton] = self.findChildren(NavBarButton)
+        buttons: list[NavBarButton] = self.findChildren(NavBarButton)
         for button in buttons:
             button.setFixedSize(self.height(), self.height())
 
@@ -116,7 +116,7 @@ class NavBar(QWidget):
             self._first_button = False
 
     def _buttonCallback(self):
-        buttons: List[NavBarButton] = self.findChildren(NavBarButton)
+        buttons: list[NavBarButton] = self.findChildren(NavBarButton)
         for button in buttons:
             if button == self.sender():
                 button.setChecked(True)

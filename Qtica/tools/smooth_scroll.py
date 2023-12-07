@@ -12,7 +12,7 @@ from ..enums.smooth_scroll import SmoothMode
 class _SmoothScroll:
     """ Scroll smoothly """
 
-    def __init__(self, 
+    def __init__(self,
                  widget: QScrollArea, 
                  orient: Qt.Orientation = Qt.Orientation.Vertical):
         """
@@ -136,12 +136,8 @@ class _SmoothScroll:
 
 class SmoothScroll(BehaviorDeclarative):
     def __init__(self, 
+                 *,
                  child: QScrollArea,
                  orient: Qt.Orientation = Qt.Orientation.Vertical) -> QScrollArea:
-
-        self._smooth_scroll = _SmoothScroll(child, orient)
-        child._smooth_scroll = self._smooth_scroll
+        self.smooth_scroll = _SmoothScroll(child, orient)
         return child
-
-    def build(self):
-        return self._smooth_scroll

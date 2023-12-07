@@ -11,4 +11,3 @@ from .smooth_scroll import SmoothMode
 from .teaching_tip_tails import TeachingTipTailPositions
 from .clipboard import ClipboardDataTypes
 from .theme import Theme
-from ._abs_icons import AbstractIcons

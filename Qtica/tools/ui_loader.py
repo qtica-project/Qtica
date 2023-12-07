@@ -7,12 +7,11 @@ import os
 
 
 class UILoader(BehaviorDeclarative):
-    def __init__(self, 
+    def __init__(self,
                  file: str, 
                  parent: QObject = None) -> QWidget:
 
         loader = QUiLoader(parent)
-
         if not os.path.exists(file):
             return loader.load(file, parent)
 

@@ -1,10 +1,8 @@
 from enum import Enum, auto
 from typing import Callable, Optional
-
 from PySide6.QtCore import QRect, QSize, QTimer, Qt
 from PySide6.QtGui import QColor, QIcon, QMouseEvent, QPainter, QPaintEvent
 from PySide6.QtWidgets import QGridLayout, QLabel, QToolButton, QWidget
-
 from ..teaching_tip.tool_tip import _TeachingTip
 from ...enums.teaching_tip_tails import TeachingTipTailPositions
 

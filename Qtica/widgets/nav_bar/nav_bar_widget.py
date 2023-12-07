@@ -1,10 +1,9 @@
 from typing import Optional
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QStackedWidget, QWidget
-
 from .nav_bar import NavBar
 from .nav_bar_button import NavBarButton
+from ...core import WidgetBase
 
 
 class _NavBarWidget(QWidget):
@@ -56,12 +55,9 @@ class _NavBarWidget(QWidget):
         button.clicked.connect(lambda: self._stacked_widget.setCurrentWidget(page))  # type: ignore[attr-defined]
 
 
-from ...core.base import WidgetBase
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-
 class NavBarItemWrapper:
     def __init__(self, 
+                 *,
                  page: QWidget,
                  button: NavBarButton | QWidget,
                  alignment: NavBarButton.Alignment = NavBarButton.Alignment.left):
@@ -73,17 +69,12 @@ class NavBarItemWrapper:
 
 class NavBarWidget(WidgetBase, _NavBarWidget):
     def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None,
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None,
+                 *,
                  children: list[NavBarItemWrapper] = None,
                  stacked_widget: QStackedWidget = None,
                  **kwargs):
         _NavBarWidget.__init__(self, None, stacked_widget)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         if children is not None:
             for child in children:

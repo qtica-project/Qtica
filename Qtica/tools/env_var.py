@@ -1,7 +1,7 @@
 import os
 
-from typing import Any
 from enum import Enum
+from typing import Any, Union
 from ..enums.env_vars import EnvVars
 
 
@@ -16,7 +16,7 @@ class EnvVar:
         return os.environ.get(key, default)
 
     @staticmethod
-    def set(key: EnvVars | str, value: Any) -> None:
+    def set(key: Union[EnvVars, str], value: Any) -> None:
         os.environ[key.value 
                    if isinstance(key, EnvVars) 
                    else key] = (value.value 

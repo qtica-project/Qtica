@@ -1,26 +1,26 @@
 from ..enums.widgets import Widgets, WidgetTypeVar
 from ..enums.signals import Signals, SignalTypeVar
 from ..enums.events import Events, EventTypeVar
-from .qstyle_sheet import QStyleSheet
-from typing import Any, Callable, Union
+from typing import Any, Callable, Sequence
 from PySide6.QtCore import Qt, QObject
-from PySide6.QtWidgets import QApplication, QGraphicsEffect
+from PySide6.QtWidgets import QApplication
 import caseconverter
 
 
+
 class AbstractBase:
-    """
-    this class is abstract for any widget.
-    """
     def __init__(self, 
+                 *,
                  uid: str = None,
                  signals: SignalTypeVar = None,
                  events: EventTypeVar = None,
+                 methods: Sequence[tuple[str, Any]] = None,
                  **kwargs):
 
         self._set_uid(uid)
         self._set_events(events)
         self._set_signals(signals)
+        self._set_methods(methods)
         self._set_property_from_kwargs(**kwargs)
 
     def _getattr(self, name: str, default: object = None) -> object:
@@ -29,6 +29,19 @@ class AbstractBase:
     def _set_uid(self, uid: str):
         if uid is not None:
             self.setObjectName(uid.strip())
+
+    def _set_methods(self, methods):
+        if not methods:
+            return
+
+        for method in methods:
+            if ((func := self._getattr(method[0])) is not None
+                and func.__class__.__name__ in (
+                "builtin_function_or_method",
+                "method_descriptor",
+                "function"
+                )):
+                func(method[1])
 
     def _set_events(self, events: EventTypeVar):
         if not events:
@@ -48,6 +61,7 @@ class AbstractBase:
     def _set_signals(self, 
                      signals: SignalTypeVar, 
                      disconnect: bool = False):
+
         if not signals:
             return
 
@@ -120,93 +134,15 @@ class AbstractBase:
                 elif self.property(name) is not None:
                     self.setProperty(name, value)
 
-                # handle callables
-                elif (func := self._getattr(name)) is not None:
-                    if func.__class__.__name__ in (
+                # handle set callables methods
+                elif name.lower().startswith("set"):
+                    if ((func := self._getattr(name)) is not None
+                        and func.__class__.__name__ in (
                         "builtin_function_or_method",
                         "method_descriptor",
                         "function"
-                    ):
+                      )):
                         func(value)
-
-
-
-class ObjectBase(AbstractBase):
-    pass
-
-class WidgetBase(AbstractBase):
-    def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None,
-                 qss: Union[str, dict, QStyleSheet] = None,
-                 attrs: Union[list[Qt.WidgetAttribute], 
-                              dict[Qt.WidgetAttribute, bool]] = None,
-                 flags: Union[list[Qt.WindowType], 
-                              dict[Qt.WindowType, bool]] = None,
-                 effect: QGraphicsEffect = None,
-                 **kwargs):
-        super().__init__(uid, signals, events, **kwargs)
-
-        self.setUpdatesEnabled(True)
-        self.setMouseTracking(True)
-
-        if effect is not None:
-            self._set_effect(effect)
-
-        if qss is not None:
-            self._set_qss(qss)
-
-        if attrs is not None:
-            self._set_attrs(attrs)
-
-        if flags is not None:
-            self._set_flags(flags)
-
-    def _set_effect(self, effect: QGraphicsEffect):
-        effect.setProperty("parent", self)
-        effect.setParent(self)
-        self.setGraphicsEffect(effect)
-
-    def _set_flags(self, flags):
-        if isinstance(flags, dict):
-            for flag, on in flags.items():
-                self.setWindowFlag(flag, on)
-        else:
-            for flag in flags:
-                self.setWindowFlag(flag)
-
-    def _set_attrs(self, attrs: dict):
-        if isinstance(attrs, dict):
-            for attr, on in attrs.items():
-                self.setAttribute(attr, on)
-        else:
-            for attr in attrs:
-                self.setAttribute(attr)
-
-    def _set_qss(self, qss: Union[str, dict, QStyleSheet]):
-        self.qss = (QStyleSheet(qss)
-                    if isinstance(qss, (str, dict)) 
-                    else qss)
-        self.qss._set_parent(self)
-        self.qss._set_qss(self.qss._qss)
-
-
-class Return:
-    def __init__(self, 
-                 root: Any, 
-                 child: Any):
-
-        self._root = root
-        self._child = child
-
-    @property
-    def root(self):
-        return self._root
-
-    @property
-    def child(self):
-        return self._child
 
 
 class NoneCheck:
@@ -230,10 +166,7 @@ class NoneCheck:
         if value is not None:
             return _callable(value)
 
-
-
 ## Declarative
-
 class DuplicateKeyError(Exception):
     def __init__(self, uid: str):
         super().__init__(uid)
@@ -301,10 +234,3 @@ class BehaviorDeclarative:
 
         return instance.__init__(*args, **kwargs)
 
-
-class ObjectDeclarative(ObjectBase, BehaviorDeclarative):
-    pass
-
-
-class WidgetDeclarative(WidgetBase, BehaviorDeclarative):
-    pass

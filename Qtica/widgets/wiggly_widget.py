@@ -1,10 +1,7 @@
-from PySide6.QtCore import QBasicTimer, Property
 from PySide6.QtGui import QColor, QFontMetrics, QPainter, QPalette
+from PySide6.QtCore import QBasicTimer, Property
 from PySide6.QtWidgets import QWidget
-
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import WidgetBase
+from ..core import WidgetBase
 
 
 class _WigglyWidget(QWidget):
@@ -75,14 +72,12 @@ class _WigglyWidget(QWidget):
 
 class WigglyWidget(WidgetBase, _WigglyWidget):
     def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None,
+                 *,
                  text: str = None,
                  running: bool = True,
                  **kwargs):
         _WigglyWidget.__init__(self)
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
         if text is not None:
             self.setText(text)

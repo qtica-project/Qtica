@@ -1,1 +1,1 @@
-from .status_edge import PaintStatusEdge
+from .status_edge import StatusEdgePaint

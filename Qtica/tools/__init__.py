@@ -10,8 +10,15 @@ from .picker import ColorPicker
 from .modifiers import Modifiers
 from .size_policy import SizePolicy
 from .alignment import Alignment
-from .painter import Painter
+from .action import Action
+from .system_tray import SystemTray
 
 from .painters import (
-    PaintStatusEdge
+    StatusEdgePaint
+)
+
+from ._widgets import (
+    MenuSection,
+    MenuSeparator,
+    MenuSimpleAction
 )

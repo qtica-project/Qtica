@@ -15,3 +15,8 @@ class Positions(IntEnum):
     bottom = auto()
     right = auto()
     center = auto()
+
+    west = left
+    north = top
+    south = bottom
+    east = right

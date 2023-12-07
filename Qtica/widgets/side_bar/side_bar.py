@@ -1,8 +1,8 @@
 from typing import List, Optional
 from PySide6.QtGui import QColor, QResizeEvent
 from PySide6.QtWidgets import QFrame, QSizePolicy, QSpacerItem, QVBoxLayout, QWidget
-
 from .side_bar_button import SideBarButton
+
 
 _BG_FRAME_STYLESHEET = """\
 QFrame#_side_bar_bg_frame {{

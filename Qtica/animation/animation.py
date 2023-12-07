@@ -9,16 +9,13 @@ from PySide6.QtCore import (
 )
 from PySide6.QtGui import QPainterPath
 from PySide6.QtWidgets import QWidget
-
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
 from ..enums.animation import AnimationPath
-
 from .property_animation import PropertyAnimation
 
 
 class Animation(PropertyAnimation):
     def __init__(self, 
+                 *,
                  child: QWidget,
                  property_name: QByteArray | bytes,
                  duration: int = None,
@@ -30,9 +27,6 @@ class Animation(PropertyAnimation):
                  path_type: AnimationPath = AnimationPath.linear,
                  direction: QAbstractAnimation.Direction = None,
                  running: bool = False,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None,
                  **kwargs) -> QWidget:
 
         if path_type is not None:
@@ -42,8 +36,7 @@ class Animation(PropertyAnimation):
         return super().__init__(child, property_name, duration, 
                                 start_value, end_value, easing_curve, 
                                 loop_count, key_value, direction, 
-                                running, uid, signals, 
-                                events, **kwargs)
+                                running, **kwargs)
 
     def setPath(self, pathType):
         self._pathType = pathType

@@ -1,13 +1,8 @@
 #!/usr/bin/python3
-from sys import argv
 
-from PySide6.QtGui import QFont, QMouseEvent
 from PySide6.QtWidgets import QGridLayout, QApplication, QLabel, QDialog, QWidget
+from PySide6.QtGui import QFont, QMouseEvent
 from PySide6.QtCore import QTimer, Qt
-
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-from ...core.base import WidgetBase
 
 
 class _DisplayLargText(QDialog):
@@ -40,9 +35,6 @@ class _DisplayLargText(QDialog):
         self.grid_layout2 = QGridLayout(self.form)
         self.text = QLabel(self.form)
 
-        self.font = QFont()
-        self.font.setBold(True)
-
         self.text.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.text.setWordWrap(True)
 
@@ -63,12 +55,16 @@ class _DisplayLargText(QDialog):
 
     def display_text(self, 
                      text: str, 
-                     font_size: int = 50, 
+                     font: QFont = None, 
                      timeout: int = 2000) -> None:
-
         self.text.setText(text)
-        self.font.setPixelSize(font_size)
-        self.text.setFont(self.font)
+        if font is not None:
+            self.text.setFont(font)
+        else:
+            font = self.font()
+            font.setBold(True)
+            font.setPixelSize(50)
+            self.text.setFont(font)
 
         QTimer.singleShot(0, self.start_show)
         QTimer.singleShot(timeout, self.start_closeing)
@@ -76,41 +72,22 @@ class _DisplayLargText(QDialog):
     def mousePressEvent(self, event: QMouseEvent) -> None:
         if self._close_on_mouse_press:
             self.start_closeing()
-        return
+        return super().mousePressEvent()
 
 
-class LargTextDialog(WidgetBase, _DisplayLargText):
-    def __init__(self,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None,
-                 close_on_mouse_press: bool = True,
-                 **kwargs):
-        _DisplayLargText.__init__(self, 
-                                  close_on_mouse_press=close_on_mouse_press)
-        super().__init__(uid, signals, events, **kwargs)
-
-    def display(self, 
+class LargTextDialog:
+    @classmethod
+    def display(cls,
+                *,
                 text: str,
-                font_size: int = 50,
-                timeout: int = 2000) -> None:
+                font: QFont = None,
+                timeout: int = 2000,
+                auto_close: bool = False,
+                parent: QWidget = None,
+                **kwargs):
 
-        self.display_text(text, font_size, timeout)
+        if not parent:
+            parent = QApplication.activeWindow()
 
-    def run(self,
-            text: str,
-            font_size: int = 50,
-            timeout: int = 2000) -> None:
-
-        self.display_text(text, font_size, timeout)
-
-
-def main():
-    app = QApplication(argv)
-    window = _DisplayLargText()
-    window.display_text("Test Display Larg Text is Ok!")
-    window.show()
-    exit(app.exec())
-
-if __name__ == "__main__":
-    main()
+        larg_text_dialog = _DisplayLargText(parent, auto_close, **kwargs)
+        larg_text_dialog.display_text(text, font, timeout)

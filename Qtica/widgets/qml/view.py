@@ -1,19 +1,14 @@
-from PySide6.QtCore import QUrl
 from PySide6.QtQuick import QQuickView
-
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-from ...core.base import ObjectBase
+from PySide6.QtCore import QUrl
+from ...core import QObjectBase
 
 
-class QuickView(ObjectBase, QQuickView):
+class QuickView(QObjectBase, QQuickView):
     def __init__(self,
-                 file: QUrl | str,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
+                 *,
+                 qml: QUrl | str,
                  **kwargs):
-        QQuickView.__init__(self, file)
-        super().__init__(uid, signals, events, **kwargs)
+        QQuickView.__init__(self, qml)
+        super().__init__(**kwargs)
 
         self.setResizeMode(QQuickView.ResizeMode.SizeRootObjectToView)

@@ -1,16 +1,12 @@
 #!/usr/bin/pythone3
 
-from PySide6.QtCore import QRect, QRectF, Qt
-from PySide6.QtGui import QColor, QIcon, QMouseEvent, QPaintEvent, QPainter
-from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
-from dataclasses import dataclass
 from enum import IntEnum
-
-from ..core.qstyle_sheet import QStyleSheet
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..tools import Icon
+from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget
+from PySide6.QtGui import QColor, QIcon, QMouseEvent, QPaintEvent, QPainter
+from PySide6.QtCore import QRect, QRectF, Qt
+from dataclasses import dataclass
 from ..core import WidgetBase
+from ..tools import Icon
 
 
 class ThemeSwitchButton(WidgetBase, QWidget):
@@ -43,20 +39,15 @@ class ThemeSwitchButton(WidgetBase, QWidget):
         inline: int = 1
 
     def __init__(self,
+                 *,
                  night_mode: NightMode = None,
                  light_mode: LightMode = None,
                  style: Style = Style.inline,
                  current_mode: bool = False,
                  radius: int = 12,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict | QStyleSheet = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         QWidget.__init__(self)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         color = (Qt.GlobalColor.white
                  if style == ThemeSwitchButton.Style.inline 

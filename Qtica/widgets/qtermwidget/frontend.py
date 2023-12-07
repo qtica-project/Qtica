@@ -5,8 +5,8 @@ from PySide6.QtCore import QRect, Qt, Signal
 from PySide6.QtGui import (QClipboard, QPainter, QFont, 
                            QBrush, QColor, QPen, 
                            QContextMenuEvent)
-
 from .backend import Session
+from ...core import WidgetBase
 
 DEBUG = False
 
@@ -482,22 +482,11 @@ class _TerminalWidget(QWidget):
         return (self._session and self._session.is_alive()) or False
 
 
-
-from ...core.base import WidgetBase
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-
-
 class TerminalWidget(WidgetBase, _TerminalWidget):
     def __init__(self,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None,
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
+                 *,
                  cmd: str = "/bin/bash",
                  font: QFont = QFont("Monospace", 12),
                  **kwargs):
         _TerminalWidget.__init__(self, command=cmd, font=font)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)

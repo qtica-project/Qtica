@@ -1,6 +1,6 @@
 # Qtica
-__version__ = "0.1.4"
-__version_info__ = (0, 1, 4, "", "")
+__version__ = "0.2.0"
+__version_info__ = (0, 2, 0, "", "")
 
 # Python
 __minimum_python_version__ = (3, 7)
@@ -12,15 +12,14 @@ __pyside_version__ = "6.5.0"
 # base classes
 from .core import (
     AbstractBase, 
-    ObjectBase, 
+    QObjectBase,
     WidgetBase, 
-    Return,
     NoneCheck,
 
     # declarative
     BehaviorDeclarative, 
     WidgetDeclarative, 
-    ObjectDeclarative,
+    QObjectDeclarative,
     DuplicateKeyError,
     TrackingDeclarative,
 
@@ -32,5 +31,11 @@ from .core import (
     WindowsInit,
 
     Api,
-    QStyleSheet
+    QStyleSheet,
+    AbstractTool,
+    ToolBase,
+    AbstractIcon,
+    IconBase,
+    AbstractPainter,
+    PainterBase
 )

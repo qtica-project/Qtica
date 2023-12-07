@@ -1,12 +1,13 @@
-from PySide6.QtWidgets import QHBoxLayout, QWidget, QLayout
-from PySide6.QtCore import Qt
 from typing import Union
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QHBoxLayout, QLayoutItem, QSpacerItem, QWidget, QLayout
 from .item_wrapper import HLayoutItemWrapper
-from ...core.base import ObjectBase
+from ...core import QObjectBase
 
 
-class HLayout(ObjectBase, QHBoxLayout):
+class HLayout(QObjectBase, QHBoxLayout):
     def __init__(self,
+                 *,
                  children: list[Union[QWidget, QLayout, HLayoutItemWrapper]] = None,
                  **kwargs):
         QHBoxLayout.__init__(self)
@@ -20,12 +21,18 @@ class HLayout(ObjectBase, QHBoxLayout):
             return
 
         for child in children:
-            if isinstance(child, QWidget):
+            if isinstance(child, QSpacerItem):
+                self.addSpacerItem(child)
+
+            elif isinstance(child, QLayoutItem):
+                self.addItem(child)
+
+            elif isinstance(child, QWidget):
                 self.addWidget(child)
 
             elif isinstance(child, QLayout):
                 self.addLayout(child)
-            
+
             elif isinstance(child, HLayoutItemWrapper):
                 if isinstance(child.child, QWidget):
                     self.addWidget(*child._yield_attr())

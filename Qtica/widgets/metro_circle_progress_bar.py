@@ -1,13 +1,24 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from PySide6.QtCore import QSequentialAnimationGroup, QPauseAnimation, QPropertyAnimation, \
-    QParallelAnimationGroup, QObject, QSize, Qt, QRectF, Signal, Property
+from PySide6.QtCore import (
+    QSequentialAnimationGroup, 
+    QPauseAnimation, 
+    QPropertyAnimation,
+    QParallelAnimationGroup, 
+    QObject, 
+    QSize, 
+    Qt, 
+    QRectF, 
+    Signal, 
+    Property
+)
 from PySide6.QtGui import QPainter, QColor
 from PySide6.QtWidgets import QWidget
+from ..core import WidgetBase
 
 
-def qBound(miv, cv, mxv):
+def _qBound(miv, cv, mxv):
     return max(min(cv, mxv), miv)
 
 
@@ -75,12 +86,12 @@ class _MetroCircleProgress(QWidget):
         painter.setPen(Qt.PenStyle.NoPen)
 
         for item, _ in self._items:
-            # painter.save()
+            painter.save()
             color = self.color.toRgb()
             color.setAlphaF(item.opacity)
             painter.setBrush(color)
             # 5<= radius <=10
-            radius = qBound(self.radius, self.radius / 200 *
+            radius = _qBound(self.radius, self.radius / 200 *
                             self.height(), 2 * self.radius)
             diameter = 2 * radius
             painter.drawRoundedRect(
@@ -89,7 +100,7 @@ class _MetroCircleProgress(QWidget):
                     (self.height() - radius) / 2,
                     diameter, diameter
                 ), radius, radius)
-            # painter.restore()
+            painter.restore()
 
     def _initAnimations(self):
         for index in range(5):
@@ -129,22 +140,12 @@ class _MetroCircleProgress(QWidget):
         return QSize(100, self.radius * 2)
 
 
-from ..core.base import WidgetBase
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-
-
 class MetroCircleProgress(WidgetBase, _MetroCircleProgress):
     def __init__(self,
+                 *,
                  radius: int = 5, 
                  color: QColor = QColor(24, 189, 155),
                  bg_color: QColor = QColor(Qt.GlobalColor.transparent), 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None,
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         _MetroCircleProgress.__init__(self, radius, color, bg_color)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)

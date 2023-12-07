@@ -1,25 +1,17 @@
 from typing import Tuple, Union
-from PySide6.QtCore import QMargins, Qt
+from PySide6.QtCore import QMargins
 from PySide6.QtWidgets import QFrame, QLayout, QWidget
-
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import WidgetBase
+from ..core import WidgetBase
 
 
 class Container(WidgetBase, QFrame):
     def __init__(self, 
+                 *,
                  child: Union[QWidget, QLayout] = None,
                  padding: Union[QMargins, Tuple[int, int, int, int]] = None,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         QFrame.__init__(self)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         self.setFrameShape(QFrame.Shape.NoFrame)
         self.setFrameShadow(QFrame.Shadow.Raised)

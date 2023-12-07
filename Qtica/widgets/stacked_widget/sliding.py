@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+from typing import Union
 from PySide6.QtWidgets import QStackedWidget, QWidget
 from PySide6.QtCore import (
     Qt,
@@ -8,6 +11,9 @@ from PySide6.QtCore import (
     QPropertyAnimation,
     QAbstractAnimation,
 )
+from ...core import WidgetBase
+from ...utils._routes import Routes
+
 
 
 class _SlidingStackedWidget(QStackedWidget):
@@ -123,7 +129,6 @@ class _SlidingStackedWidget(QStackedWidget):
         for (index, start, end) in zip(
             (_now, _next), (pnow, pnext - offset), (pnow + offset, pnext)
         ):
-
             animation = QPropertyAnimation(
                 self.widget(index),
                 b"pos",
@@ -161,24 +166,17 @@ class _SlidingStackedWidget(QStackedWidget):
         self.slideInPrev()
 
 
-from ...core.base import WidgetBase
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-
-
 class SlidingStackedWidget(WidgetBase, _SlidingStackedWidget):
     def __init__(self, 
-                 uid: str = None,
-                 children: list[QWidget] = None,
-                 signals: SignalTypeVar = None,
-                 events: EventTypeVar = None,
+                 *,
+                 children: Union[list[QWidget], dict[str, QWidget]] = None,
                  direction: Qt.Orientation = Qt.Orientation.Horizontal,
                  easing_curve: QEasingCurve = QEasingCurve.Type.OutCubic,
                  speed: int = 500,
                  current: int = 0,
                  next: int = 0,
                  wrap: bool = False,
-                 pnow=None,
+                 pnow = None,
                  active: bool = False,
                  **kwargs):
         _SlidingStackedWidget.__init__(self,
@@ -191,14 +189,24 @@ class SlidingStackedWidget(WidgetBase, _SlidingStackedWidget):
                                        wrap,
                                        pnow,
                                        active)
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
-        self._set_children(children)
+        if isinstance(children, dict):
+            self._routes = Routes(self, "/")
+            self.__setattr__("route", self._routes)
+            self.__setattr__("push", lambda route: self._routes.push(route))
 
-    def _set_children(self, children: list[QWidget]) -> None:
         if children is not None:
+            self._set_children(children)
+
+    def _set_children(self, children) -> None:
+        if not isinstance(children, dict):
             for child in children:
                 self.addWidget(child)
+        else:
+            for route, child in children.items():
+                if child is not None:
+                    self._routes.add(route, child)
 
 
 if __name__ == "__main__":

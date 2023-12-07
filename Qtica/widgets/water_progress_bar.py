@@ -7,8 +7,11 @@ from PySide6.QtCore import Slot, QTimer, QSizeF, Qt, QRectF, QPointF, QRect, QPo
 from PySide6.QtGui import QImage, QColor, QPainter, QLinearGradient, QGradient, QPainterPath, QPixmap, QBrush, QPen
 from PySide6.QtWidgets import QProgressBar, QGraphicsDropShadowEffect
 from PySide6.QtSvg import QSvgRenderer
+from ..tools._widgets.water_progress_bar import Pop
+from ..core import WidgetBase
 
-WATER_FRONT = """
+
+_WATER_FRONT = """
 <svg xmlns="http://www.w3.org/2000/svg" width="383" height="115" viewBox="0 0 383 115">
   <path fill="#01C4FF" 
         fill-rule="evenodd" 
@@ -17,7 +20,7 @@ WATER_FRONT = """
 </svg>
 """
 
-WATER_BACK = """
+_WATER_BACK = """
 <svg xmlns="http://www.w3.org/2000/svg" width="383" height="115" viewBox="0 0 383 115">
   <path fill="#007DFF" 
         fill-rule="evenodd" 
@@ -26,16 +29,6 @@ WATER_BACK = """
 </svg>
 """
 
-
-class Pop:
-    # https://github.com/linuxdeepin/dtkwidget/blob/master/src/widgets/dwaterprogress.cpp#L36
-
-    def __init__(self, size, xs, ys, xo=0, yo=0):
-        self.size = size
-        self.x_speed = xs
-        self.y_speed = ys
-        self.x_offset = xo
-        self.y_offset = yo
 
 
 class _WaterProgressBar(QProgressBar):
@@ -47,8 +40,8 @@ class _WaterProgressBar(QProgressBar):
 
         self.waterFrontImage = QImage()
         self.waterBackImage = QImage()
-        self.waterFrontSvg = QSvgRenderer(WATER_FRONT.encode())
-        self.waterBackSvg = QSvgRenderer(WATER_BACK.encode())
+        self.waterFrontSvg = QSvgRenderer(_WATER_FRONT.encode())
+        self.waterBackSvg = QSvgRenderer(_WATER_BACK.encode())
 
         self.interval = interval
         self.pops: list = [Pop(7, -1.8, 0.6),
@@ -265,21 +258,11 @@ class _WaterProgressBar(QProgressBar):
         return QSize(100, 100)
 
 
-from ..core.base import WidgetBase
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-
-
 class WaterProgressBar(WidgetBase, _WaterProgressBar):
     def __init__(self, 
+                 *,
                  interval: int = 30,
                  text_visible: bool = True,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         _WaterProgressBar.__init__(self, interval, text_visible)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)

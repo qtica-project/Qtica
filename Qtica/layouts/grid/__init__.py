@@ -2,11 +2,12 @@ from typing import Union
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QGridLayout, QWidget, QLayout, QLayoutItem
 from .item_wrapper import GridLayoutItemWrapper, GridAlignment
-from ...core.base import ObjectBase
+from ...core import QObjectBase
 
 
-class GridLayout(ObjectBase, QGridLayout):
+class GridLayout(QObjectBase, QGridLayout):
     def __init__(self,
+                 *,
                  children: list[Union[QWidget, QLayoutItem, GridLayoutItemWrapper]] = None,
                  **kwargs):
         QGridLayout.__init__(self)
@@ -20,11 +21,11 @@ class GridLayout(ObjectBase, QGridLayout):
             return
 
         for child in children:
-            if isinstance(child, QWidget):
-                self.addWidget(child)
-
-            elif isinstance(child, QLayoutItem):
+            if isinstance(child, QLayoutItem):
                 self.addItem(child)
+            
+            elif isinstance(child, QWidget):
+                self.addWidget(child)
 
             elif isinstance(child, GridAlignment):
                 self.addWidget(child._child)

@@ -1,6 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QFontMetrics
 from PySide6.QtWidgets import QWidget
+from PySide6.QtGui import QFontMetrics
 from ..core.base import BehaviorDeclarative
 
 
@@ -13,6 +13,7 @@ class ElidedText(BehaviorDeclarative):
     )
     """
     def __init__(self, 
+                 *,
                  child: QWidget,
                  width: int = None,
                  elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight,
@@ -49,5 +50,4 @@ class ElidedText(BehaviorDeclarative):
     def elided(text: str,
                width: int,
                elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight) -> str:
-
         return QFontMetrics(text).elidedText(text, elide_mode, width)

@@ -1,9 +1,8 @@
 from typing import Union
-from PySide6.QtCore import QFileInfo, QSize, Qt
 from PySide6.QtGui import QIcon, QIconEngine, QImage, QPixmap, QPainter, QColor
 from PySide6.QtWidgets import QFileIconProvider
-from ..core.base import BehaviorDeclarative
-from ..enums._abs_icons import AbstractIcons
+from PySide6.QtCore import QFileInfo, QSize, Qt
+from ..core import BehaviorDeclarative, AbstractIcon
 
 
 class Icon(BehaviorDeclarative):
@@ -13,12 +12,12 @@ class Icon(BehaviorDeclarative):
                              QIconEngine,
                              QPixmap,
                              QImage,
-                             AbstractIcons],
+                             AbstractIcon],
                  color: QColor = None,
-                 size: QSize = None,
+                 size: Union[QSize, tuple, int] = None,
                  **kwargs) -> QIcon:
 
-        if isinstance(icon, AbstractIcons):
+        if isinstance(icon, AbstractIcon):
             icon = icon.value
 
         if (isinstance(icon, str)
@@ -26,7 +25,7 @@ class Icon(BehaviorDeclarative):
             and color is not None):
             return self._colored_icon(icon, color, size)
 
-        if color is not None:
+        if color is not None or size is not None:
             return self._colored_icon(icon, color, size)
 
         return QIcon(icon)
@@ -34,21 +33,32 @@ class Icon(BehaviorDeclarative):
     @classmethod
     def _colored_icon(cls,
                       icon,
-                      color,
-                      size: QSize = None) -> QIcon:
+                      color: QColor = None,
+                      size: Union[QSize, int] = None) -> QIcon:
+
+        if isinstance(size, int):
+            size = QSize(size, size)
+
+        if isinstance(size, (tuple, list)):
+            size = QSize(*size[:2])
+
         icon = QIcon(icon)
+
         _size = (icon.availableSizes()[0] 
                  if len(icon.availableSizes()) > 0 
                  else icon.actualSize(QSize(32, 32)))
+
         pixmap = icon.pixmap(size if size is not None else _size)
 
         pixmap_painter = QPainter(pixmap)
         pixmap_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
-        pixmap_painter.fillRect(pixmap.rect(),
-                                color 
-                                if color is not None 
-                                else -1)
+
+        if color is not None:
+            pixmap_painter.fillRect(pixmap.rect(),
+                                    color if color is not None else 0)
+
         pixmap_painter.end()
+
         return QIcon(pixmap)
 
     @classmethod

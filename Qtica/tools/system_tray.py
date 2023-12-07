@@ -1,22 +1,17 @@
 from typing import Union
-from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QMenu, QSystemTrayIcon
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import ObjectBase
+from PySide6.QtGui import QIcon, QPixmap
+from ..core import QObjectBase
 
 
-class SystemTray(ObjectBase, QSystemTrayIcon):
+class SystemTray(QObjectBase, QSystemTrayIcon):
     def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None,
-                 parent: object = None,
+                 *,
                  tip: str = None,
                  menu: QMenu = None,
                  **kwargs):
-        QSystemTrayIcon.__init__(self, parent)
-        super().__init__(uid, signals, events, **kwargs)
+        QSystemTrayIcon.__init__(self)
+        super().__init__(**kwargs)
 
         if menu is not None:
             self.setContextMenu(menu)

@@ -45,7 +45,6 @@ from .water_progress_bar import WaterProgressBar
 from .water_ripple_progress_bar import WaterRippleProgressBar
 from .colourful_progress import ColourfulProgressBar
 from .metro_circle_progress_bar import MetroCircleProgress
-from .system_tray import SystemTray
 from .progress_indicator import ProgressIndicator
 from .label import Label
 from .movie_view import MovieView
@@ -53,3 +52,6 @@ from .theme_switch_button import ThemeSwitchButton
 from .line_edit import LineEdit
 from .scroll_area import ScrollArea
 from .icon_widget import IconWidget
+from .lines import HLine, VLine
+from .tool_button import ToolButton
+from .menu import Menu, MenuSeparator, MenuSection, MenuSimpleAction

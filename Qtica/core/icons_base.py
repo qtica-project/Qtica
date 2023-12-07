@@ -4,9 +4,9 @@ from enum import Enum
 from PySide6.QtGui import QIcon, QIconEngine, QImage, QPixmap
 
 
-class AbstractIcons(Enum):
+class AbstractIcon(Enum):
     '''
-    class Icons(AbstractIcons):
+    class Icons(AbstractIcon):
         icon_name: Union[str, QIcon, QIconEngine, QPixmap, QImage]
     '''
 
@@ -30,7 +30,6 @@ class AbstractIcons(Enum):
             if (_check := ((type(value) == _type) 
                            or isinstance(value, _type))):
                 return _check
-
         return _check
 
     @property
@@ -50,3 +49,7 @@ class AbstractIcons(Enum):
             raise ValueError("invalid value, \
                 supported value QImage | str")
         return QPixmap(self.value)
+
+
+class IconBase(AbstractIcon):
+    pass

@@ -4,34 +4,30 @@ import os
 import sys
 
 from typing import Sequence, Union, Iterable
-# from PySide6 import QtCore
 from PySide6.QtGui import QFontDatabase
 from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
-from PySide6.QtWidgets import QApplication, QStyleFactory
+from PySide6.QtWidgets import QApplication, QStyleFactory, QWidget
 
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import ObjectBase
+from ..core import QObjectBase
 from ..utils._import import Imports
+from ..utils.overload import staticproperty
 from .._rc.resource import qInitResources
 
 
-class Application(ObjectBase, QApplication):
+class Application(QObjectBase, QApplication):
     on_inactive = Signal()
     on_active = Signal()
     on_hidden = Signal()
     on_suspend = Signal()
 
     def __init__(self,
+                 *,
                  arg: Sequence[str] = None,
                  resources: list[Union[str, tuple]] = None,
                  fonts: list[str] = None,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None,
-                 events: EventTypeVar = None, 
                  **kwargs):
         QApplication.__init__(self, arg or [])
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
         # init Qtica default resource
         qInitResources()
@@ -47,7 +43,7 @@ class Application(ObjectBase, QApplication):
         self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling, True)
 
         self.applicationStateChanged.connect(self._applicationStateChanged)
-
+    
     def _applicationStateChanged(self, event):
         if event == Qt.ApplicationState.ApplicationInactive:
             self.on_inactive.emit()
@@ -112,6 +108,18 @@ class Application(ObjectBase, QApplication):
                     Imports.method(res, "qInitResources")()
                 except Exception as err:
                     raise ValueError(f"Resource error: '{res}', {err}")
+
+    @staticproperty
+    def active_window() -> QWidget:
+        return QApplication.activeWindow()
+
+    @staticproperty
+    def active_modal() -> QWidget:
+        return QApplication.activeModalWidget()
+
+    @staticproperty
+    def active_popup() -> QWidget:
+        return QApplication.activePopupWidget()
 
 
 class App(Application):

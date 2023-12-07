@@ -3,7 +3,7 @@ from PySide6.QtCore import QFile
 
 class File(QFile):
     def __init__(self, 
-                 file: str, 
+                 file: str,
                  mode: QFile.OpenModeFlag = QFile.OpenModeFlag.ReadOnly):
         super().__init__(file)
         self._mode = mode

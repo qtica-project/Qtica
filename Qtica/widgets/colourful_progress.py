@@ -5,6 +5,7 @@ from PySide6.QtCore import QRect, Qt, QRectF, QLineF
 from PySide6.QtGui import QColor, QPainter, QPen, QTransform, QPainterPath
 from PySide6.QtWidgets import QProgressBar, QStyleOptionProgressBar
 from ..animation.style_animation import ProgressStyleAnimation
+from ..core import WidgetBase
 
 
 class _ColourfulProgressBar(QProgressBar):
@@ -120,24 +121,13 @@ class _ColourfulProgressBar(QProgressBar):
             painter.drawLines(lines)
 
 
-
-from ..core.base import WidgetBase
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-
-
 class ColourfulProgressBar(WidgetBase, _ColourfulProgressBar):
     def __init__(self, 
+                 *,
                  color: QColor = QColor(43, 194, 83),
                  fps: int = 60,
                  line_width: int = 50,
                  radius: int = None,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         _ColourfulProgressBar.__init__(self, color, fps, line_width, radius)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)

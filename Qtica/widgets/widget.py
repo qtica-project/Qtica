@@ -1,19 +1,14 @@
 from PySide6.QtWidgets import QWidget, QLayout
-
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import WidgetBase
+from ..core import WidgetBase
 
 
 class Widget(WidgetBase, QWidget):
-    def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
+    def __init__(self,
+                 *,
                  child: QWidget | QLayout = None,
                  **kwargs):
         QWidget.__init__(self)
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
         self._set_child(child)
 

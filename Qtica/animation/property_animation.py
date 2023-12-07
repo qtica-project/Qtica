@@ -7,14 +7,12 @@ from PySide6.QtCore import (
 
 from PySide6.QtWidgets import QWidget
 from typing import Any, Sequence, Tuple
-
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core import ObjectDeclarative
+from ..core import QObjectDeclarative
 
 
-class PropertyAnimation(ObjectDeclarative, QPropertyAnimation):
-    def __init__(self, 
+class PropertyAnimation(QObjectDeclarative, QPropertyAnimation):
+    def __init__(self,
+                 *,
                  child: QWidget,
                  property_name: QByteArray | bytes,
                  duration: int = None,
@@ -25,13 +23,9 @@ class PropertyAnimation(ObjectDeclarative, QPropertyAnimation):
                  key_value: Tuple[float, Any] | Sequence[Tuple[float, Any]] = None,
                  direction: QAbstractAnimation.Direction = None,
                  running: bool = False,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
                  **kwargs) -> QWidget:
-
         QPropertyAnimation.__init__(self)
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
         self.setTargetObject(child)
 
@@ -68,8 +62,4 @@ class PropertyAnimation(ObjectDeclarative, QPropertyAnimation):
         if running:
             self.start()
 
-        child._animation = self
         return child
-
-    def build(self):
-        return self

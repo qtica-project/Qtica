@@ -508,10 +508,11 @@ class _InsideNeumorphismEffect(QtWidgets.QGraphicsEffect):
 
 
 
-from ..core import ObjectBase
+from ..core import QObjectBase
 
-class OutsideNeumorphismEffect(ObjectBase, _OutsideNeumorphismEffect):
-    def __init__(self, 
+class OutsideNeumorphismEffect(QObjectBase, _OutsideNeumorphismEffect):
+    def __init__(self,
+                 *,
                  light_color: QtGui.QColor = QtGui.QColor("#FFFFFF"),
                  dark_color: QtGui.QColor = QtGui.QColor("#7d7d7d"),
                  clip_radius: int = 4,
@@ -535,8 +536,9 @@ class OutsideNeumorphismEffect(ObjectBase, _OutsideNeumorphismEffect):
             self.setOrigin(origin)
 
 
-class InsideNeumorphismEffect(ObjectBase, _InsideNeumorphismEffect):
-    def __init__(self, 
+class InsideNeumorphismEffect(QObjectBase, _InsideNeumorphismEffect):
+    def __init__(self,
+                 *,
                  light_color: QtGui.QColor = QtGui.QColor("#FFFFFF"),
                  dark_color: QtGui.QColor = QtGui.QColor("#7d7d7d"),
                  clip_radius: int = 4,

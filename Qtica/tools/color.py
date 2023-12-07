@@ -1,4 +1,4 @@
-from typing import Any, Union, Tuple, Optional
+from typing import Any, Union, Optional
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QRgba64
 from ..core.base import BehaviorDeclarative
@@ -9,7 +9,7 @@ class Color(BehaviorDeclarative):
     '''
     e.g Color(Colors.red) -> QColor
     '''
-    def __init__(self, 
+    def __init__(self,
                  color: Union[QColor, 
                               QRgba64, 
                               Any,
@@ -17,8 +17,8 @@ class Color(BehaviorDeclarative):
                               Colors,
                               str, 
                               int, 
-                              Tuple[int, int, int, Optional[int]],
-                              Tuple[QColor.Spec, 
+                              tuple[int, int, int, Optional[int]],
+                              tuple[QColor.Spec, 
                                     int, 
                                     int, 
                                     int, 

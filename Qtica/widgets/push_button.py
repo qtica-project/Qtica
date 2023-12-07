@@ -1,8 +1,6 @@
-from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QPushButton
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import WidgetBase
+from PySide6.QtCore import Qt, Signal
+from ..core import WidgetBase
 
 
 class PushButton(WidgetBase, QPushButton):
@@ -12,16 +10,11 @@ class PushButton(WidgetBase, QPushButton):
     long_click = Signal()
 
     def __init__(self, 
+                 *,
                  enable_long_press: bool = False,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         QPushButton.__init__(self)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         self._state = 0
 

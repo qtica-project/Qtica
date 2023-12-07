@@ -1,22 +1,15 @@
 from PySide6.QtWidgets import QFrame, QScrollArea, QWidget
 from PySide6.QtCore import Qt
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-from ..core.base import WidgetBase
+from ..core import WidgetBase
 
 
 class ScrollArea(WidgetBase, QScrollArea):
     def __init__(self, 
+                 *,
                  child: QWidget = None,
-                 uid: str = None,
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         QScrollArea.__init__(self)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         self.setWidgetResizable(True)
         self.setUpdatesEnabled(True)

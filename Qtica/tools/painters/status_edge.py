@@ -1,17 +1,25 @@
 #!/usr/bin/python3
 
 from PySide6.QtGui import QBrush, QColor, QPaintEvent, QPainter, QPen
+from PySide6.QtCore import QPointF, QRectF, QSize, Qt
 from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import QRect
-from ..painter import Painter
+from ...core import PainterBase
 
 
-class PaintStatusEdge(Painter):
-    def __init__(self, 
-            child: QWidget, 
-            status_color: QColor = None,
-            border_color: QColor = None,
-            width: int = None) -> QWidget:
+class StatusEdgePaint(PainterBase):
+    def __init__(self,
+                 *,
+                 child: QWidget,
+                 corner: Qt.Corner = Qt.Corner.BottomRightCorner,
+                 status_color: QColor = None,
+                 border_color: QColor = None,
+                 padding: float = 1.5,
+                 width: int = None
+                 ) -> QWidget:
+        super().__init__(child)
+
+        self._padding = padding
+        self._corner = corner
 
         self._status_color = (
             status_color 
@@ -26,18 +34,24 @@ class PaintStatusEdge(Painter):
         )
 
         self._width = (
-            width if width is not None
+            width 
+            if width is not None
             else 13
         )
 
-        return super().__init__(child)
+        return self._parent
 
     def set_status_color(self, color: QColor):
         self._status_color = color
         self.update()
 
+    def update_state(self, color: QColor):
+        self._status_color = color
+        self.update()
+
     def _paint(self, event: QPaintEvent):
-        self._parent.__class__.paintEvent(self._parent, event)
+        # self._parent.__class__.paintEvent(self._parent, event)
+        self._super_paintEvent(event)
 
         painter = QPainter(self._parent)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
@@ -51,10 +65,14 @@ class PaintStatusEdge(Painter):
         painter.setBrush(QBrush(QColor(self._status_color)))
 
         # DRAW
-        rect = QRect(
-                self._parent.width() - self._width,
-                self._parent.height() - self._width,
-                self._width,
-                self._width
-            )
-        painter.drawEllipse(rect)
+        if self._corner == Qt.Corner.BottomRightCorner:
+            point = QPointF((self._parent.width() - self._width) - self._padding,
+                            (self._parent.height() - self._width) - self._padding)
+        elif self._corner == Qt.Corner.BottomLeftCorner:
+            point = QPointF(self._padding, (self._parent.height() - self._width) - self._padding)
+        elif self._corner == Qt.Corner.TopRightCorner:
+            point = QPointF((self._parent.width() - self._width) - self._padding, self._padding)
+        elif self._corner == Qt.Corner.TopLeftCorner:
+            point = QPointF(self._padding, self._padding)
+
+        painter.drawEllipse(QRectF(point, QSize(self._width, self._width)))

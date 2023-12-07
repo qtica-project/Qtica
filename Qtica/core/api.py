@@ -81,6 +81,11 @@ class Api:
               _type: WidgetTypeVar | object = Widgets.any
         ) -> Union[QWidget, QObject, Any, None]:
 
+        uid = uid.strip()
+
+        if uid == QApplication.instance().objectName().strip():
+            return QApplication.instance()
+
         if cls.isinstance(_type, BehaviorDeclarative):
             return TrackingDeclarative.get(uid)
 
@@ -88,7 +93,7 @@ class Api:
             return TrackingDeclarative.get(uid)
 
         for parent in QApplication.topLevelWidgets():
-            if parent.objectName().strip() == uid.strip():
+            if uid == parent.objectName().strip():
                 return parent
 
             if (widget := Api._find_child(parent, uid, _type)) is not None:

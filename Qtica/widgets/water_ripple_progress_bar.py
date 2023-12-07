@@ -6,6 +6,7 @@ import math
 from PySide6.QtCore import QPoint, QRect, QSizeF, QTimer, Qt, QRectF, QSize
 from PySide6.QtGui import QPainter, QPainterPath, QColor
 from PySide6.QtWidgets import QProgressBar
+from ..core import WidgetBase
 
 
 class _WaterRippleProgressBar(QProgressBar):
@@ -168,16 +169,12 @@ class _WaterRippleProgressBar(QProgressBar):
                 painter.drawText(rectPerent, Qt.AlignmentFlag.AlignCenter, '%')
 
 
-from ..core.base import WidgetBase
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-
-
 class WaterRippleProgressBar(WidgetBase, _WaterRippleProgressBar):
     '''
     :param:style_type: 0 = rounded, 1 = rectangle
     '''
     def __init__(self,
+                 *,
                  water_height: int = 1,
                  water_density: int = 1,
                  style_type: int = 1,
@@ -186,15 +183,9 @@ class WaterRippleProgressBar(WidgetBase, _WaterRippleProgressBar):
                  bg_color: Qt.GlobalColor = Qt.GlobalColor.gray,
                  fg_water_color: QColor = QColor(33, 178, 148),
                  bg_water_color: QColor = QColor(33, 178, 148, 100),
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, 
                  **kwargs):
         _WaterRippleProgressBar.__init__(self)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         self.water_height = water_height
         self.water_density = water_density

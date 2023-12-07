@@ -12,7 +12,7 @@ from PySide6.QtCore import (
 )
 
 from typing import Union
-from ..core.base import ObjectBase
+from ..core import QObjectBase
 
 
 class _FlowLayout(QLayout):
@@ -197,8 +197,9 @@ class _FlowLayout(QLayout):
         return y + rowHeight - rect.y()
 
 
-class FlowLayout(ObjectBase, _FlowLayout):
-    def __init__(self, 
+class FlowLayout(QObjectBase, _FlowLayout):
+    def __init__(self,
+                 *,
                  children: list[Union[QWidget, QLayoutItem]] = None,
                  enable_animation: bool = False, 
                  enable_tight: bool = False,

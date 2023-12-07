@@ -130,3 +130,46 @@
 ### Updated
 
 - `widgets.NavBarButton` it's now subclass from `core.WidgetBase`
+
+## 0.2.0 ()
+
+### Added
+
+- `widgets.HLine`, Horizontal Frame widget.
+- `widgets.VLine`, Vertical Frame widget.
+- `widgets.ToolButton` PySide6 Built-in QToolButton
+- `core.QStyleSheet` restore_qss method to restore last Qss value after update_qss call with save=False.
+- `tools.StatusEdgePaint` corner option.
+- `widgets.MainWindow`, `widgets.FramelessWindow`, `widgets.RoutingWindow` sys_tray parameter.
+- `widgets.Menu`, fork for PySide6.QtWidgets.QMenu.
+- `tools.Action` fork for PySide6.QtGui.QAction.
+- `utils.colors`
+- `core.AbstractBase` `methods` parameter.
+- `core.AbstractTool`, `core.ToolBase`
+- `core.AbstractIcon`, `core.IconBase`
+- `core.AbstractPainter`, `core.PainterBase`
+
+### Removed
+
+- `tools.Painter` `__init__` return parent widget, you can now return from subclasses.
+- `core.Return`, we dont't need it any more!
+
+### Updated
+
+- `layouts.HLayout`, and `layouts.VLayout` now you can add `QSpacerItem`, and `QLayoutItem` widget types to children
+- `core.QStyleSheet` improve Qss Parser.
+- `core.QStyleSheet` qss now accepting json files.
+- `widgets.LineEdit` password_mode parameter, add password echo mode support
+- `widgets.SlidingStackedWidget` now children parameter support Route
+
+### Fixed
+
+- `tools.Icon` default color value -1, when color is None
+- `core.Api.fetch` method NoneType error when fetching `PySide6.QtWidgets.QApplication` class type.
+
+### Changed
+
+- `tools.PaintStatusEdge` to `tools.StatusEdgePaint`
+- `tools.ObjectBase` to `tools.QObjectBase`
+- `widgets.QuickWidget` parameter `file` to `qml`
+- `widgets.QuickView` parameter `file` to `qml`

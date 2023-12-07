@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import QStackedLayout, QWidget, QLayoutItem
-from ..core.base import ObjectBase
+from ..core import QObjectBase
 from typing import Union
 
 
-class StackedLayout(ObjectBase, QStackedLayout):
+class StackedLayout(QObjectBase, QStackedLayout):
     def __init__(self,
+                 *,
                  children: list[Union[QWidget, QLayoutItem]] = None,
                  **kwargs):
         QStackedLayout.__init__(self)
@@ -17,8 +18,8 @@ class StackedLayout(ObjectBase, QStackedLayout):
             return
 
         for child in children:
-            if isinstance(child, QWidget):
-                self.addWidget(child)
-
-            elif isinstance(child, QLayoutItem):
+            if isinstance(child, QLayoutItem):
                 self.addItem(child)
+
+            elif isinstance(child, QWidget):
+                self.addWidget(child)

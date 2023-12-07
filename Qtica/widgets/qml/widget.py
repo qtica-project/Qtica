@@ -1,22 +1,17 @@
+from typing import Tuple, Any
 from PySide6.QtQuickWidgets import QQuickWidget
 from PySide6.QtCore import QUrl, Qt
-from typing import Tuple, Any
-
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-from ...core.base import WidgetBase
+from ...core import WidgetBase
 
 
 class QuickWidget(WidgetBase, QQuickWidget):
     def __init__(self, 
-                 file: QUrl | str,
+                 *,
+                 qml: QUrl | str,
                  context: list[Tuple[str, Any]] = None,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
                  **kwargs):
-        QQuickWidget.__init__(self, file)
-        super().__init__(uid, signals, events, **kwargs)
+        QQuickWidget.__init__(self, qml)
+        super().__init__(**kwargs)
 
         self._context = context
 

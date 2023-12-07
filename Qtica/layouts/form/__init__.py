@@ -1,11 +1,12 @@
-from PySide6.QtWidgets import QFormLayout, QWidget, QLayout, QLayoutItem
 from typing import Union
+from PySide6.QtWidgets import QFormLayout, QWidget, QLayout, QLayoutItem
 from .item_wrapper import FormLayoutItemWrapper
-from ...core.base import ObjectBase
+from ...core import QObjectBase
 
 
-class FormLayout(ObjectBase, QFormLayout):
+class FormLayout(QObjectBase, QFormLayout):
     def __init__(self,
+                 *,
                  children: list[Union[QWidget, 
                                       QLayoutItem, 
                                       FormLayoutItemWrapper]],
@@ -22,11 +23,11 @@ class FormLayout(ObjectBase, QFormLayout):
             return
 
         for child in children:
-            if isinstance(child, QWidget):
-                self.addWidget(child)
-
-            elif isinstance(child, QLayoutItem):
+            if isinstance(child, QLayoutItem):
                 self.addItem(child)
+
+            elif isinstance(child, QWidget):
+                self.addWidget(child)
 
             elif isinstance(child, FormLayoutItemWrapper):
                 self.addRow(*child._yield_attr())

@@ -1,8 +1,8 @@
 # coding:utf-8
+from typing import Union
 from PySide6.QtCore import QSize, QPoint, Qt, QEvent, QRect
 from PySide6.QtWidgets import QLayout, QWidget, QLayoutItem
-from typing import Union
-from ..core.base import ObjectBase
+from ..core import QObjectBase
 
 
 class _ExpandLayout(QLayout):
@@ -94,8 +94,9 @@ class _ExpandLayout(QLayout):
         return super().eventFilter(obj, e)
 
 
-class ExpandLayout(ObjectBase, _ExpandLayout):
+class ExpandLayout(QObjectBase, _ExpandLayout):
     def __init__(self, 
+                 *,
                  children: list[Union[QWidget, QLayoutItem]] = None, 
                  **kwargs) -> None:
         _ExpandLayout.__init__(self)

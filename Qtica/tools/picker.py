@@ -12,6 +12,7 @@ class ColorPicker(QObject):
     color_changed = Signal(QColor)
 
     def __init__(self,
+                 *,
                  mouse_icon: Icon = None,
                  color_changed: Callable = None):
         super().__init__()

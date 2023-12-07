@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 from PySide6.QtCore import QFile
-from typing import Union
 from string import Template
-
+from typing import Union
+import json
 import os
 
 
@@ -14,7 +14,6 @@ class _QssTemplate(Template):
 class QStyleSheet:
     '''
     Label(
-        uid="label",
         qss=QStyleSheet(
             qss={
                 "background-color": "--themeColor",
@@ -28,10 +27,18 @@ class QStyleSheet:
     )
     
     :param: qss: 
-        - {"background-color": "white"}
-        - ":/path/to/resoucre"
-        - "/path/to/local/file"
-        - QWidget { background-color: white;}
+        - dict: {"background-color": "white"}
+        - str: "QWidget { background-color: white;}"
+        - str: ":/path/to/resoucre/file.ext", 
+                and "/path/to/local/file.ext",
+                and "/path/to/local/file.json"
+
+    :Qss result
+        QLabel {
+            background-color: blue;
+            color: white;
+            font-size: 24px;
+        }
     '''
 
     def __init__(self, 
@@ -47,52 +54,63 @@ class QStyleSheet:
         self._parent = parent
 
     def _get_qss_from_str(self, qss: str) -> str:
-        if qss.startswith(":"):
+        if qss.startswith(":") or os.path.exists(qss):
             file = QFile(qss)
             file.open(QFile.OpenModeFlag.ReadOnly)
             data = str(file.readAll(), "utf-8")
+
+            # add .json support
+            if qss.lower().endswith(".json"):
+                data = self._get_qss_from_dict(json.loads(data))
+
             file.close()
             return data
-
-        elif os.path.exists(qss):
-            with open(qss, "r") as fr:
-                return fr.read()
         return qss
+
+    def _get_qss_parent(self) -> str:
+        _parent = self._parent.objectName().strip()
+        if not _parent:
+            _parent = self._parent.__class__.__base__.__name__
+            return _parent
+        return "#" + _parent
 
     def _get_qss_from_dict(self, qss: dict) -> str:
         style_sheet = ""
         _obj_style = ""
 
         for k, v in qss.items():
+            if isinstance(v, dict) and not k.startswith(":"):
+                raise ValueError("Invalid Qss parent!")
+
+            if k.startswith(("#", ".", "*")):
+                raise ValueError("Invalid Qss key value!")
+
             if isinstance(v, dict):
-                style_sheet += "%s {\n" % k
+                style_sheet += "%s%s {\n" % (self._get_qss_parent(), k)
                 for sk, sv in v.items():
-                    style_sheet += f"{sk}: {sv};\n"
+                    style_sheet += f"\t{sk}: {sv};\n"
                 style_sheet += "}\n"
             else:
-                _obj_style += f"{k}: {v};\n"
+                _obj_style += f"\t{k}: {v};\n"
 
-        if (obj_name := self._parent.objectName()):
-            style_sheet += "#%s {\n" % obj_name
-            style_sheet += _obj_style
-            style_sheet += "}"
-
-        elif not style_sheet:
-            style_sheet = _obj_style
+        style_sheet += "%s {\n" % self._get_qss_parent()
+        style_sheet += _obj_style
+        style_sheet += "}\n"
 
         return style_sheet
 
     def _set_qss(self, qss: Union[str, dict]) -> None:
-        _style = (self._get_qss_from_str(qss)
-                  if isinstance(qss, str) 
-                  else self._get_qss_from_dict(qss))
+        if qss:
+            _style = (self._get_qss_from_str(qss)
+                    if isinstance(qss, str) 
+                    else self._get_qss_from_dict(qss))
 
-        if self._vars:
-            self._temp.template = _style
-            self._temp.safe_substitute(_style)
-            _style = self._temp.safe_substitute(self._vars)
+            if self._vars:
+                self._temp.template = _style
+                self._temp.safe_substitute(_style)
+                _style = self._temp.safe_substitute(self._vars)
 
-        self._parent.setStyleSheet(_style)
+            self._parent.setStyleSheet(_style)
 
     def update_vars(self, vars: dict) -> None:
         self._vars = vars
@@ -103,15 +121,26 @@ class QStyleSheet:
                    *,
                    save: bool = False) -> None:
 
-        if (isinstance(qss, dict) 
-            and isinstance(self._qss, dict)):
-            _qss = self._qss.copy()
-            _qss.update(qss)
-            self._qss = qss if save else self._qss
-            _style = self._get_qss_from_dict(_qss)
+        if self._qss is not None:
+            if (isinstance(qss, dict) 
+                and isinstance(self._qss, dict)):
+                _qss = self._qss.copy()
+                _qss.update(qss)
+                self._qss = qss if save else self._qss
+                _style = self._get_qss_from_dict(_qss)
+            else:
+                self._qss = qss if save else self._qss
+                _style = self._get_qss_from_str(qss)
         else:
-            _style = self._get_qss_from_str(qss)
-            self._qss = qss if save else self._qss
+            _style = (
+                self._get_qss_from_dict(qss)
+                if isinstance(qss, dict)
+                else
+                self._get_qss_from_str(qss)
+            )
+
+            if save:
+                self._qss = qss
 
         if self._vars:
             self._temp.template = _style
@@ -120,7 +149,32 @@ class QStyleSheet:
 
         self._parent.setStyleSheet(_style)
 
-    def update(self, qss: Union[str, dict], vars: dict = None, *, save: bool = False) -> None:
+    def restore_qss(self) -> None:
+        if self._qss is not None:
+            if isinstance(self._qss, dict):
+                _style = self._get_qss_from_dict(self._qss)
+            else:
+                _style = self._get_qss_from_str(self._qss)
+
+            if self._vars:
+                self._temp.template = _style
+                self._temp.safe_substitute(_style)
+                _style = self._temp.safe_substitute(self._vars)
+
+            self._parent.setStyleSheet(_style)
+        else:
+            self._parent.setStyleSheet("")
+
+    def update(self, 
+               qss: Union[str, dict], 
+               vars: dict = None, 
+               *,
+               save: bool = False) -> None:
+
         if vars is not None:
             self.update_vars(vars)
+
         self.update_qss(qss, save=save)
+
+    def restore(self) -> None:
+        self.restore_qss()

@@ -1,10 +1,9 @@
 from typing import Optional
-
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QStackedWidget, QWidget
-
 from .side_bar import SideBar
 from .side_bar_button import SideBarButton
+from ...core import WidgetBase
 
 
 class _SideBarWidget(QWidget):
@@ -55,12 +54,9 @@ class _SideBarWidget(QWidget):
         button.clicked.connect(lambda: self._stacked_widget.setCurrentWidget(page))  # type: ignore[attr-defined]
 
 
-from ...core.base import WidgetBase
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-
 class SideBarItemWrapper:
-    def __init__(self, 
+    def __init__(self,
+                 *,
                  page: QWidget,
                  button: SideBarButton | QWidget,
                  alignment: SideBarButton.Alignment = SideBarButton.Alignment.top):
@@ -71,17 +67,12 @@ class SideBarItemWrapper:
 
 class SideBarWidget(WidgetBase, _SideBarWidget):
     def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None,
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None,
+                 *,
                  children: list[SideBarItemWrapper] = None,
                  stacked_widget: QStackedWidget = None,
                  **kwargs):
         _SideBarWidget.__init__(self, None, stacked_widget)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         if children is not None:
             for child in children:

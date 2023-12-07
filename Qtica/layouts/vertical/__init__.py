@@ -1,12 +1,13 @@
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QVBoxLayout, QWidget, QLayout
 from typing import Union
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QLayoutItem, QSpacerItem, QVBoxLayout, QWidget, QLayout
 from .item_wrapper import VLayoutItemWrapper
-from ...core.base import ObjectBase
+from ...core import QObjectBase
 
 
-class VLayout(ObjectBase, QVBoxLayout):
+class VLayout(QObjectBase, QVBoxLayout):
     def __init__(self,
+                 *,
                  children: list[Union[QWidget, QLayout, VLayoutItemWrapper]] = None,
                  **kwargs):
         QVBoxLayout.__init__(self)
@@ -20,7 +21,13 @@ class VLayout(ObjectBase, QVBoxLayout):
             return
 
         for child in children:
-            if isinstance(child, QWidget):
+            if isinstance(child, QSpacerItem):
+                self.addSpacerItem(child)
+
+            elif isinstance(child, QLayoutItem):
+                self.addItem(child)
+
+            elif isinstance(child, QWidget):
                 self.addWidget(child)
 
             elif isinstance(child, QLayout):

@@ -2,32 +2,30 @@ from typing import Union
 from PySide6.QtGui import QShowEvent, QCloseEvent
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import (
-    QMainWindow, 
+    QMainWindow,
+    QSystemTrayIcon, 
     QWidget, 
     QToolBar,
     QStatusBar,
     QDockWidget,
     QLayout
 )
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-from ...core.base import WidgetBase
+from ...core import WidgetBase
 
 
 class MainWindow(WidgetBase, QMainWindow):
     startup_changed = Signal()
 
     def __init__(self, 
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
+                 *,
                  home: Union[QWidget, QLayout] = None,
                  tool_bar: QToolBar = None,
                  status_bar: QStatusBar = None,
                  dock_widget: QDockWidget = None,
+                 sys_tray: QSystemTrayIcon = None,
                  **kwargs):
         QMainWindow.__init__(self)
-        super().__init__(uid, signals, events, **kwargs)
+        super().__init__(**kwargs)
 
         self.__is_startup = False
 
@@ -46,16 +44,19 @@ class MainWindow(WidgetBase, QMainWindow):
         if dock_widget is not None:
             self._set_dock_widget(dock_widget)
 
+        if sys_tray is not None:
+            sys_tray.setParent(self)
+            sys_tray.show()
+
     def closeEvent(self, event: QCloseEvent) -> None:
+        super().closeEvent(event)
         self.__is_startup = False
-        return super().closeEvent(event)
 
     def showEvent(self, event: QShowEvent) -> None:
+        super().showEvent(event)
         if not self.__is_startup:
             self.__is_startup = True
             self.startup_changed.emit()
-
-        return super().showEvent(event)
 
     def _set_home(self, home: QWidget) -> None:
         if isinstance(home, QLayout):

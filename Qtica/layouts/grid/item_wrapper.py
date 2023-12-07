@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget, QLayout, QLayoutItem
 from PySide6.QtCore import Qt
 from typing import Union
 
+
 class GridAlignment:
     def __init__(self, 
                  child: QWidget,

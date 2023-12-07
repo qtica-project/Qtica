@@ -1,13 +1,10 @@
 from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QPainter, QColor
 from PySide6.QtWidgets import QGridLayout, QWidget
-
-from darkdetect import isDark as isDarkTheme
-
-from ...enums.events import EventTypeVar
-from ...enums.signals import SignalTypeVar
-from ...enums import TeachingTipTailPositions
 from .tails import TeachingTipManager
+from ...enums import TeachingTipTailPositions
+from ...utils.theme_detect import isDark
+from ...core import WidgetBase
 
 
 class _TeachingTip(QWidget):
@@ -84,32 +81,30 @@ class _TeachingTip(QWidget):
 
         painter.setBrush(
             QColor(40, 40, 40) 
-            if isDarkTheme() 
+            if isDark() 
             else QColor(248, 248, 248))
         
         painter.setPen(
             QColor(23, 23, 23) 
-            if isDarkTheme() 
+            if isDark() 
             else QColor(195, 195, 195))
 
         self.manager.draw(self, painter)
 
 
-from ...core.base import WidgetBase
-
 class TeachingTip(WidgetBase, _TeachingTip):
     def __init__(self, 
+                 *,
                  child: QWidget,
                  target: QWidget,
                  tail_position: TeachingTipTailPositions = TeachingTipTailPositions.bottom,
                  delete_on_close: bool = False,
                  radius: int = 6,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None,
                  **kwargs):
-        _TeachingTip.__init__(self, child, target, tail_position, delete_on_close, radius)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        _TeachingTip.__init__(self, 
+                              child, 
+                              target, 
+                              tail_position, 
+                              delete_on_close,
+                              radius)
+        super().__init__(**kwargs)

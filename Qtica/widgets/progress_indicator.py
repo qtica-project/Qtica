@@ -1,7 +1,8 @@
 from typing import Union
-from PySide6.QtCore import QRect, QRectF, Qt
 from PySide6.QtGui import QColor, QFont, QIcon, QPaintEvent, QPainter, QPen
+from PySide6.QtCore import QRect, QRectF, Qt
 from PySide6.QtWidgets import QWidget
+from ..core import WidgetBase
 
 
 class _ProgressIndicator(QWidget):
@@ -222,10 +223,6 @@ class _ProgressIndicator(QWidget):
         # return super().paintEvent(event)
 
 
-from ..core.base import WidgetBase
-from ..enums.events import EventTypeVar
-from ..enums.signals import SignalTypeVar
-
 class ProgressIndicator(WidgetBase, _ProgressIndicator):
     '''
     ProgressIndicator(
@@ -239,6 +236,7 @@ class ProgressIndicator(WidgetBase, _ProgressIndicator):
     '''
 
     def __init__(self,
+                 *,
                  maximum: int,
                  current: int = 1,
                  step_size: int = 35,
@@ -248,14 +246,9 @@ class ProgressIndicator(WidgetBase, _ProgressIndicator):
                  line_color: QColor = None,
                  text_color: QColor = None,
                  pen_width: int = None,
-                 uid: str = None, 
-                 signals: SignalTypeVar = None, 
-                 events: EventTypeVar = None, 
-                 qss: str | dict = None, 
-                 attrs: list[Qt.WidgetAttribute] | dict[Qt.WidgetAttribute, bool] = None, 
-                 flags: list[Qt.WindowType] | dict[Qt.WindowType, bool] = None, **kwargs):
+                 **kwargs):
         _ProgressIndicator.__init__(self, maximum, current, step_size, font_name, steps_content)
-        super().__init__(uid, signals, events, qss, attrs, flags, **kwargs)
+        super().__init__(**kwargs)
 
         if style_color is not None:
             self._style_color = style_color
