@@ -24,7 +24,7 @@ import sys
 from PySide6.QtCore import QSize
 from Qtica import BehaviorDeclarative, Api
 from Qtica.tools import Alignment, Color
-from Qtica.utils.color import get_random_color, get_hex_from_color
+from Qtica.utils.colors import get_random_color, get_hex_from_color
 from Qtica.widgets import (
   MainWindow,
   Container,
@@ -43,20 +43,28 @@ class Window(BehaviorDeclarative):
   def __init__(self):
     return MainWindow(
       uid="window",
-      windowTitle="Qtica Get Start",
-      resize = QSize(400, 200),
-      events = [("mousePressEvent", lambda event: self.update_background())],
-      qss={"background-color": get_hex_from_color(*get_random_color())},
+      setWindowTitle="Qtica Get Start",
+      methods = [
+        ("resize", QSize(400, 200))
+      ],
+      events = [
+        ("mousePressEvent", lambda event: self.update_background())
+      ],
       home=Alignment(
           child=Label(
             uid="label",
             text=f"Hello {os.environ.get('USER', '')}, Welcome to Qtica!",
             qss={"font-size": "24px"}
           )
-        )
+        ),
+      qss={
+        "background-color": get_hex_from_color(*get_random_color())
+        },
       )
 
-app = Application(sys.argv)
+app = Application(
+  arg=sys.argv
+)
 window = Window()
 window.show()
 sys.exit(app.exec())

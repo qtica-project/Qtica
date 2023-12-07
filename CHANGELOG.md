@@ -131,7 +131,7 @@
 
 - `widgets.NavBarButton` it's now subclass from `core.WidgetBase`
 
-## 0.2.0 ()
+## 0.2.0 (2023-12-08)
 
 ### Added
 
