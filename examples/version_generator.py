@@ -92,7 +92,9 @@ class Window(BehaviorDeclarative):
             uid="window",
             windowTitle = "Version Generator",
             minimumSize = QSize(500, 150),
-            resize = QSize(500, 150),
+            methods = [
+                ("resize", QSize(500, 150))
+            ],
             home=Home()
         )
 

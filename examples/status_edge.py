@@ -17,7 +17,7 @@ from Qtica.layouts import (
 
 from Qtica.tools import (
     Color,
-    PaintStatusEdge
+    StatusEdgePaint
 )
 
 
@@ -42,7 +42,7 @@ class Home(BehaviorDeclarative):
                         ("clicked", lambda: self.update_status())
                     ]
                 ),
-                PaintStatusEdge(
+                StatusEdgePaint(
                     uid="status_paint",
                     child=PushButton(
                         uid="status_btn", 

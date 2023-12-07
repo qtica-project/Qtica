@@ -17,33 +17,30 @@ Qtica is a Python library that provides a lightweight API around native PySide6,
 # Qtica Get Start
 
 ```python
-#!/usr/bin/python3
-
 import os
 import sys
 from PySide6.QtCore import QSize
 from Qtica import BehaviorDeclarative, Api
-from Qtica.tools import Alignment, Color
+from Qtica.tools import Alignment
 from Qtica.utils.colors import get_random_color, get_hex_from_color
 from Qtica.widgets import (
   MainWindow,
-  Container,
   Label,
   Application
 )
-
 
 class Window(BehaviorDeclarative):
   def update_background(self):
     bg_color = get_hex_from_color(*get_random_color())
     fg_color = get_hex_from_color(*get_random_color())
+
     Api.fetch("window").qss.update({"background-color": bg_color})
     Api.fetch("label").qss.update({"color": fg_color})
 
   def __init__(self):
     return MainWindow(
       uid="window",
-      setWindowTitle="Qtica Get Start",
+      windowTitle="Qtica Get Start",
       methods = [
         ("resize", QSize(400, 200))
       ],
@@ -57,9 +54,7 @@ class Window(BehaviorDeclarative):
             qss={"font-size": "24px"}
           )
         ),
-      qss={
-        "background-color": get_hex_from_color(*get_random_color())
-        },
+      qss={"background-color": get_hex_from_color(*get_random_color())},
       )
 
 app = Application(

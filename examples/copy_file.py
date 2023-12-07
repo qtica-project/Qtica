@@ -100,7 +100,9 @@ class Window(BehaviorDeclarative):
 
 def main():
     import sys
-    app = App(sys.argv)
+    app = App(
+        arg=sys.argv
+    )
 
     window = Window()
     window.show()
