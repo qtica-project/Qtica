@@ -13,7 +13,7 @@ from PySide6.QtCore import (
     Signal, 
     Property
 )
-from PySide6.QtGui import QPainter, QColor
+from PySide6.QtGui import QHideEvent, QPainter, QColor, QShowEvent
 from PySide6.QtWidgets import QWidget
 from ..core import WidgetBase
 
@@ -53,12 +53,15 @@ class _MetroCircleProgress(QWidget):
     def __init__(self, 
                  radius: int = 5, 
                  color: QColor = QColor(24, 189, 155),
-                 bg_color: QColor = QColor(Qt.GlobalColor.transparent)):
+                 bg_color: QColor = QColor(Qt.GlobalColor.transparent),
+                 running: bool = True
+        ):
         super(_MetroCircleProgress, self).__init__()
 
         self.radius = radius
         self.color = color
         self.bg_color = bg_color
+        self.running = running
         self._items = []
 
         self._initAnimations()
@@ -98,8 +101,11 @@ class _MetroCircleProgress(QWidget):
                 QRectF(
                     item.x / 100 * self.width() - diameter,
                     (self.height() - radius) / 2,
-                    diameter, diameter
-                ), radius, radius)
+                    diameter, 
+                    diameter
+                ), 
+                radius, 
+                radius)
             painter.restore()
 
     def _initAnimations(self):
@@ -109,6 +115,7 @@ class _MetroCircleProgress(QWidget):
 
             seqAnimation = QSequentialAnimationGroup(self)
             seqAnimation.setLoopCount(-1)
+
             self._items.append((item, seqAnimation))
 
             seqAnimation.addAnimation(QPauseAnimation(150 * index, self))
@@ -133,11 +140,37 @@ class _MetroCircleProgress(QWidget):
             seqAnimation.addAnimation(
                 QPauseAnimation((5 - index - 1) * 150, self))
 
-        for _, animation in self._items:
-            animation.start()
+        if self.running:
+            self.start()
 
     def sizeHint(self):
         return QSize(100, self.radius * 2)
+
+    def start(self):
+        for _, animation in self._items:
+            if animation.state() == animation.State.Stopped:
+                animation.start()
+
+    def stop(self):
+        for _, animation in self._items:
+            animation.stop()
+
+    def resume(self):
+        for _, animation in self._items:
+            if animation.state() == animation.State.Paused:
+                animation.resume()
+
+    def pause(self):
+        for _, animation in self._items:
+            animation.pause()
+
+    def showEvent(self, event: QShowEvent) -> None:
+        self.resume()
+        return super().showEvent(event)
+
+    def hideEvent(self, event: QHideEvent) -> None:
+        self.pause()
+        return super().hideEvent(event)
 
 
 class MetroCircleProgress(WidgetBase, _MetroCircleProgress):
@@ -146,6 +179,7 @@ class MetroCircleProgress(WidgetBase, _MetroCircleProgress):
                  radius: int = 5, 
                  color: QColor = QColor(24, 189, 155),
                  bg_color: QColor = QColor(Qt.GlobalColor.transparent), 
+                 running: bool = True,
                  **kwargs):
-        _MetroCircleProgress.__init__(self, radius, color, bg_color)
+        _MetroCircleProgress.__init__(self, radius, color, bg_color, running)
         super().__init__(**kwargs)

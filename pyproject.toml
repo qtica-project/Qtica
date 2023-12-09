@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Qtica"
-version = "0.2.0"
+version = "0.2.1"
 description = "Qtica is a Python library that provides a lightweight API around native PySide6, allowing for lightning-fast GUI prototyping using modern declarative UI techniques entirely within Python."
 authors = ["Osama Mohammed Al-zabidi <omamkaz@gmail.com>"]
 license = "GPL-3.0"
@@ -22,8 +22,8 @@ packages = [{ include = "Qtica" }]
 [tool.poetry.dependencies]
 python = ">= 3.10, < 3.12"
 PySide6 = "^6.5"
-pynput = "^1.7.6"
 
+pynput = { version = "^1.7.6", optional = true }
 ElusiveIcons = { version = "^1.0", optional = true }
 FeatherIcons = { version = "^1.0", optional = true }
 FluentIcons = { version = "^1.0", optional = true }
@@ -36,6 +36,7 @@ FeatherIcons = ["FeatherIcons"]
 FluentIcons = ["FluentIcons"]
 FontawesomeIcons = ["FontawesomeIcons"]
 MaterialIcons = ["MaterialIcons"]
+pynput = ["pynput"]
 icons = [
     "ElusiveIcons",
     "FeatherIcons",

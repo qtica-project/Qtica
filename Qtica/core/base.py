@@ -1,11 +1,11 @@
+from typing import Any, Callable, Sequence
+from PySide6.QtWidgets import QApplication
+from PySide6.QtCore import Qt, QObject
+
 from ..enums.widgets import Widgets, WidgetTypeVar
 from ..enums.signals import Signals, SignalTypeVar
 from ..enums.events import Events, EventTypeVar
-from typing import Any, Callable, Sequence
-from PySide6.QtCore import Qt, QObject
-from PySide6.QtWidgets import QApplication
-import caseconverter
-
+from ..utils import caseconverter
 
 
 class AbstractBase:

@@ -173,3 +173,17 @@
 - `tools.ObjectBase` to `tools.QObjectBase`
 - `widgets.QuickWidget` parameter `file` to `qml`
 - `widgets.QuickView` parameter `file` to `qml`
+
+## 0.2.1 (2023-12-09)
+
+### Added
+
+- `utils.caseconverter`, forking `caseconverter` module to be as built-in
+
+### Changed
+
+- moving pynput from dependencies to extras dependence.
+
+### Removed
+
+- `requirements.txt`, we don't need it anymore, you can use poetry to install requirements.

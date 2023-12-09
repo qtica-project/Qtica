@@ -6,7 +6,6 @@ from .smooth_scroll import SmoothScroll
 from .icon import Icon
 from .env_var import EnvVar
 from .color import Color
-from .picker import ColorPicker
 from .modifiers import Modifiers
 from .size_policy import SizePolicy
 from .alignment import Alignment
@@ -22,3 +21,8 @@ from ._widgets import (
     MenuSeparator,
     MenuSimpleAction
 )
+
+try:
+    from .picker import ColorPicker
+except Exception:
+    pass
