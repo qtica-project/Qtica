@@ -85,7 +85,7 @@ For more information and detailed usage examples, refer to the [documentation](h
 
 ## License
 
-This project is licensed under the [GPL3 License](https://github.com/qtica-project/Qtica/blob/main/LICENSE.md).
+This project is licensed under the [GPL3 License](https://github.com/qtica-project/Qtica/blob/main/LICENSE).
 
 ## NOTE
 Welcome to Qtica!
