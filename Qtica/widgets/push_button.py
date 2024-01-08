@@ -1,27 +1,24 @@
 from PySide6.QtWidgets import QPushButton
-from PySide6.QtCore import Qt, Signal
-from ..core import WidgetBase
+from PySide6.QtCore import Signal
+from ..core import AbstractWidget
 
 
-class PushButton(WidgetBase, QPushButton):
+class PushButton(AbstractWidget, QPushButton):
     long_press = Signal()
     long_repeat = Signal()
     long_release = Signal()
     long_click = Signal()
 
-    def __init__(self, 
-                 *,
-                 enable_long_press: bool = False,
-                 **kwargs):
+    def __init__(self, **kwargs):
         QPushButton.__init__(self)
-        super().__init__(**kwargs)
 
         self._state = 0
 
-        if enable_long_press:
-            self.setAutoRepeat(True)
-            self.setAutoRepeatDelay(1000)
-            self.setAutoRepeatInterval(200)
+        self.setAutoRepeat(True)
+        self.setAutoRepeatDelay(1000)
+        self.setAutoRepeatInterval(200)
+
+        super().__init__(**kwargs)
 
         self.clicked.connect(self._handleLongClicked)
 
@@ -33,11 +30,9 @@ class PushButton(WidgetBase, QPushButton):
                 self.long_press.emit()
             else:
                 self.long_repeat.emit()
-
         elif self._state == 1:
             self._state = 0
             self.setAutoRepeatInterval(200)
             self.long_release.emit()
-
         else:
             self.long_click.emit()

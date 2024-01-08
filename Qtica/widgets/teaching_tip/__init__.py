@@ -1,1 +1,0 @@
-from .tool_tip import TeachingTip

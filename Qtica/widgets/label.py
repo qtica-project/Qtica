@@ -1,9 +1,9 @@
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QLabel
-from ..core import WidgetBase
+from ..core import AbstractWidget
 
 
-class Label(WidgetBase, QLabel):
+class Label(AbstractWidget, QLabel):
     textChanged = Signal(str)
 
     def __init__(self, **kwargs):

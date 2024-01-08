@@ -1,22 +1,26 @@
 #!/usr/bin/python3
 
-from PySide6.QtWidgets import QGridLayout, QWidget, QApplication, QLabel, QDialog, QWidget
-from PySide6.QtGui import QFont, QIcon, QPixmap
-from PySide6.QtCore import QSize, QTimer, Qt
-from ..eliding_label import ElidingLabel
+from PySide6.QtWidgets import QGraphicsOpacityEffect, QHBoxLayout, QLabel, QWidget
+from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt
+from PySide6.QtGui import QShowEvent
+from ...core import AbstractDialog
 
 
-class _SilentTextDialog(QDialog):
-    def __init__(self, 
-                 parent = None, 
-                 close_on_mouse_press: bool = True) -> None:
-        QDialog.__init__(self, parent)
+class SilentDialog(AbstractDialog):
+    def __init__(self,
+                 *,
+                 icon: QWidget,
+                 text: QLabel,
+                 enable_animation: bool = True,
+                 auto_close: bool = True,
+                 **kwargs):
+        super().__init__(auto_close=auto_close, **kwargs)
 
-        self._close_on_mouse_press = close_on_mouse_press
+        self._enable_animation = enable_animation
 
         self.setWindowFlags(self.windowFlags() | Qt.WindowType.FramelessWindowHint)
-        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
-        self.setAttribute(Qt.WidgetAttribute.WA_AlwaysStackOnTop, True)
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+        self.setAttribute(Qt.WidgetAttribute.WA_AlwaysStackOnTop)
         self.setWindowOpacity(0.9)
 
         self.setStyleSheet("""
@@ -28,75 +32,30 @@ class _SilentTextDialog(QDialog):
             }
         """)
 
-        ## Create Qt Widgetes
-        self.form = QWidget(self)
-        self.form.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+        self._layout = QHBoxLayout(self)
 
-        self.grid_layout1 = QGridLayout(self)
-        self.grid_layout2 = QGridLayout(self.form)
+        icon.setFixedSize(40, 40)
 
-        self.icon = QLabel(self.form)
-        self.text = ElidingLabel(elide_mode=Qt.TextElideMode.ElideRight)
+        self._layout.addWidget(icon)
+        self._layout.addWidget(text)
 
-        font = QFont()
-        font.setBold(True)
-        font.setPixelSize(16)
+        self.setLayout(self._layout)
 
-        self.text.setFont(font)
-        self.text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+    def showEvent(self, e: QShowEvent) -> None:
+        if self._enable_animation:
+            def _finished():
+                opacityEffect.deleteLater()
+                self.setGraphicsEffect(None)
 
-        self.grid_layout2.addWidget(self.icon, 0, 0, 1, 1, Qt.AlignmentFlag.AlignLeft)
-        self.grid_layout2.addWidget(self.text, 0, 1, 1, 1, Qt.AlignmentFlag.AlignCenter)
+            opacityEffect = QGraphicsOpacityEffect(self)
+            self.setGraphicsEffect(opacityEffect)
 
-        self.form.setLayout(self.grid_layout2)
-        self.grid_layout1.addWidget(self.form)
-        self.setLayout(self.grid_layout1)
+            opacityAni = QPropertyAnimation(opacityEffect, b'opacity', self)
+            opacityAni.setStartValue(0)
+            opacityAni.setEndValue(1)
+            opacityAni.setDuration(200)
+            opacityAni.setEasingCurve(QEasingCurve.Type.InSine)
+            opacityAni.finished.connect(_finished)
+            opacityAni.start()
 
-    def start_closeing(self):
-        self.close()
-
-    def start_show(self):
-        if self.isHidden():
-            self.show()
-            self.adjustSize()
-
-    def display_text(self, 
-                     icon: QIcon | QPixmap,
-                     text: str,
-                     timeout: int = 1500, 
-                     icon_size: QSize = None):
-
-        self.text.setText(text)
-        if isinstance(icon, QIcon):
-            self.icon.setPixmap(icon.pixmap(icon_size 
-                                            if icon_size is not None 
-                                            else QSize(32, 32)))
-        else:
-            self.icon.setPixmap(icon)
-
-        QTimer.singleShot(0, self.start_show)
-        QTimer.singleShot(timeout, self.start_closeing)
-
-    def mousePressEvent(self, event) -> None:
-        if self._close_on_mouse_press:
-            self.start_closeing()
-        return super().mousePressEvent()
-
-
-class SilentTextDialog:
-    @classmethod
-    def display(cls,
-                *,
-                icon: QIcon | QPixmap,
-                text: str,
-                timeout: int = 1500,
-                icon_size: QSize = None,
-                auto_close: bool = False,
-                parent: QWidget = None,
-                **kwargs):
-
-        if not parent:
-            parent = QApplication.activeWindow()
-
-        silent_dialog = _SilentTextDialog(parent, auto_close, **kwargs)
-        silent_dialog.display_text(icon, text, timeout, icon_size)
+        return super().showEvent(e)

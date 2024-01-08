@@ -1,1 +1,0 @@
-from .status_edge import StatusEdgePaint

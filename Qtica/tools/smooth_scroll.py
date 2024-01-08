@@ -1,41 +1,58 @@
 # coding:utf-8
 from collections import deque
 from math import cos, pi
+from enum import IntEnum
 
-from PySide6.QtCore import QDateTime, Qt, QTimer, QPoint
 from PySide6.QtGui import QWheelEvent
+from PySide6.QtCore import QDateTime, Qt, QTimer, QPoint
 from PySide6.QtWidgets import QApplication, QScrollArea, QAbstractScrollArea
-from ..core.base import BehaviorDeclarative
-from ..enums.smooth_scroll import SmoothMode
+from ..core import AbstractDec
 
 
-class _SmoothScroll:
+class SmoothScroll(AbstractDec):
     """ Scroll smoothly """
 
+    class Mode(IntEnum):
+        """ Scroll smoothly mode """
+
+        normal = 0
+        constant = 1
+        linear = 2
+        quadrati = 3
+        cosine = 4
+
     def __init__(self,
-                 widget: QScrollArea, 
-                 orient: Qt.Orientation = Qt.Orientation.Vertical):
+        child: QScrollArea, 
+        orient: Qt.Orientation = Qt.Orientation.Vertical,
+        mode: Mode = Mode.linear,
+        fps: int = 60,
+        duration: int = 400,
+        step_ratio: int = 1.5,
+        acceleration: int = 1,
+        steps_total: int = 0
+     ):
         """
         Parameters
         ----------
-        widget: QScrollArea
+        child: QScrollArea
             scroll area to scroll smoothly
 
         orient: Orientation
             scroll orientation
         """
-        self.widget = widget
+        self.child = child
         self.orient = orient
-        self.fps = 60
-        self.duration = 400
-        self.stepsTotal = 0
-        self.stepRatio = 1.5
-        self.acceleration = 1
+
+        self.fps = fps
+        self.duration = duration
+        self.stepsTotal = steps_total
+        self.stepRatio = step_ratio
+        self.acceleration = acceleration
         self.lastWheelEvent = None
         self.scrollStamps = deque()
         self.stepsLeftQueue = deque()
-        self.smoothMoveTimer = QTimer(widget)
-        self.smoothMode = SmoothMode(SmoothMode.linear)
+        self.smoothMoveTimer = QTimer(child)
+        self.smoothMode = mode
         self.smoothMoveTimer.timeout.connect(self.__smoothMove)
 
     def setSmoothMode(self, smoothMode):
@@ -45,8 +62,8 @@ class _SmoothScroll:
     def wheelEvent(self, e):
         # only process the wheel events triggered by mouse, fixes issue #75
         delta = e.angleDelta().y() if e.angleDelta().y() != 0 else e.angleDelta().x()
-        if self.smoothMode == SmoothMode.normal or abs(delta) % 120 != 0:
-            QAbstractScrollArea.wheelEvent(self.widget, e)
+        if self.smoothMode == SmoothScroll.Mode.normal or abs(delta) % 120 != 0:
+            QAbstractScrollArea.wheelEvent(self.child, e)
             return
 
         # push current time to queque
@@ -89,12 +106,12 @@ class _SmoothScroll:
             self.stepsLeftQueue.popleft()
 
         # construct wheel event
-        if self.orient == Qt.Vertical:
+        if self.orient == Qt.Orientation.Vertical:
             pixelDelta = QPoint(round(totalDelta), 0)
-            bar = self.widget.verticalScrollBar()
+            bar = self.child.verticalScrollBar()
         else:
             pixelDelta = QPoint(0, round(totalDelta))
-            bar = self.widget.horizontalScrollBar()
+            bar = self.child.horizontalScrollBar()
 
         e = QWheelEvent(
             self.lastWheelPos,
@@ -120,24 +137,15 @@ class _SmoothScroll:
         x = abs(self.stepsTotal - stepsLeft - m)
 
         res = 0
-        if self.smoothMode == SmoothMode.normal:
+        if self.smoothMode == SmoothScroll.Mode.normal:
             res = 0
-        elif self.smoothMode == SmoothMode.constant:
+        elif self.smoothMode == SmoothScroll.Mode.constant:
             res = delta / self.stepsTotal
-        elif self.smoothMode == SmoothMode.linear:
+        elif self.smoothMode == SmoothScroll.Mode.linear:
             res = 2 * delta / self.stepsTotal * (m - x) / m
-        elif self.smoothMode == SmoothMode.quadrati:
+        elif self.smoothMode == SmoothScroll.Mode.quadrati:
             res = 3 / 4 / m * (1 - x * x / m / m) * delta
-        elif self.smoothMode == SmoothMode.cosine:
+        elif self.smoothMode == SmoothScroll.Mode.cosine:
             res = (cos(x * pi / m) + 1) / (2 * m) * delta
 
         return res
-
-
-class SmoothScroll(BehaviorDeclarative):
-    def __init__(self, 
-                 *,
-                 child: QScrollArea,
-                 orient: Qt.Orientation = Qt.Orientation.Vertical) -> QScrollArea:
-        self.smooth_scroll = _SmoothScroll(child, orient)
-        return child

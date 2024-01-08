@@ -1,3 +1,3 @@
-from .display_large_text import LargTextDialog
-from .silent import SilentTextDialog
-from .mask_dialog import MaskDialog
+from .teaching_tip.tool_tip import TeachingTipDialog
+from .silent import SilentDialog
+from .mask import MaskDialog

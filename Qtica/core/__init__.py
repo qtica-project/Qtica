@@ -1,23 +1,17 @@
-from .base import (
-    AbstractBase,
-    NoneCheck,
-    DuplicateKeyError,
-    BehaviorDeclarative,
-    TrackingDeclarative
-)
-
-from .init import (
-    AndroidInit,
-    IOSInit,
-    LinuxInit,
-    MacOSInit,
-    WindowsInit
-)
+#!/usr/bin/python3
 
 from .api import Api
-from .qstyle_sheet import QStyleSheet
-from .qobject_base import QObjectBase, QObjectDeclarative
-from .widget_base import WidgetBase, WidgetDeclarative
-from .tool_base import AbstractTool, ToolBase
-from .icons_base import AbstractIcon, IconBase
-from .painter_base import AbstractPainter, PainterBase
+from ._base import AbstractBase
+from ._qobject import AbstractQObject, QObjectDec
+from ._widget import AbstractWidget, WidgetDec
+from ._tool import AbstractTool, ToolDec
+from ._icons import AbstractIcons
+from ._painter import AbstractPainter
+from ._dialog import AbstractDialog
+from ._config import AbstractConfig
+from ._declarative import (
+    DuplicateKeyError,
+    TrackingDec,
+    BehaviorDec,
+    AbstractDec
+)

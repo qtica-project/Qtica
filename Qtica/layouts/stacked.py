@@ -1,24 +1,33 @@
-from PySide6.QtWidgets import QStackedLayout, QWidget, QLayoutItem
-from ..core import QObjectBase
 from typing import Union
+from PySide6.QtWidgets import QStackedLayout, QWidget, QLayoutItem
+from ..tools.alignment import Alignment
+from ..core import AbstractQObject
 
 
-class StackedLayout(QObjectBase, QStackedLayout):
+class StackedLayout(AbstractQObject, QStackedLayout):
     def __init__(self,
                  *,
-                 children: list[Union[QWidget, QLayoutItem]] = None,
+                 children: list[Union[QWidget, QLayoutItem, Alignment]] = None,
                  **kwargs):
         QStackedLayout.__init__(self)
         super().__init__(**kwargs)
 
-        self._set_children(children)
-
-    def _set_children(self, children: list[Union[QWidget, QLayoutItem]]) -> None:
         if not children:
             return
 
         for child in children:
-            if isinstance(child, QLayoutItem):
+            if isinstance(child, Alignment):
+                _widget = child.child
+
+                if isinstance(child.child, QWidget):
+                    _func = self.addWidget
+                elif isinstance(child.child, QLayoutItem):
+                    _func = self.addItem
+
+                _func(_widget)
+                self.setAlignment(_widget, child.alignment)
+
+            elif isinstance(child, QLayoutItem):
                 self.addItem(child)
 
             elif isinstance(child, QWidget):

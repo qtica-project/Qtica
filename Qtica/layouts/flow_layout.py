@@ -12,7 +12,8 @@ from PySide6.QtCore import (
 )
 
 from typing import Union
-from ..core import QObjectBase
+from ..core import AbstractQObject
+from ..tools.alignment import Alignment
 
 
 class _FlowLayout(QLayout):
@@ -82,7 +83,6 @@ class _FlowLayout(QLayout):
     def itemAt(self, index: int):
         if 0 <= index < len(self._items):
             return self._items[index]
-
         return None
 
     def takeAt(self, index: int):
@@ -197,10 +197,12 @@ class _FlowLayout(QLayout):
         return y + rowHeight - rect.y()
 
 
-class FlowLayout(QObjectBase, _FlowLayout):
+class FlowLayout(AbstractQObject, _FlowLayout):
     def __init__(self,
                  *,
-                 children: list[Union[QWidget, QLayoutItem]] = None,
+                 children: list[Union[QWidget, 
+                                      QLayoutItem,
+                                      Alignment]] = None,
                  enable_animation: bool = False, 
                  enable_tight: bool = False,
                  duration: float = None,
@@ -216,13 +218,26 @@ class FlowLayout(QObjectBase, _FlowLayout):
 
         if children is not None:
             for child in children:
-                if isinstance(child, QLayoutItem):
+                if isinstance(child, Alignment):
+                    _widget = child.child
+                    if isinstance(child.child, QWidget):
+                        _func = self.addWidget
+                    elif isinstance(child.child, QLayoutItem):
+                        _func = self.addItem
+
+                    _func(_widget)
+                    self.setAlignment(_widget, child.alignment)
+
+                elif isinstance(child, QLayoutItem):
                     self.addItem(child)
 
                 elif isinstance(child, QWidget):
                     self.addWidget(child)
 
-    def _set_animation(self, duration, easing_curve) -> None:
+    def _set_animation(self, 
+                       duration, 
+                       easing_curve) -> None:
+
         if not self.enable_animation:
             return
 

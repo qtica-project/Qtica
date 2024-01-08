@@ -16,5 +16,4 @@ class File(QFile):
         self.close()
     
     def read_with_utf_8(self) -> str:
-        return str(self.readAll(), 
-                   encoding='utf-8')
+        return str(self.readAll(), encoding='utf-8')

@@ -187,3 +187,106 @@
 ### Removed
 
 - `requirements.txt`, we don't need it anymore, you can use poetry to install requirements.
+
+## 0.3.0 (2024-01-03)
+
+### Changed
+
+- `core.Api.fetch` \type argument has been renamed to qtype
+- `widgets.MovieView` has been moved and renamed to `tools.Movie`
+- `tools.EnvVar` has been moved to `utils.EnvVar`
+- `widgets.Application` list_styles has been renamed to style_list
+- `core.WidgetBase` has been renamed to `AbstractWidget`
+- `core.ObjectBase` has been renamed to `AbstractQObject`
+- `core.BehavioDeclarative` has been renamed to `BehavioDec`
+- `core.QStyleSheet` has been moved to `utils.QStyleSheet`
+- `core.WidgetDeclarative` has been renamed to `WidgetDec`
+- `core.ObjectDeclarative` has been renamed to `QObjectDec`
+- `core.TrackingDeclarative` has been renamed to TrackingDec`
+- `utils.colors.get_image_average_color` has been renamed to `imageAverageColor`
+- `utils.colors.imageAverageColor` return `QColor` type insted `list[int]`
+- `utils.colors.get_color_from_hex` has been renamed to `hexToColor`
+- `utils.colors.get_hex_from_color` has been renamed to `colorToHex`
+- `utils.colors.get_random_color` has been renamed to `randomColor`
+- `enums.TeachingTipTailPositions` has been renamed to `TeachingTipTailPos`
+- `widgets.ScrollArea` child can know accepted `QLayout` Objects
+- `core.AbstractBase.get` has been renamed to `fetch`
+- `utils.colors.Contrast.color_type` has been renamed to `color_mode`
+- `core.AbstractPainter._repaint` has been renamed to `repaint`
+- `core.AbstractPainter._paint` has been renamed to `_paint` 
+- `core.AbstractPainter._super_paintEvent` has been renamed to `super_paintEvent` 
+
+### Updated
+
+- `core.AbstractBase` events keyword, now can accept methods without 'Event' suffix
+- `enums.EnvVars`, some variables added
+- `core.AbstractWidget` - `core.AbstractWidget` Now you can add an event method without writing the 'Event' suffix, and the class will auto-detect the method.
+- `utils.Routes` add support for QStackedLayout
+
+### Fixed
+
+- `core.Api.fetch` Improve QObject Finder
+- `utils.colors.ImageColors.most_common` change from property to method
+- `core.AbstractDec` saving uid for objects how was have `objectName` method.
+
+### Added
+
+- supporting for PySide6.{5,6}.x versions
+- `widgets.IconWidget` support `QMovie` animation image.
+- `core.AbstractWidget` long_press Signal
+- `core.AbstractBase.enable_event_stack`, know you can stack a widget event.
+- `sys_tray.py` to examples folder.
+- `stack.py` to examples folder.
+- `core.AbstractIcons`
+- `core.AbstractTool`
+- `core.AbstractPainter`
+- `core.AbstractDec`
+- `utils.theme_detect` forked to be Qtica built-in module
+- `layouts.ColumnLayout`
+- `layouts.ColumnLayoutItemWrapper`
+- `layouts.RowLayout`
+- `layouts.RowLayoutItemWrapper`
+- `layouts.BorderLayout`
+- `layouts.BorderLayoutItemWrapper`
+- `core.Api.dec_fetch`
+- `enums.Theme`
+- `services.showDialog`
+- `services.TakeScreenShot`
+- `services.UrlOpen`
+- `tools.SystemTray`
+- `tools.Action`
+- `widgets.Stack`
+- `tools.Pen`
+- `painters.CircularProgressPaint`
+- `core.AbstractDialog`
+- `widgets.dialogs.TeachingTipDialog`
+- `tools.action.LinePasswordAction`
+
+
+## 0.3.1 ()
+
+### Added
+- `animations.ParallelAnimationGroup`
+- `animations.SequentialAnimationGroup`
+
+### Changed
+
+- `Qtica.animation` has been renamed to `Qtica.animations`
+- `tools.painters` has been moved to the main directory of Qtica `Qtica.painters`
+- `layouts.GridLayoutItemWrapper` has been moved to `tools.wrappers.GridLayoutWrapper`
+- `layouts.VLayoutItemWrapper` has been moved to `tools.wrappers.VLayoutWrapper`
+- `layouts.HLayoutItemWrapper` has been moved to `tools.wrappers.HLayoutWrapper`
+- `layouts.RowLayoutItemWrapper` has been moved to `tools.wrappers.RowLayoutWrapper`
+- `layouts.ColumnLayoutItemWrapper` has been moved to `tools.wrappers.ColumnLayoutWrapper`
+- `layouts.FormLayoutItemWrapper` has been moved to `tools.wrappers.FormLayoutWrapper`
+- `layouts.BorderLayoutItemWrapper` has been moved to `tools.wrappers.BorderLayoutWrapper`
+- `tools.AbstractConfig` has been moved to `core.AbstractConfig`
+- `widgets.container` has been renamed to `widgets.frame`
+
+### Removed
+
+- `utils.colors`
+- `enums.teaching_tip_tails`
+- `enums.animation`
+- `enums.clipboard`
+- `enums.smooth_scroll`

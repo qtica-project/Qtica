@@ -1,27 +1,24 @@
 from PySide6.QtWidgets import QToolButton
 from PySide6.QtCore import Signal
-from ..core import WidgetBase
+from ..core import AbstractWidget
 
 
-class ToolButton(WidgetBase, QToolButton):
+class ToolButton(AbstractWidget, QToolButton):
     long_press = Signal()
     long_repeat = Signal()
     long_release = Signal()
     long_click = Signal()
 
-    def __init__(self, 
-                 *,
-                 enable_long_press: bool = False,
-                 **kwargs):
+    def __init__(self, **kwargs):
         QToolButton.__init__(self)
-        super().__init__(**kwargs)
 
         self._state = 0
 
-        if enable_long_press:
-            self.setAutoRepeat(True)
-            self.setAutoRepeatDelay(1000)
-            self.setAutoRepeatInterval(200)
+        self.setAutoRepeat(True)
+        self.setAutoRepeatDelay(1000)
+        self.setAutoRepeatInterval(200)
+
+        super().__init__(**kwargs)
 
         self.clicked.connect(self._handleLongClicked)
 

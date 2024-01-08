@@ -1,19 +1,17 @@
-from PySide6.QtCore import QObject
+from typing import Union
+from PySide6.QtCore import QIODevice
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QWidget
-from .qt_file_open import File
-from ..core.base import BehaviorDeclarative
+from ..core import QObjectDec
 import os
 
 
-class UILoader(BehaviorDeclarative):
-    def __init__(self,
-                 file: str, 
-                 parent: QObject = None) -> QWidget:
 
-        loader = QUiLoader(parent)
-        if not os.path.exists(file):
-            return loader.load(file, parent)
+class UiLoader(QObjectDec, QUiLoader):
+    def __init__(self, 
+                 ui: Union[str, bytes, os.PathLike, QIODevice],
+                 **kwargs) -> QWidget:
+        QUiLoader.__init__(self)
+        super().__init__(**kwargs)
 
-        with File(file, File.OpenModeFlag.ReadOnly) as fr:
-            return loader.load(fr, parent)
+        return self.load(ui)

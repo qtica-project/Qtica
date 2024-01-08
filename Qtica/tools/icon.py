@@ -2,63 +2,58 @@ from typing import Union
 from PySide6.QtGui import QIcon, QIconEngine, QImage, QPixmap, QPainter, QColor
 from PySide6.QtWidgets import QFileIconProvider
 from PySide6.QtCore import QFileInfo, QSize, Qt
-from ..core import BehaviorDeclarative, AbstractIcon
+from ..core import AbstractTool, AbstractIcons
 
 
-class Icon(BehaviorDeclarative):
-    def __init__(self, 
+class Icon(AbstractTool, QIcon):
+    def __init__(self,
                  icon: Union[str,
                              QIcon,
                              QIconEngine,
                              QPixmap,
                              QImage,
-                             AbstractIcon],
+                             AbstractIcons],
                  color: QColor = None,
                  size: Union[QSize, tuple, int] = None,
-                 **kwargs) -> QIcon:
+                 **kwargs):
 
-        if isinstance(icon, AbstractIcon):
+        if isinstance(icon, AbstractIcons):
             icon = icon.value
 
-        if (isinstance(icon, str)
-            and icon.endswith(".svg")
-            and color is not None):
-            return self._colored_icon(icon, color, size)
-
         if color is not None or size is not None:
-            return self._colored_icon(icon, color, size)
+            icon = self.colored_icon(icon, color, size)
 
-        return QIcon(icon)
+        QIcon.__init__(self, icon)
+        super().__init__(**kwargs)
 
     @classmethod
-    def _colored_icon(cls,
-                      icon,
-                      color: QColor = None,
-                      size: Union[QSize, int] = None) -> QIcon:
+    def colored_icon(cls,
+                     icon,
+                     color: QColor,
+                     size: Union[QSize, tuple, int] = None) -> QIcon:
 
         if isinstance(size, int):
             size = QSize(size, size)
 
-        if isinstance(size, (tuple, list)):
+        if isinstance(size, (tuple, list, set)):
             size = QSize(*size[:2])
 
         icon = QIcon(icon)
+        default_size = (icon.availableSizes()[0] 
+                        if len(icon.availableSizes()) > 0 
+                        else icon.actualSize(QSize(32, 32)))
 
-        _size = (icon.availableSizes()[0] 
-                 if len(icon.availableSizes()) > 0 
-                 else icon.actualSize(QSize(32, 32)))
-
-        pixmap = icon.pixmap(size if size is not None else _size)
+        pixmap = icon.pixmap(size 
+                             if size is not None 
+                             else default_size)
 
         pixmap_painter = QPainter(pixmap)
         pixmap_painter.setCompositionMode(QPainter.CompositionMode.CompositionMode_SourceIn)
 
         if color is not None:
-            pixmap_painter.fillRect(pixmap.rect(),
-                                    color if color is not None else 0)
+            pixmap_painter.fillRect(pixmap.rect(), color if color is not None else 0)
 
         pixmap_painter.end()
-
         return QIcon(pixmap)
 
     @classmethod
@@ -80,7 +75,7 @@ class Icon(BehaviorDeclarative):
         return QIcon(pixmap)
 
     @classmethod
-    def file_provider(cls, icon: str | QFileInfo) -> QIcon:
+    def file_provider(cls, icon: Union[str, QFileInfo]) -> QIcon:
         '''
         param: icon = [file.ext, /path/to/file.ext]
         '''

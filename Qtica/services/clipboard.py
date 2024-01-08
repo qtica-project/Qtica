@@ -1,57 +1,51 @@
 from typing import Union
+from enum import Enum, auto
 from PySide6.QtCore import QMimeData
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QClipboard, QImage, QPixmap
-from ..enums.clipboard import ClipboardDataTypes
+from ..utils.caseconverter import camelcase
 
 
 class Clipboard:
-    @staticmethod
+    Mode = QClipboard.Mode
+    class Types(Enum):
+        mime_data = auto()
+        pixmap = auto()
+        image = auto()
+        text = auto()
+
+    @classmethod
     def paste_data(
-        data_type: ClipboardDataTypes = ClipboardDataTypes.text,
+        cls,
+        dtype: Types = Types.text,
         mode: QClipboard.Mode = QClipboard.Mode.Clipboard,
     ) -> Union[QMimeData, str, QImage, QPixmap]:
 
-        cb = QApplication.clipboard()
-        match data_type:
-            case ClipboardDataTypes.image:
-                return cb.image(mode)
-            case ClipboardDataTypes.pixmap:
-                return cb.pixmap(mode)
-            case ClipboardDataTypes.mimedata:
-                return cb.mimeData(mode)
-            case ClipboardDataTypes.text:
-                return cb.text(mode)
+        return getattr(QApplication.clipboard(), camelcase(dtype.name))(mode)
 
-    @staticmethod
+    @classmethod
     def copy_data(
-        data: Union[QMimeData, str, QImage, QPixmap],
-        data_type: ClipboardDataTypes = ClipboardDataTypes.text,
+        cls,
+        data: Union[QMimeData, QImage, QPixmap, str],
+        dtype: Types = Types.text,
         mode: QClipboard.Mode = QClipboard.Mode.Clipboard,
     ) -> None:
 
-        cb = QApplication.clipboard()
-        match data_type:
-            case ClipboardDataTypes.image:
-                return cb.setImage(data, mode)
-            case ClipboardDataTypes.pixmap:
-                return cb.setPixmap(data, mode)
-            case ClipboardDataTypes.mimedata:
-                return cb.setMimeData(data, mode)
-            case ClipboardDataTypes.text:
-                return cb.setText(data, mode)
+        return getattr(QApplication.clipboard(), camelcase("set_"+dtype.name))(data, mode)
 
-    @staticmethod
+    @classmethod
     def copy(
-        data: Union[QMimeData, str, QImage, QPixmap],
-        data_type: ClipboardDataTypes = ClipboardDataTypes.text,
-        mode: QClipboard.Mode = QClipboard.Mode.Clipboard,
+        cls,
+        data: Union[QMimeData, QImage, QPixmap, str],
+        dtype: Types = Types.text,
+        mode: QClipboard.Mode = QClipboard.Mode.Clipboard
     ) -> None:
-        return Clipboard.copy_data(data, data_type, mode)
+        return cls.copy_data(data, dtype, mode)
 
-    @staticmethod
+    @classmethod
     def paste(
-        data_type: ClipboardDataTypes = ClipboardDataTypes.text,
-        mode: QClipboard.Mode = QClipboard.Mode.Clipboard,
+        cls,
+        dtype: Types = Types.text,
+        mode: QClipboard.Mode = QClipboard.Mode.Clipboard
     ) -> Union[QMimeData, str, QImage, QPixmap]:
-        return Clipboard.paste_data(data_type, mode)
+        return cls.paste_data(dtype, mode)

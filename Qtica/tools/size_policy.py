@@ -1,21 +1,23 @@
+#!/usr/bin/python3
+
+from typing import Union
 from PySide6.QtWidgets import QSizePolicy, QWidget
-from ..core import ToolBase
+from ..core import AbstractTool
 
 
-class SizePolicy(ToolBase, QSizePolicy):
+class SizePolicy(AbstractTool, QSizePolicy):
     def __init__(self,
                  *,
-                 child: QWidget,
                  horizontal: QSizePolicy.Policy = None,
                  vertical: QSizePolicy.Policy = None,
-                 stretch: tuple[int, int] = None,
-                 type: QSizePolicy.ControlType = None,
+                 stretch: Union[tuple[int, int], int] = None,
+                 control_type: QSizePolicy.ControlType = None,
                  **kwargs) -> QWidget:
         QSizePolicy.__init__(self)
         super().__init__(**kwargs)
 
-        if type is not None:
-            self.setControlType(type)
+        if control_type is not None:
+            self.setControlType(control_type)
 
         if horizontal is not None:
             self.setHorizontalPolicy(horizontal)
@@ -23,13 +25,7 @@ class SizePolicy(ToolBase, QSizePolicy):
         if vertical is not None:
             self.setVerticalPolicy(vertical)
 
-        self.setHorizontalStretch(stretch[0] if stretch is not None else 0)
-        self.setVerticalStretch(stretch[-1] if stretch is not None else 0)
-
-        self.setHeightForWidth(child.sizePolicy().hasHeightForWidth())
-        self.setWidthForHeight(child.sizePolicy().hasWidthForHeight())
-        # sizePolicy.setRetainSizeWhenHidden(True)
-
-        child.setSizePolicy(self)
-
-        return child
+        if stretch is not None:
+            h, v = (stretch,) * 2 if isinstance(stretch, int) else stretch
+            self.setHorizontalStretch(h)
+            self.setVerticalStretch(v)

@@ -3,34 +3,26 @@
 import os
 import sys
 
-from typing import Sequence, Union, Iterable
-from PySide6.QtGui import QFontDatabase
+from typing import Callable, NoReturn, Optional, Sequence, Union
 from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
 from PySide6.QtWidgets import QApplication, QStyleFactory, QWidget
-
-from ..core import QObjectBase
-from ..utils._import import Imports
-from ..utils.overload import staticproperty
-from .._rc.resource import qInitResources
+from PySide6.QtGui import QFontDatabase
+from ..core import AbstractQObject
 
 
-class Application(QObjectBase, QApplication):
+class Application(AbstractQObject, QApplication):
     on_inactive = Signal()
     on_active = Signal()
     on_hidden = Signal()
     on_suspend = Signal()
 
     def __init__(self,
+                 args: Sequence[str] = None,
                  *,
-                 arg: Sequence[str] = None,
-                 resources: list[Union[str, tuple]] = None,
+                 resources: list[Union[str, tuple[Optional[int], bytes, bytes, bytes]]] = None,
                  fonts: list[str] = None,
                  **kwargs):
-        QApplication.__init__(self, arg or [])
-        super().__init__(**kwargs)
-
-        # init Qtica default resource
-        qInitResources()
+        QApplication.__init__(self, args or [])
 
         if resources is not None:
             self._set_resources(resources)
@@ -39,12 +31,14 @@ class Application(QObjectBase, QApplication):
             self._set_fonts(fonts)
 
         ## it's default enabled by the developer
-        self.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps, True)
-        self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling, True)
+        self.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
+        self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
+
+        super().__init__(**kwargs)
 
         self.applicationStateChanged.connect(self._applicationStateChanged)
-    
-    def _applicationStateChanged(self, event):
+
+    def _applicationStateChanged(self, event) -> None:
         if event == Qt.ApplicationState.ApplicationInactive:
             self.on_inactive.emit()
         elif event == Qt.ApplicationState.ApplicationActive:
@@ -54,29 +48,20 @@ class Application(QObjectBase, QApplication):
         elif event == Qt.ApplicationState.ApplicationSuspended:
             self.on_suspend.emit()
 
-    def run(self) -> int:
+    def run(self) -> NoReturn:
         return sys.exit(self.exec())
 
-    def list_styles(self) -> list[str]:
+    def style_list(self) -> list[str]:
         return QStyleFactory.keys()
 
     def current_style(self) -> str:
         return self.style().name()
 
-    def set_style(self, name: str):
-        if name.lower().strip() not in [n.lower() for n in QStyleFactory.keys()]:
-            raise ValueError(f"style '{name}' not found please call list_styles to \
-                see all available styles in your system.")
-
-        self.setStyle(QStyleFactory.create(name))
-
     def add_rcc_file(self,
                      rcc_file: str,
                      rcc_root: str = None) -> bool:
-
         if rcc_root is not None:
-            return QResource.registerResource(rcc_file, 
-                                              rcc_root)
+            return QResource.registerResource(rcc_file, rcc_root)
         return QResource.registerResource(rcc_file)
 
     def add_font(self, fontpath: str) -> int:
@@ -89,35 +74,33 @@ class Application(QObjectBase, QApplication):
 
             self.add_font(fonts)
 
-    def _set_resources(self, resources: list[Union[str, tuple]]):
+    def _set_resources(self, resources: list[Union[Callable, tuple[Optional[int], bytes, bytes, bytes]]]):
         '''
-        * resource.py file must contain the qInitResources method
-        * Please comment qInitResources calling in the tail of resource.py the file.
         :param: resource
-            str = "/path/to/file.py
-            tuple = (qt_resource_struct, qt_resource_name, qt_resource_data)
+            callable = qInitResources
+            tuple = (0x03 | None, qt_resource_struct, qt_resource_name, qt_resource_data)
         '''
         for res in resources:
-            if isinstance(res, Iterable):
-                qRegisterResourceData(0x03, *res)
-
-            elif res.endswith((".py", ".pyc")):
-                if not os.path.exists(res):
-                    raise FileNotFoundError(f"'{res}' resource file not found!")
+            if isinstance(res, (tuple, list, set)):
+                if len(res) < 4:
+                    res = list(res)
+                    res.insert(0, 0x03)
+                qRegisterResourceData(res[0] if res[0] is not None else 0x03, *res[1:])
+            elif callable(res):
                 try:
-                    Imports.method(res, "qInitResources")()
-                except Exception as err:
-                    raise ValueError(f"Resource error: '{res}', {err}")
+                    res()
+                except Exception:
+                    ...
 
-    @staticproperty
+    @staticmethod
     def active_window() -> QWidget:
         return QApplication.activeWindow()
 
-    @staticproperty
+    @staticmethod
     def active_modal() -> QWidget:
         return QApplication.activeModalWidget()
 
-    @staticproperty
+    @staticmethod
     def active_popup() -> QWidget:
         return QApplication.activePopupWidget()
 

@@ -3,10 +3,10 @@
 import os
 from PySide6.QtCore import QThread, Signal, QUrl
 from PySide6.QtWidgets import QProgressBar, QWidget
-from ..core import BehaviorDeclarative, QObjectBase
+from ..core import AbstractDec, AbstractQObject
 
 
-class CopyProgress(BehaviorDeclarative):
+class CopyProgress(AbstractDec):
     def __init__(self,
                  *,
                  child: QProgressBar | QWidget,
@@ -63,7 +63,7 @@ class CopyProgress(BehaviorDeclarative):
         return self.copy_thread
 
 
-class CopyThread(QObjectBase, QThread):
+class CopyThread(AbstractQObject, QThread):
     copy_done = Signal()
     copy_paused = Signal()
     copy_progress = Signal(int)

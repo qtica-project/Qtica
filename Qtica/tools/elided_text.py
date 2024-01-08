@@ -1,10 +1,10 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QFontMetrics
-from ..core.base import BehaviorDeclarative
+from ..core import AbstractDec
 
 
-class ElidedText(BehaviorDeclarative):
+class ElidedText(AbstractDec):
     """
     ElidedText(
         child = Label("Your text here"),
@@ -23,7 +23,7 @@ class ElidedText(BehaviorDeclarative):
             raise ValueError("invalid child widget!")
 
         if hasattr(child, "textChanged"):
-            child.textChanged.connect(lambda text: self._set_elided(child, width, elide_mode))
+            child.textChanged.connect(lambda _: self._set_elided(child, width, elide_mode))
 
         self._set_elided(child, width, elide_mode)
 
