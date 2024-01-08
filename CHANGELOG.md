@@ -268,6 +268,7 @@
 ### Added
 - `animations.ParallelAnimationGroup`
 - `animations.SequentialAnimationGroup`
+- `tools.Brush`
 
 ### Changed
 

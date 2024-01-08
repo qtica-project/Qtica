@@ -13,8 +13,7 @@ from PySide6.QtGui import (
     QPainter, 
     QPixmap
 )
-from ..core import AbstractIcons
-from ..core import AbstractWidget
+from ..core import AbstractIcons, AbstractWidget
 from ..tools.icon import Icon
 
 

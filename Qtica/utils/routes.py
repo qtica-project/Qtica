@@ -2,14 +2,13 @@
 
 from typing import Union
 from PySide6.QtWidgets import QStackedLayout, QStackedWidget, QWidget
-from ..tools import Alignment
 
 
 class Routes:
     '''
     :Return: dict[str, int]
     '''
-    def __init__(self, /, index: str = "/", **kwargs: Union[QWidget, Alignment]) -> None:
+    def __init__(self, /, index: str = "/", **kwargs: QWidget) -> None:
         self._index = index
         self._widgets = kwargs
 

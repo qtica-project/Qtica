@@ -1,3 +1,4 @@
+from .wrappers import *
 from .ui_loader import UiLoader
 from .qt_file_open import File
 from .elided_text import ElidedText
@@ -13,5 +14,4 @@ from .system_tray import SystemTray
 from .movie import Movie
 from .settings import Settings
 from .pen import Pen
-
-from .wrappers import *
+from .brush import Brush

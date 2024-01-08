@@ -4,10 +4,10 @@ from typing import Union
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QMenu
 from ..tools.wrappers.menu import (
-    MenuActionWrapper, 
     MenuSectionWrapper, 
     MenuSeparatorWrapper
 )
+from ..tools import MenuAction
 from ..core import AbstractWidget
 
 
@@ -16,7 +16,7 @@ class Menu(AbstractWidget, QMenu):
                  *,
                  children: list[Union[MenuSeparatorWrapper, 
                                       MenuSectionWrapper, 
-                                      MenuActionWrapper,
+                                      MenuAction,
                                       QMenu, 
                                       QAction]],
                  **kwargs):
@@ -31,7 +31,7 @@ class Menu(AbstractWidget, QMenu):
                 elif isinstance(child, MenuSectionWrapper):
                     self.addSection(*child)
 
-                elif isinstance(child, (QAction, MenuActionWrapper)):
+                elif isinstance(child, (QAction, MenuAction)):
                     child.setParent(self)
                     self.addAction(child)
 
