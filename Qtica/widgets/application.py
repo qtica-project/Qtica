@@ -31,8 +31,9 @@ class Application(AbstractQObject, QApplication):
             self._set_fonts(fonts)
 
         ## it's default enabled by the developer
-        self.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
-        self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
+        ## it's enable by default in qt6
+        # self.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
+        # self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
 
         super().__init__(**kwargs)
 
