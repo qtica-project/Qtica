@@ -263,9 +263,10 @@
 - `tools.action.LinePasswordAction`
 
 
-## 0.3.1 ()
+## 0.3.1 (2024-01-09)
 
 ### Added
+
 - `animations.ParallelAnimationGroup`
 - `animations.SequentialAnimationGroup`
 - `tools.Brush`

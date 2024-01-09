@@ -3,7 +3,7 @@ __version__ = "0.3.1"
 __version_info__ = (0, 3, 1, "", "")
 
 # Python
-__minimum_python_version__ = (3, 7)
+__minimum_python_version__ = (3, 10)
 __maximum_python_version__ = (3, 12)
 
 # PySide6
