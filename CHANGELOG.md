@@ -500,4 +500,4 @@
 
 ### Fixed
 
-- `tools.Settings` _set_default_path, when system equal to windows.
+- `tools.Settings` **_set_default_path**, when system equal to windows.
