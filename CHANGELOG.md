@@ -305,7 +305,7 @@
 - `utils.maths.deg_to_coordinates`
 - `core.AbstractBase` handle add Methods in **kwargs
 
-- #### `tools`
+- #### `tools.qtgui`
   - ActionGroup
   - Clipboard
   - DoubleValidator
@@ -418,6 +418,38 @@
   - Vector2D
   - Vector3D
   - Vector4D
+
+  #### `tools.qtcore`
+  - QAnimationGroup
+  - QBuffer
+  - QConcatenateTablesProxyModel
+  - QCoreApplication
+  - QEventLoop
+  - QFileDevice
+  - QFileSelector
+  - QFileSystemWatcher
+  - QIODevice
+  - QIdentityProxyModel
+  - QItemSelectionModel
+  - QLibrary
+  - QMimeData
+  - QPauseAnimation
+  - QPluginLoader
+  - QProcess
+  - QSaveFile
+  - QSharedMemory
+  - QSignalMapper
+  - QSocketNotifier
+  - QSortFilterProxyModel
+  - QStringListModel
+  - QTemporaryFile
+  - QThread
+  - QThreadPool
+  - QTimeLine
+  - QTimer
+  - QTranslator
+  - QTransposeProxyModel
+  - QVariantAnimation
 
 - #### `widgets`
   - AbstractButton

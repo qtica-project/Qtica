@@ -1,4 +1,5 @@
 from .wrappers import *
+from .qtcore import *
 from .qtgui import *
 
 from .icon import Icon
