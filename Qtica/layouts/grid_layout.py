@@ -1,7 +1,7 @@
 from typing import Union
 from PySide6.QtWidgets import QGridLayout, QWidget, QLayout, QLayoutItem
 from ..tools.wrappers.grid_layout import GridLayoutWrapper
-from ..tools.alignment import Alignment
+from ..utils.alignment import Alignment
 from ..core import AbstractQObject
 
 

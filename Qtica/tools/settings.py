@@ -1,22 +1,12 @@
 #!/usr/bin/python3
 
 from typing import Any
-from enum import StrEnum, auto
+from enum import Enum, auto
 from PySide6.QtCore import QSettings, QTimer
 from ..core import AbstractQObject, AbstractConfig
 from ..utils import EnvVar
 import platform
 import os
-
-
-class System(StrEnum):
-    java = auto()
-    linux = auto()
-    darwin = auto()
-    windows = auto()
-
-    macos = darwin
-    posix = linux
 
 
 class Settings(AbstractQObject, QSettings):
@@ -52,6 +42,16 @@ class Settings(AbstractQObject, QSettings):
         [User]\n
         Name=
     '''
+
+    class System(Enum):
+        java = auto()
+        linux = auto()
+        darwin = auto()
+        windows = auto()
+
+        macos = darwin
+        posix = linux
+        unknow = auto()
 
     def __init__(self,
                  format: QSettings.Format = None,
@@ -117,7 +117,7 @@ class Settings(AbstractQObject, QSettings):
         return self.defaultFormat()
 
     def _set_default_path(self) -> str:
-        if System(platform.system().lower()):
+        if self.system() == Settings.System.windows:
             if self.scope() == QSettings.Scope.SystemScope:
                 return EnvVar.get("FOLDERID_ProgramData")
             return EnvVar.get("FOLDERID_RoamingAppData")
@@ -148,3 +148,9 @@ class Settings(AbstractQObject, QSettings):
         self.setValue(config.name(), 
                       config.get()(),
                       config.group())
+
+    def current_system(self) -> System:
+        return Settings.System(platform.system().strip().lower() or "unknow")
+
+    def system(self) -> System:
+        return self.current_system()

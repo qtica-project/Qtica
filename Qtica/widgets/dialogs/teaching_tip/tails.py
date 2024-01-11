@@ -1,6 +1,6 @@
+from PySide6.QtWidgets import QApplication, QWidget
 from PySide6.QtCore import QPoint, QObject, QPointF
 from PySide6.QtGui import QCursor, QPolygonF
-from PySide6.QtWidgets import QApplication, QWidget
 from enum import IntEnum
 
 
@@ -54,7 +54,7 @@ class TeachingTipManager(QObject):
         tip._layout.setContentsMargins(0, 0, 0, 0)
 
     def position(self, tip: QWidget) -> QPoint:
-        if not tip._auto_close:
+        if not tip._auto_close and not tip.target:
             tip.target = QApplication.activeWindow()
 
         if tip.target is not None:

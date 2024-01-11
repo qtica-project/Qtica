@@ -7,17 +7,12 @@ from ..services import corner_to_edge
 from ..core import AbstractWidget
 
 
-class SizeGrip(AbstractWidget, QSizeGrip):
-    def __init__(self, **kwargs) -> None:
-        QSizeGrip.__init__(self)
-        super().__init__(**kwargs)
-
-
-class WindowSizeGrip(SizeGrip):
+class WindowSizeGrip(AbstractWidget, QSizeGrip):
     def __init__(self,
                  *,
                  corner: Qt.Corner = Qt.Corner.BottomRightCorner,
                  **kwargs) -> None:
+        QSizeGrip.__init__(self)
         super().__init__(**kwargs)
 
         self._corner = corner

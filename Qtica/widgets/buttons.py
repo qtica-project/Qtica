@@ -1,17 +1,14 @@
-from PySide6.QtWidgets import QToolButton
+from PySide6.QtWidgets import QPushButton, QToolButton
 from PySide6.QtCore import Signal
 from ..core import AbstractWidget
 
-
-class ToolButton(AbstractWidget, QToolButton):
+class _Button(AbstractWidget):
     long_press = Signal()
     long_repeat = Signal()
     long_release = Signal()
     long_click = Signal()
 
     def __init__(self, **kwargs):
-        QToolButton.__init__(self)
-
         self._state = 0
 
         self.setAutoRepeat(True)
@@ -36,3 +33,15 @@ class ToolButton(AbstractWidget, QToolButton):
             self.long_release.emit()
         else:
             self.long_click.emit()
+
+
+class PushButton(_Button, QPushButton):
+    def __init__(self, **kwargs):
+        QPushButton.__init__(self)
+        super().__init__(**kwargs)
+
+
+class ToolButton(_Button, QToolButton):
+    def __init__(self, **kwargs):
+        QPushButton.__init__(self)
+        super().__init__(**kwargs)

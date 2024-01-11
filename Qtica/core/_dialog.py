@@ -2,7 +2,7 @@
 
 from PySide6.QtWidgets import QApplication, QDialog, QWidget
 from PySide6.QtCore import QEvent, QObject, QTimer
-from PySide6.QtGui import QResizeEvent, QShowEvent
+from PySide6.QtGui import QShowEvent
 from ._widget import AbstractWidget
 
 
@@ -12,7 +12,13 @@ class AbstractDialog(AbstractWidget, QDialog):
                  timeout: float = None,
                  auto_close: bool = False,
                  **kwargs):
-        QDialog.__init__(self, QApplication.activeWindow())
+
+        _parent = QApplication.activeWindow()
+        if not auto_close:
+            _parent.hideEvent = lambda _: self.hide()
+            _parent.showEvent = lambda _: self.show()
+
+        QDialog.__init__(self, _parent)
         super().__init__(**kwargs)
 
         self.window().installEventFilter(self)
@@ -27,18 +33,17 @@ class AbstractDialog(AbstractWidget, QDialog):
         return self.parent()
 
     def showEvent(self, e: QShowEvent) -> None:
-        if self._timeout is not None:
-            QTimer.singleShot(self._timeout, self.close)
-        super().showEvent(e)
-        return self.activateWindow()
+        if self.isHidden() or not self.isActiveWindow():
+            if self._timeout is not None:
+                QTimer.singleShot(self._timeout, self.close)
+
+            super().showEvent(e)
+            self.activateWindow()
 
     def eventFilter(self, arg__1: QObject, arg__2: QEvent) -> bool:
         if arg__1 is self.window():
-            if arg__2.type() == QEvent.Type.Resize:
-                re = QResizeEvent(arg__2)
-                self.resize(re.size())
-
-            if self._auto_close and arg__2.type() == QEvent.Type.WindowDeactivate:
+            if (self._auto_close
+                and arg__2.type() in (QEvent.Type.WindowDeactivate, QEvent.Type.Hide)):
                 self.close()
 
         return super().eventFilter(arg__1, arg__2)

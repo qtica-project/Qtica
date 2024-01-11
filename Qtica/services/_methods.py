@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 
+import re
 from random import random
 from typing import Union
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QWidget
-from PySide6.QtGui import QColor, QGuiApplication, QPixmap, QScreen
+from PySide6.QtGui import QColor, QGuiApplication, QLinearGradient, QPixmap, QScreen
+from ..utils.maths import deg_to_coordinates
 from ..core import AbstractDialog
 
 
@@ -116,3 +118,32 @@ def colorToHex(color: Union[tuple[int, int, int], QColor]) -> str:
         return color.name(QColor.NameFormat.HexRgb)
     return '#' + ''.join('{0:02x}'.format(int(x)) for x in color)
 
+
+def parse_css_linear_gradient(css_gradient: str, 
+                       qt_gradient: QLinearGradient = None,
+                       *,
+                       width: int = None,
+                       apply_deg: bool = False,
+                       reverse: bool = False) -> QLinearGradient:
+    
+    if not qt_gradient:
+        if width is not None and apply_deg:
+            _deg = int(re.findall(r"(\d+)deg", css_gradient, re.IGNORECASE)[0])
+            qt_gradient = QLinearGradient(*deg_to_coordinates(_deg, width))
+        qt_gradient = QLinearGradient(0, 0, width if width is not None else 100, 0)
+
+    parts = re.findall(r"[rgb|rgba]\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\) (\d+)%", css_gradient, re.IGNORECASE)
+    for index, (*colors, step) in enumerate(parts[::-1] if reverse else parts):
+        if reverse:
+            step = parts[-index][-1]
+
+        color = QColor(*map(int, colors[:-1] if len(colors) > 3 else colors))
+        qt_gradient.setColorAt(float(step) / 100, color)
+    return qt_gradient
+
+
+def parse_css_radial_gradient():
+    ...
+
+def parse_css_conic_gradient():
+    ...

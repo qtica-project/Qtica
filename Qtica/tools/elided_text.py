@@ -15,8 +15,8 @@ class ElidedText(AbstractDec):
     def __init__(self, 
                  *,
                  child: QWidget,
-                 width: int = None,
                  elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight,
+                 width: int = None,
                  **kwargs) -> QWidget:
 
         if not hasattr(child, "setText"):
@@ -50,4 +50,5 @@ class ElidedText(AbstractDec):
     def elided(text: str,
                width: int,
                elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight) -> str:
+
         return QFontMetrics(text).elidedText(text, elide_mode, width)

@@ -292,3 +292,212 @@
 - `enums.animation`
 - `enums.clipboard`
 - `enums.smooth_scroll`
+
+
+## 0.3.2 ()
+
+### Added
+
+- `widgets.dialogs.MaskDialog` close button title bar.
+- `widgets.SpinBox`
+- `widgets.DoubleSpinBox`
+- `services.parse_css_linear_gradient`
+- `utils.maths.deg_to_coordinates`
+- `core.AbstractBase` handle add Methods in **kwargs
+
+- #### `tools`
+  - ActionGroup
+  - Clipboard
+  - DoubleValidator
+  - Drag
+  - GuiApplication
+  - InputDevice
+  - InputMethod
+  - IntValidator
+  - OffscreenSurface
+  - OpenGLContext
+  - OpenGLContextGroup
+  - PaintDeviceWindow
+  - PdfWriter
+  - PointingDevice
+  - PyTextObject
+  - RasterWindow
+  - RegularExpressionValidator
+  - Screen
+  - SessionManager
+  - Shortcut
+  - StandardItemModel
+  - StyleHints
+  - SyntaxHighlighter
+  - TextBlockGroup
+  - TextDocument
+  - TextFrame
+  - TextList
+  - TextObject
+  - TextTable
+  - UndoGroup
+  - UndoStack
+  - Validator
+  - Window
+  - BackingStore
+  - Bitmap
+  - ColorSpace
+  - ConicalGradient
+  - Cursor
+  - DesktopServices
+  - Font
+  - GlyphRun
+  - Gradient
+  - Image
+  - ImageIOHandler
+  - ImageReader
+  - ImageWriter
+  - LinearGradient
+  - PageLayout
+  - PagedPaintDevice
+  - PaintEngine
+  - Painter
+  - PainterPathStroker
+  - Palette
+  - Pen
+  - Picture
+  - Pixmap
+  - Quaternion
+  - RadialGradient
+  - Rgba64
+  - RhiBuffer
+  - RhiColorAttachment
+  - RhiCommandBuffer
+  - RhiComputePipeline
+  - RhiDepthStencilClearValue
+  - RhiGraphicsPipeline
+  - RhiReadbackDescription
+  - RhiRenderBuffer
+  - RhiRenderTarget
+  - RhiSampler
+  - RhiScissor
+  - RhiShaderResourceBindings
+  - RhiShaderStage
+  - RhiSwapChain
+  - RhiSwapChainRenderTarget
+  - RhiTexture
+  - RhiTextureCopyDescription
+  - RhiTextureRenderTarget
+  - RhiTextureRenderTargetDescription
+  - RhiTextureSubresourceUploadDescription
+  - RhiTextureUploadDescription
+  - RhiTextureUploadEntry
+  - RhiVertexInputAttribute
+  - RhiVertexInputBinding
+  - RhiVertexInputLayout
+  - RhiViewport
+  - Shader
+  - ShaderCode
+  - ShaderKey
+  - ShaderVersion
+  - StandardItem
+  - StaticText
+  - SurfaceFormat
+  - TextBlock
+  - TextBlockFormat
+  - TextCharFormat
+  - TextCursor
+  - TextDocumentWriter
+  - TextFormat
+  - TextFrameFormat
+  - TextImageFormat
+  - TextInlineObject
+  - TextLayout
+  - TextLine
+  - TextListFormat
+  - TextOption
+  - TextTableCell
+  - TextTableCellFormat
+  - TextTableFormat
+  - UndoCommand
+  - Vector2D
+  - Vector3D
+  - Vector4D
+
+- #### `widgets`
+  - AbstractButton
+  - AbstractItemView
+  - AbstractScrollArea
+  - AbstractSlider
+  - AbstractSpinBox
+  - CalendarWidget
+  - CheckBox
+  - ColorDialog
+  - ColumnView
+  - ComboBox
+  - CommandLinkButton
+  - DateEdit
+  - DateTimeEdit
+  - Dial
+  - Dialog
+  - DialogButtonBox
+  - DockWidget
+  - DoubleSpinBox
+  - ErrorMessage
+  - FileDialog
+  - FocusFrame
+  - FontComboBox
+  - FontDialog
+  - GraphicsProxyWidget
+  - GraphicsView
+  - GraphicsWidget
+  - GroupBox
+  - HeaderView
+  - InputDialog
+  - KeySequenceEdit
+  - LCDNumber
+  - ListView
+  - ListWidget
+  - MdiArea
+  - MdiSubWindow
+  - MenuBar
+  - MessageBox
+  - PlainTextEdit
+  - ProgressBar
+  - ProgressDialog
+  - RadioButton
+  - RubberBand
+  - ScrollBar
+  - Slider
+  - SpinBox
+  - SplashScreen
+  - Splitter
+  - SplitterHandle
+  - StatusBar
+  - TabBar
+  - TabWidget
+  - TableView
+  - TableWidget
+  - TextBrowser
+  - TextEdit
+  - TimeEdit
+  - ToolBar
+  - ToolBox
+  - TreeView
+  - TreeWidget
+  - UndoView
+  - Wizard
+  - WizardPage
+
+### Updated
+
+- `widgets.dialogs.TeachingTipDialog` improved
+- `core.AbstractDialog` improved
+- `tools.Settings` improved system detecting
+- `tools.CopyProgress` improved
+- `core.AbstractBase` improved
+
+### Changed
+
+- `tools.Alignment` has been moved to `utils.Alignment`
+- `tools.Modifiers` has been moved to `utils.Modifiers`
+- `core.AbstractWidget` 'long_press' signal has been renamed to long_pressed
+
+### Fixed
+
+- `tools.Settings` _set_default_path, when system equal to windows.

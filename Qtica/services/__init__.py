@@ -11,5 +11,6 @@ from ._methods import (
     mixLight,
     mixDark,
     randomColor,
-    colorToHex
+    colorToHex,
+    parse_css_linear_gradient
 )

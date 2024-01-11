@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 # from enum import Enum, auto
-from PySide6.QtGui import QBrush, QColor, QPaintEvent, QPainter, QPen
+from PySide6.QtGui import QBrush, QPaintEvent, QPainter, QPen
 from PySide6.QtCore import QPointF, QRectF, QSize, Qt
 from PySide6.QtWidgets import QWidget
 from ..core import AbstractPainter
@@ -57,8 +57,6 @@ class StatusEdgePaint(AbstractPainter):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.setPen(self._pen)
         painter.setBrush(self._brush)
-
-        # print(painter.brush().color().name())
 
         if self._corner == Qt.Corner.BottomRightCorner:
             point = QPointF((self._parent.width() - self._width) - self._padding,

@@ -1,7 +1,7 @@
 from typing import Union
-from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QPainter
-from PySide6.QtWidgets import QApplication, QGridLayout, QLayout, QWidget
+from PySide6.QtCore import Qt, QEvent
+from PySide6.QtWidgets import QGridLayout, QLayout, QWidget
 from .tails import TeachingTipManager, _TailPos, _TailDirection
 from ....core import AbstractDialog
 
@@ -44,17 +44,13 @@ class TeachingTipDialog(AbstractDialog):
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground)
         self.setWindowFlags(
-            Qt.WindowType.Tool 
+            Qt.WindowType.Tool
             | Qt.WindowType.FramelessWindowHint)
 
         if self.target is not None:
             self.target.resizeEvent = lambda e: self.update_pos()
             self.target.moveEvent = lambda e: self.update_pos()
             self.target.window().moveEvent = lambda e: self.update_pos()
-        elif self.parent().window():
-            self.parent().window().installEventFilter(self)
-        else:
-            QApplication.instance().installEventFilter(self)
 
     def tooltip_pos(self):
         return self.manager.position(self)
@@ -69,10 +65,8 @@ class TeachingTipDialog(AbstractDialog):
         self.move(self.manager.position(self))
 
     def showEvent(self, e):
-        if self.isHidden() or not self.isActiveWindow():
-            self.update_pos()
-            super().showEvent(e)
-            self.activateWindow()
+        self.update_pos()
+        super().showEvent(e)
 
     def eventFilter(self, obj, e: QEvent):
         if self.parent() and obj is self.parent().window():

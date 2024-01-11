@@ -6,11 +6,15 @@ from ..core import QObjectDec
 import os
 
 
-
 class UiLoader(QObjectDec, QUiLoader):
-    def __init__(self, 
-                 ui: Union[str, bytes, os.PathLike, QIODevice],
-                 **kwargs) -> QWidget:
+    '''
+    UiLoader(
+        ui="/path/to/file.ui",
+        ...
+    ) # -> QWidget
+    '''
+
+    def __init__(self, ui: Union[str, bytes, os.PathLike, QIODevice], **kwargs) -> QWidget:
         QUiLoader.__init__(self)
         super().__init__(**kwargs)
 

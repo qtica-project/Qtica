@@ -9,17 +9,15 @@ from ._base import AbstractBase
 
 
 class AbstractWidget(AbstractBase):
-    long_press: Signal = Signal()
+    long_pressed: Signal = Signal()
 
     def __init__(self,
                  *,
-                 qss: Union[str, dict, QStyleSheet] = None,
-                 attrs: Union[list[Qt.WidgetAttribute], 
-                              dict[Qt.WidgetAttribute, bool]] = None,
-                 flags: Union[list[Qt.WindowType], 
-                              dict[Qt.WindowType, bool]] = None,
-                 effect: QGraphicsEffect = None,
                  long_press_delay: int = 1000,
+                 effect: QGraphicsEffect = None,
+                 qss: Union[str, dict, QStyleSheet] = None,
+                 attrs: Union[list[Qt.WidgetAttribute], dict[Qt.WidgetAttribute, bool]] = None,
+                 flags: Union[list[Qt.WindowType], dict[Qt.WindowType, bool]] = None,
                  **kwargs):
 
         self.__long_press_delay: int = long_press_delay
@@ -77,7 +75,7 @@ class AbstractWidget(AbstractBase):
 
     def __long_press_timeout(self):
         self.__long_press_timer.stop()
-        self.long_press.emit()
+        self.long_pressed.emit()
 
     def mousePressEvent(self, event):
         self.__long_press_timer.start(self.__long_press_delay)

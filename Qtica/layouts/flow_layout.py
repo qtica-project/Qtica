@@ -13,7 +13,7 @@ from PySide6.QtCore import (
 
 from typing import Union
 from ..core import AbstractQObject
-from ..tools.alignment import Alignment
+from ..utils.alignment import Alignment
 
 
 class _FlowLayout(QLayout):
@@ -216,23 +216,25 @@ class FlowLayout(AbstractQObject, _FlowLayout):
         self._set_animation(duration, 
                             easing_curve)
 
-        if children is not None:
-            for child in children:
-                if isinstance(child, Alignment):
-                    _widget = child.child
-                    if isinstance(child.child, QWidget):
-                        _func = self.addWidget
-                    elif isinstance(child.child, QLayoutItem):
-                        _func = self.addItem
+        if not children:
+            return
 
-                    _func(_widget)
-                    self.setAlignment(_widget, child.alignment)
+        for child in children:
+            if isinstance(child, Alignment):
+                _widget = child.child
+                if isinstance(child.child, QWidget):
+                    _func = self.addWidget
+                elif isinstance(child.child, QLayoutItem):
+                    _func = self.addItem
 
-                elif isinstance(child, QLayoutItem):
-                    self.addItem(child)
+                _func(_widget)
+                self.setAlignment(_widget, child.alignment)
 
-                elif isinstance(child, QWidget):
-                    self.addWidget(child)
+            elif isinstance(child, QLayoutItem):
+                self.addItem(child)
+
+            elif isinstance(child, QWidget):
+                self.addWidget(child)
 
     def _set_animation(self, 
                        duration, 

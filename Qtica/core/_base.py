@@ -27,6 +27,9 @@ class AbstractBase:
         self._set_methods(methods)
         self._set_property_from_kwargs(**kwargs)
 
+    def setEventStackEnable(self, state: bool):
+        self._enable_event_stack = state
+
     def _getattr(self, name: str, default: object = None) -> object:
         return getattr(self, name, default)
 
@@ -87,9 +90,10 @@ class AbstractBase:
             uid: str, 
             qtype: Union[WidgetTypeVar, QObject] = Widgets.any) -> QObject:
 
-        return self.findChild(self._get_wtype(qtype), 
-                              uid.strip(), 
-                              Qt.FindChildOption.FindChildrenRecursively)
+        return self.findChild(
+            self._get_wtype(qtype), 
+            uid.strip(), 
+            Qt.FindChildOption.FindChildrenRecursively)
 
     def _set_property_from_kwargs(self, **kwargs):
         for name, value in kwargs.items():
@@ -106,36 +110,54 @@ class AbstractBase:
 
                 # handle parent parametar
                 elif name == "parent":
-                    if isinstance(value, str):
-                        for parent in QApplication.topLevelWidgets():
-                            if parent.objectName().strip() == value.strip():
-                                self.setParent(parent)
-
-                            elif (widget := parent.findChild(QObject, 
-                                                             value.strip(), 
-                                                             Qt.FindChildOption.FindChildrenRecursively)) is not None:
-                                self.setParent(widget)
-
-                    elif callable(value):
-                        self.setParent(value())
-
-                    else:
-                        self.setParent(value)
+                    self._handle_parent_kwarg(name, value)
 
                 # handle properties
                 elif self.property(name) is not None:
                     self.setProperty(name, value)
 
-                # handle set callables methods
-                elif name.lower().startswith("set"):
-                    if (func := self._getattr(name)) is not None and callable(func):
-                        if isinstance(value, Args):
-                            func(*value.args(), **value.kwargs())
-                        else:
-                            func(value)
+                # handle set callable methods
+                elif name.startswith("set"):
+                    self._handle_set_methods(name, value)
 
-    def setEventStackEnable(self, state: bool):
-        self._enable_event_stack = state
+                # handle add callable methods
+                elif name.startswith("add"):
+                    self._handle_add_methods(name, value)
+
+    def _handle_parent_kwarg(self, name: str, value: Any) -> None:
+        if isinstance(value, str):
+            for parent in QApplication.topLevelWidgets():
+                if parent.objectName().strip() == value.strip():
+                    self.setParent(parent)
+
+                elif (widget := parent.findChild(QObject, 
+                                                    value.strip(), 
+                                                    Qt.FindChildOption.FindChildrenRecursively)) is not None:
+                    self.setParent(widget)
+        elif callable(value):
+            self.setParent(value())
+        else:
+            self.setParent(value)
+
+    def _handle_set_methods(self, name: str, value: Any) -> None:
+        if (func := self._getattr(name)) is not None and callable(func):
+            if isinstance(value, Args):
+                func(*value.args(), **value.kwargs())
+            else:
+                func(value)
+
+    def _handle_add_methods(self, name: str, value: Any) -> None:
+        if (func := self._getattr(name)) is not None and callable(func):
+            if isinstance(value, (tuple, list, set)):
+                for v in value:
+                    if isinstance(v, Args):
+                        func(*v.args(), **v.kwargs())
+                    else:
+                        func(value)
+            elif isinstance(value, Args):
+                func(*value.args(), **value.kwargs())
+            else:
+                func(value)
 
     def __setattr__(self, __name: str, __value: Any) -> None:
         if hasattr(self, "_enable_event_stack") and self._enable_event_stack:

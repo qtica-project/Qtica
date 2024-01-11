@@ -199,13 +199,15 @@ class BorderLayout(AbstractQObject, _BorderLayout):
         _BorderLayout.__init__(self)
         super().__init__(**kwargs)
 
-        if children is not None:
-            for child in children:
-                if isinstance(child, BorderLayoutWrapper):
-                    self.add_item_wrapper(child)
+        if not children:
+            return
 
-                elif isinstance(child, QLayoutItem):
-                    self.addItem(child)
+        for child in children:
+            if isinstance(child, BorderLayoutWrapper):
+                self.add_item_wrapper(child)
 
-                elif isinstance(child, QWidget):
-                    self.addWidget(child)
+            elif isinstance(child, QLayoutItem):
+                self.addItem(child)
+
+            elif isinstance(child, QWidget):
+                self.addWidget(child)

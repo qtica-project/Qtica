@@ -2,7 +2,7 @@
 from enum import Enum
 from typing import Union
 from PySide6.QtWidgets import QFrame, QWidget, QLayout, QLayoutItem, QStackedLayout
-from ..tools.alignment import Alignment
+from ..utils.alignment import Alignment
 from ..utils.routes import Routes
 from ..core import AbstractWidget
 

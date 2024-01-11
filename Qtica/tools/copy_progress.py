@@ -18,12 +18,9 @@ class CopyProgress(AbstractDec):
                  overwrite: bool = False,
                  **kwargs) -> QWidget:
 
-        for method in (
-            "maximum",
-            "setValue"
-        ):
-            if not hasattr(child, method):
-                raise ValueError("invalid progress bar widget!")
+        for method in ["maximum", "setValue"]:
+            assert hasattr(child, method), \
+                ValueError(f"invalid progress bar widget!, child should be have '{method}' method.")
 
         self.child = child
         self.copy_thread = CopyThread(self.child, 

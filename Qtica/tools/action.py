@@ -1,18 +1,12 @@
 #!/usr/bin/python3
 
 from typing import Union, Callable
-from PySide6.QtGui import QAction, QIcon, QPixmap
 from PySide6.QtWidgets import QLineEdit
+from PySide6.QtGui import QAction, QIcon, QPixmap
 from ..core import AbstractQObject, QObjectDec
 
 
-class Action(AbstractQObject, QAction):
-    def __init__(self, **kwargs):
-        QAction.__init__(self)
-        super().__init__(**kwargs)
-
-
-class LinePasswordAction(QObjectDec, Action):
+class LinePasswordAction(QObjectDec, QAction):
     def __init__(self,
                  child: QLineEdit,
                  show_icon: Union[QIcon, QPixmap] = None,

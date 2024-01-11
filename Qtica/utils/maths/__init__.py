@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import math
+
 from .geometry import circumcircle, minimum_bounding_circle, Vector
 from .vector import Vector, Vector2D
 
@@ -65,3 +67,22 @@ def format_bytes_to_human(size: int, precision: int = 2) -> str:
         if size < 1024.0:
             return fmt % (size, unit)
         size /= 1024.0
+
+
+def deg_to_coordinates(degrees: int, width: int) -> tuple[int, int, int, int]:
+    # Convert degrees to radians
+    radians = math.radians(degrees)
+
+    # Calculate x and y components based on angle
+    x_component = math.cos(radians)
+    y_component = math.sin(radians)
+
+    # Calculate half-width components
+    half_width_x = (width / 2) * y_component
+    half_width_y = (width / 2) * x_component
+
+    # Define start and end points for a linear gradient
+    xStart, yStart = (0.5 - half_width_x, 0.5 + half_width_y)
+    xFinalStop, yFinalStop = (0.5 + half_width_x, 0.5 - half_width_y)
+
+    return xStart, yStart, xFinalStop, yFinalStop

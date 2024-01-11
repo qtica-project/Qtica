@@ -1,6 +1,6 @@
 from typing import Union
 from PySide6.QtWidgets import QStackedLayout, QWidget, QLayoutItem
-from ..tools.alignment import Alignment
+from ..utils.alignment import Alignment
 from ..core import AbstractQObject
 
 
