@@ -1,7 +1,7 @@
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QColor, QRgba64
-from typing import TypeAlias, Union, Any
 from enum import Enum
+from typing import TypeAlias, Union, Any
+from PySide6.QtGui import QColor, QRgba64
+from PySide6.QtCore import Qt
 
 
 class Colors(Enum):

@@ -13,4 +13,4 @@ from .elided_text import ElidedText
 from .size_policy import SizePolicy
 from .smooth_scroll import SmoothScroll
 from .copy_progress import CopyProgress
-from .action import Action, LinePasswordAction, MenuAction
+from .action import LinePasswordAction, MenuAction
