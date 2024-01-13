@@ -21,7 +21,6 @@ documentation = "https://qticaproject.gitbook.io/qtica"
 repository = "https://github.com/qtica-project/Qtica"
 packages = [{ include = "Qtica" }]
 classifiers = [
-    "License :: OSI Approved :: GPL-3.0 License",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
