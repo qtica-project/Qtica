@@ -12,7 +12,6 @@
   v0.3.2
 </h2>
 
-
 # Qtica
 
 Qtica is a Python library that offers a lightweight API built around native PySide6. It enables swift GUI prototyping utilizing contemporary declarative UI methods, all within Python.
@@ -27,7 +26,7 @@ Qtica is a Python library that offers a lightweight API built around native PySi
 
 ## Installation
 
-You can install Qtica via pip:
+You can install **Qtica** via pip:
 
 ```bash
 pip install qtica

@@ -119,13 +119,14 @@ def colorToHex(color: Union[tuple[int, int, int], QColor]) -> str:
     return '#' + ''.join('{0:02x}'.format(int(x)) for x in color)
 
 
-def parse_css_linear_gradient(css_gradient: str, 
-                       qt_gradient: QLinearGradient = None,
-                       *,
-                       width: int = None,
-                       apply_deg: bool = False,
-                       reverse: bool = False) -> QLinearGradient:
-    
+def parse_css_linear_gradient(
+        css_gradient: str, 
+        qt_gradient: QLinearGradient = None,
+        *,
+        width: int = None,
+        apply_deg: bool = False,
+        reverse: bool = False) -> QLinearGradient:
+
     if not qt_gradient:
         if width is not None and apply_deg:
             _deg = int(re.findall(r"(\d+)deg", css_gradient, re.IGNORECASE)[0])
@@ -139,6 +140,7 @@ def parse_css_linear_gradient(css_gradient: str,
 
         color = QColor(*map(int, colors[:-1] if len(colors) > 3 else colors))
         qt_gradient.setColorAt(float(step) / 100, color)
+
     return qt_gradient
 
 
