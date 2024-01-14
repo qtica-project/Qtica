@@ -43,5 +43,5 @@ class PushButton(_Button, QPushButton):
 
 class ToolButton(_Button, QToolButton):
     def __init__(self, **kwargs):
-        QPushButton.__init__(self)
+        QToolButton.__init__(self)
         super().__init__(**kwargs)

@@ -533,3 +533,15 @@
 ### Fixed
 
 - `tools.Settings` **_set_default_path**, when system equal to windows.
+
+
+## 0.3.3
+
+### Added
+
+- `widgets.window.BaseWindow`
+
+### Fixed
+
+- `widgets.ToolButton` requires a 'PySide6.QtWidgets.QPushButton' object but received a 'ToolButton'
+- `widgets.FramelessWindow` '__init__' method of object's base class (FramelessWindow) not called.
