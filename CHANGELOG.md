@@ -535,7 +535,7 @@
 - `tools.Settings` **_set_default_path**, when system equal to windows.
 
 
-## 0.3.3
+## 0.3.3 (2024-01-14)
 
 ### Added
 

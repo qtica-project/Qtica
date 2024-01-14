@@ -9,7 +9,7 @@
 </p>
 
 <h2 align="center">
-  v0.3.2
+  v0.3.3
 </h2>
 
 # Qtica
@@ -62,10 +62,10 @@ class Window(BehaviorDec):
             uid="window",
             windowTitle="Welcome Qtica!",
             methods = [
-              ("resize", QSize(400, 200))
+                ("resize", QSize(400, 200))
             ],
             events = [
-              ("mousePress", lambda _: self.update_background())
+                ("mousePress", lambda _: self.update_background())
             ],
             home=Label(
                 uid="label",

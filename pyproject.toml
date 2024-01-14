@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Qtica"
-version = "0.3.2"
+version = "0.3.3"
 description = "Qtica is a Python library that offers a lightweight API built around native PySide6. It enables swift GUI prototyping utilizing contemporary declarative UI methods, all within Python."
 authors = ["Osama Mohammed Al-zabidi <qticaproject@gmail.com>"]
 license = "GPL-3.0"
