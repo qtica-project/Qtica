@@ -9,13 +9,14 @@
 </p>
 
 <h2 align="center">
-  v0.3.3
+  v0.3.4
 </h2>
 
 # Qtica
 
 Qtica is a Python library that offers a lightweight API built around native PySide6. It enables swift GUI prototyping utilizing contemporary declarative UI methods, all within Python.
 
+Qtica is currently in active development and not yet ready for stable release.
 
 ## Features
 
