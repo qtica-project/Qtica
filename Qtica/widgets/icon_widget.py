@@ -69,3 +69,7 @@ class IconWidget(AbstractWidget, QWidget):
                                self._icon.pixmap(self.rect().size(), 
                                                  self._mode, 
                                                  self._state))
+    
+    def setIcon(self, icon) -> None:
+        self._icon = Icon(icon)
+        self.update()

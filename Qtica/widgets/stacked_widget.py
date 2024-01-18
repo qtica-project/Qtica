@@ -1,6 +1,6 @@
 from typing import Union
 from PySide6.QtWidgets import QStackedWidget, QWidget
-from ..utils.routes import Routes
+from ..core.routes import Routes
 from ..core import AbstractWidget
 
 

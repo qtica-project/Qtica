@@ -1,11 +1,11 @@
 # coding:utf-8
 from copy import deepcopy
 from typing import Callable, Union
-from ._classes import Func
+from ._base import Func
 
 
-def exceptionHandler(method: Union[Callable, Func], *default):
-    """ method for exception handling
+def TryExc(func: Union[Callable, Func], *default):
+    """ func for exception handling
 
     Parameters
     ----------
@@ -14,13 +14,13 @@ def exceptionHandler(method: Union[Callable, Func], *default):
     
     Example
     -------
-    exceptionHandler(lambda: method(*args, **kwargs), *default)
+    TryExc(lambda: func(*args, **kwargs), *default)
     """
 
     try:
-        if isinstance(method, Func):
-            return method[0](*method[1], **method[2])
-        return method()
+        if isinstance(func, Func):
+            return func.func()(*func.args(), **func.kwargs())
+        return func()
     except BaseException:
         value = deepcopy(default)
         if len(value) == 0:
@@ -28,4 +28,3 @@ def exceptionHandler(method: Union[Callable, Func], *default):
         elif len(value) == 1:
             return value[0]
         return value
-

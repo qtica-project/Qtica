@@ -9,7 +9,7 @@
 </p>
 
 <h2 align="center">
-  v0.3.4
+  v0.4.0
 </h2>
 
 # Qtica

@@ -2,8 +2,7 @@
 
 from typing import Any, Sequence, Union
 from ._declarative import AbstractDec
-from ..utils._classes import Func
-from ._base import AbstractBase
+from ._base import AbstractBase, Func
 
 
 class AbstractTool:

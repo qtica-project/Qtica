@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-from PySide6.QtCore import QFile
-from typing import Mapping, Union
-from string import Template
-import json
 import os
+import json
+from string import Template
+from typing import Mapping, Union
+from PySide6.QtCore import QFile
 
 
 class _QssTemplate(Template):

@@ -1,6 +1,6 @@
 # coding: utf-8
 from enum import EnumMeta
-from typing import Any, Callable, Union
+from typing import Any, Callable
 
 
 class staticproperty(property):
@@ -88,31 +88,3 @@ class CheckNone:
     def __init__(self, method: Callable, value: Any) -> Any:
         if callable(method) and value is not None:
             return method(value)
-
-
-class Func:
-    def __init__(self, func, *args, **kwargs):
-        self._func = func
-        self._args = args
-        self._kwargs = kwargs
-
-    def func(self) -> Union[Callable, str]:
-        return self._func
-
-    def args(self) -> tuple[Any]:
-        return self._args
-
-    def kwargs(self) -> dict[str, Any]:
-        return self._kwargs
-
-
-class Args:
-    def __init__(self, *args, **kwargs):
-        self._args = args
-        self._kwargs = kwargs
-
-    def args(self) -> tuple[Any]:
-        return self._args
-
-    def kwargs(self) -> dict[str, Any]:
-        return self._kwargs

@@ -304,7 +304,6 @@
 - `services.parse_css_linear_gradient`
 - `utils.maths.deg_to_coordinates`
 - `core.AbstractBase` handle add Methods in **kwargs
-
 - #### `tools.qtgui`
   - ActionGroup
   - Clipboard
@@ -532,7 +531,7 @@
 
 ### Fixed
 
-- `tools.Settings` **_set_default_path**, when system equal to windows.
+- `tools.Settings` **_set_default_path**, when system equal to windows
 
 
 ## 0.3.3 (2024-01-14)
@@ -545,3 +544,23 @@
 
 - `widgets.ToolButton` requires a 'PySide6.QtWidgets.QPushButton' object but received a 'ToolButton'
 - `widgets.FramelessWindow` '__init__' method of object's base class (FramelessWindow) not called.
+
+
+## 0.4.0 ()
+
+### Added
+
+- `widgets.icon_widget` setIcon method.
+- `core.MArgs`
+
+### Fixed
+
+- `core.AbstractBase` repeating call of [add]Method when inserting to it Iterable value.
+
+### Changed
+
+- `utils.Args` has been moved to `core.Args`
+- `utils.Func` has been moved to `core.Func`
+- `utils.QStyleSheet` has been moved to `core.QStyleSheet`
+- `utils.Routes` has been moved to `core.Routes`
+- `utils.exceptionHandler` has been renamed and moved to `core.TryExc`

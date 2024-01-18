@@ -3,7 +3,7 @@
 from typing import Union
 from PySide6.QtWidgets import QGraphicsEffect
 from PySide6.QtCore import QTimer, Qt, Signal
-from ..utils.qstyle_sheet import QStyleSheet
+from .qstyle_sheet import QStyleSheet
 from ._declarative import AbstractDec
 from ._base import AbstractBase
 
