@@ -12,7 +12,6 @@ class AbstractWidget(AbstractBase):
     long_pressed: Signal = Signal()
 
     def __init__(self,
-                 *,
                  long_press_delay: int = 1000,
                  effect: QGraphicsEffect = None,
                  qss: Union[str, dict, QStyleSheet] = None,
