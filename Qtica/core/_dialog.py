@@ -8,7 +8,6 @@ from ._widget import AbstractWidget
 
 class AbstractDialog(AbstractWidget, QDialog):
     def __init__(self,
-                 *,
                  timeout: float = None,
                  auto_close: bool = False,
                  **kwargs):
