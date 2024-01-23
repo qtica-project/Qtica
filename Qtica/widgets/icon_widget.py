@@ -62,14 +62,14 @@ class IconWidget(AbstractWidget, QWidget):
                                | QPainter.RenderHint.TextAntialiasing)
 
         if isinstance(self.icon, QMovie):
-            painter.drawPixmap(self.rect(), 
+            painter.drawPixmap(self.rect(),
                                self.icon.currentPixmap())
         else:
-            painter.drawPixmap(self.rect(), 
-                               self._icon.pixmap(self.rect().size(), 
-                                                 self._mode, 
+            painter.drawPixmap(self.rect(),
+                               self._icon.pixmap(self.rect().size(),
+                                                 self._mode,
                                                  self._state))
-    
+
     def setIcon(self, icon) -> None:
         self._icon = Icon(icon)
         self.update()
