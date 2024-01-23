@@ -99,10 +99,7 @@ class AbstractBase:
 
             self.__setattr__(_ename, slot)
 
-    def _set_signals(self, 
-                     signals: SignalTypeVar, 
-                     disconnect: bool = False):
-
+    def _set_signals(self, signals: SignalTypeVar, disconnect: bool = False):
         if not signals:
             return
 
