@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QPushButton, QToolButton
 from PySide6.QtCore import Signal
 from ..core import AbstractWidget
 
+
 class _Button(AbstractWidget):
     long_press = Signal()
     long_repeat = Signal()

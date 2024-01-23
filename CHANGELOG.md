@@ -552,6 +552,43 @@
 
 - `widgets.icon_widget` setIcon method.
 - `core.MArgs`
+- `widgets.GroupBox` child keyword argument
+- #### `tools.qtcore.tools`
+  - QBitArray
+  - QByteArray
+  - QByteArrayMatcher
+  - QCollator
+  - QDataStream
+  - QDate
+  - QDateTime
+  - QDeadlineTimer
+  - QDir
+  - QEasingCurve
+  - QFileInfo
+  - QFutureInterfaceBase
+  - QJsonDocument
+  - QLine
+  - QLineF
+  - QLocale
+  - QLockFile
+  - QLoggingCategory
+  - QMargins
+  - QMarginsF
+  - QNativeIpcKey
+  - QPoint
+  - QPointF
+  - QRect
+  - QRectF
+  - QRegularExpression
+  - QSize
+  - QSizeF
+  - QSystemSemaphore
+  - QTextStream
+  - QTime
+  - QUrl
+  - QUrlQuery
+  - QXmlStreamReader
+  - QXmlStreamWriter
 
 ### Fixed
 
@@ -561,6 +598,6 @@
 
 - `utils.Args` has been moved to `core.Args`
 - `utils.Func` has been moved to `core.Func`
-- `utils.QStyleSheet` has been moved to `core.QStyleSheet`
 - `utils.Routes` has been moved to `core.Routes`
+- `utils.QStyleSheet` has been moved to `core.QStyleSheet`
 - `utils.exceptionHandler` has been renamed and moved to `core.TryExc`

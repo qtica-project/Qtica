@@ -160,12 +160,6 @@ class GraphicsWidget(AbstractWidget, QtWidgets.QGraphicsWidget):
         super().__init__(**kwargs)
 
 
-class GroupBox(AbstractWidget, QtWidgets.QGroupBox):
-    def __init__(self, **kwargs):
-        QtWidgets.QGroupBox.__init__(self)
-        super().__init__(**kwargs)
-
-
 class HeaderView(AbstractWidget, QtWidgets.QHeaderView):
     def __init__(self, **kwargs):
         QtWidgets.QHeaderView.__init__(self)
