@@ -91,8 +91,9 @@ class AbstractBase:
         for event, slot in events:
             if isinstance(event, Events):
                 _ename = camelcase(event.name) + "Event"
+            else:
+                _ename = event.strip()
 
-            _ename = event.strip()
             _ecomp = _ename + "Event"
             if hasattr(self, _ecomp):
                 _ename = _ecomp
@@ -104,11 +105,12 @@ class AbstractBase:
             return
 
         for signal, slot in signals:
-            sname = (camelcase(signal.name) 
-                     if isinstance(signal, Signals)
-                     else signal.strip())
+            if isinstance(signal, Signals):
+                _sname = camelcase(signal.name)
+            else:
+                _sname = signal.strip()
 
-            if (attr := self._getattr(sname)) is not None:
+            if (attr := self._getattr(_sname)) is not None:
                 if disconnect:
                     attr.disconnect(slot)
                 else:
