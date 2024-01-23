@@ -601,3 +601,20 @@
 - `utils.Routes` has been moved to `core.Routes`
 - `utils.QStyleSheet` has been moved to `core.QStyleSheet`
 - `utils.exceptionHandler` has been renamed and moved to `core.TryExc`
+
+
+## 0.4.1 ()
+
+### Updated
+
+- `core.AbstractBase._set_events`
+
+### Changed
+
+- ### remove force keyword argument
+  - `core.AbstractBase`
+  - `core.AbstractTool`
+  - `core.AbstractDialog`
+  - `core.AbstractWidget`
+
+- `enums.events` remove **event** suffix
