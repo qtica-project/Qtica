@@ -546,7 +546,7 @@
 - `widgets.FramelessWindow` '__init__' method of object's base class (FramelessWindow) not called.
 
 
-## 0.4.0 ()
+## 0.4.0 (2024-01-23)
 
 ### Added
 
