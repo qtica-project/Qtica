@@ -117,14 +117,9 @@ class AbstractBase:
                     attr.connect(slot)
 
     def _get_wtype(self, qtype: Union[WidgetTypeVar, QObject] = Widgets.any):
-        return (qtype.value
-                if isinstance(qtype, Widgets)
-                else qtype)
+        return qtype.value if isinstance(qtype, Widgets) else qtype
 
-    def fetch(self, 
-            uid: str, 
-            qtype: Union[WidgetTypeVar, QObject] = Widgets.any) -> QObject:
-
+    def fetch(self, uid: str, qtype: Union[WidgetTypeVar, QObject] = Widgets.any) -> QObject:
         return self.findChild(
             self._get_wtype(qtype), 
             uid.strip(), 
