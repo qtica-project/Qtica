@@ -89,15 +89,16 @@ class AbstractBase:
             return
 
         for event, slot in events:
-            ename = (camelcase(event.name)
-                     if isinstance(event, Events)
-                     else event.strip())
+            if isinstance(event, Events):
+                _ename = camelcase(event.name) + "Event"
+            else:
+                _ename = event.strip()
 
-            _comp = ename + "Event"
-            if hasattr(self, _comp):
-                ename = _comp
+            _ecomp = _ename + "Event"
+            if hasattr(self, _ecomp):
+                _ename = _ecomp
 
-            self.__setattr__(ename, slot)
+            self.__setattr__(_ename, slot)
 
     def _set_signals(self, 
                      signals: SignalTypeVar, 
