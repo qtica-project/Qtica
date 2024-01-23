@@ -10,11 +10,7 @@ class AbstractTool:
     AbstractTool means that the object doesn't contain base methods
     like setObjectName, setProperty ...etc
     '''
-    def __init__(self, 
-                 *,
-                 methods: Sequence[Union[tuple[str, Any], Func]] = None,
-                 **kwargs):
-
+    def __init__(self, methods: Sequence[Union[tuple[str, Any], Func]] = None, **kwargs):
         self._set_methods(methods)
         self._set_property_from_kwargs(**kwargs)
 
