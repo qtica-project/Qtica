@@ -91,9 +91,8 @@ class AbstractBase:
         for event, slot in events:
             if isinstance(event, Events):
                 _ename = camelcase(event.name) + "Event"
-            else:
-                _ename = event.strip()
 
+            _ename = event.strip()
             _ecomp = _ename + "Event"
             if hasattr(self, _ecomp):
                 _ename = _ecomp
