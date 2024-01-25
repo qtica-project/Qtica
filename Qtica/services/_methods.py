@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 
 import re
-from random import random
 from typing import Union
+from random import random
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QWidget
-from PySide6.QtGui import QColor, QGuiApplication, QLinearGradient, QPixmap, QScreen
+from PySide6.QtGui import QColor, QGuiApplication, QLinearGradient, QPixmap, QScreen, QFontMetrics
 from ..utils.maths import deg_to_coordinates
 from ..core import AbstractDialog
 
@@ -149,3 +149,6 @@ def parse_css_radial_gradient():
 
 def parse_css_conic_gradient():
     ...
+
+def eliding_text(text: str, width: int, elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight) -> str:
+    return QFontMetrics().elidedText(text, elide_mode, width)
