@@ -15,8 +15,8 @@ class ElidedText(AbstractDec):
     def __init__(self, 
                  *,
                  child: QWidget,
-                 elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight,
                  width: int = None,
+                 elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight,
                  **kwargs) -> QWidget:
 
         if not hasattr(child, "setText"):
@@ -37,8 +37,11 @@ class ElidedText(AbstractDec):
         child.blockSignals(False)
 
     def _get_parent_width(self, child: QWidget) -> int:
-        parent = child.topLevelWidget()
-        if parent is None:
+        parent = child.parent()
+        if not parent and not isinstance(parent, QWidget):
+            parent = child.topLevelWidget()
+
+        if not parent:
             parent = child.parentWidget()
 
         if parent is not None:
