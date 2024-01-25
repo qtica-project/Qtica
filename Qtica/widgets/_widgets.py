@@ -4,36 +4,6 @@ from PySide6 import QtWidgets
 from ..core import AbstractWidget
 
 
-class AbstractButton(AbstractWidget, QtWidgets.QAbstractButton):
-    def __init__(self, **kwargs):
-        QtWidgets.QAbstractButton.__init__(self)
-        super().__init__(**kwargs)
-
-
-class AbstractItemView(AbstractWidget, QtWidgets.QAbstractItemView):
-    def __init__(self, **kwargs):
-        QtWidgets.QAbstractItemView.__init__(self)
-        super().__init__(**kwargs)
-
-
-class AbstractScrollArea(AbstractWidget, QtWidgets.QAbstractScrollArea):
-    def __init__(self, **kwargs):
-        QtWidgets.QAbstractScrollArea.__init__(self)
-        super().__init__(**kwargs)
-
-
-class AbstractSlider(AbstractWidget, QtWidgets.QAbstractSlider):
-    def __init__(self, **kwargs):
-        QtWidgets.QAbstractSlider.__init__(self)
-        super().__init__(**kwargs)
-
-
-class AbstractSpinBox(AbstractWidget, QtWidgets.QAbstractSpinBox):
-    def __init__(self, **kwargs):
-        QtWidgets.QAbstractSpinBox.__init__(self)
-        super().__init__(**kwargs)
-
-
 class CalendarWidget(AbstractWidget, QtWidgets.QCalendarWidget):
     def __init__(self, **kwargs):
         QtWidgets.QCalendarWidget.__init__(self)
