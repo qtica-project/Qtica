@@ -51,7 +51,7 @@ class AbstractBase:
                  uid: str = None,
                  signals: SignalTypeVar = None,
                  events: EventTypeVar = None,
-                 methods: Sequence[Union[tuple[str, Any], Func]] = None,
+                 methods: Sequence[Union[tuple[str, Union[Any, Args]], Func]] = None,
                  enable_event_stack: bool = True,
                  **kwargs):
 
@@ -82,7 +82,11 @@ class AbstractBase:
                 if (func := getattr(self, method.func())) is not None and callable(func):
                     func(*method.args(), **method.kwargs())
             elif (func := getattr(self, method[0])) is not None and callable(func):
-                func(method[1])
+                arg = method[1]
+                if isinstance(arg, Args):
+                    func(*arg.args(), **arg.kwargs())
+                else:
+                    func(arg)
 
     def _set_events(self, events: EventTypeVar):
         if not events:
