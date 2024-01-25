@@ -12,5 +12,6 @@ from ._methods import (
     mixDark,
     randomColor,
     colorToHex,
-    parse_css_linear_gradient
+    parse_css_linear_gradient,
+    eliding_text
 )
