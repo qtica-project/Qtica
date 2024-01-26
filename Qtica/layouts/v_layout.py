@@ -24,18 +24,20 @@ class VLayout(AbstractQObject, QVBoxLayout):
             if isinstance(child, Alignment):
                 _widget = child.child
 
-                if isinstance(child.child, QWidget):
+                if isinstance(_widget, QWidget):
                     _func = self.addWidget
-                elif isinstance(child.child, QLayoutItem):
+                elif isinstance(_widget, QLayoutItem):
                     _func = self.addItem
 
                 _func(_widget)
                 self.setAlignment(_widget, child.alignment)
 
             elif isinstance(child, VLayoutWrapper):
-                if isinstance(child.child, QWidget):
+                _widget = child.child
+
+                if isinstance(_widget, QWidget):
                     _func = self.addWidget
-                elif isinstance(child.child, QLayout):
+                elif isinstance(_widget, QLayout):
                     _func = self.addLayout
 
                 _func(*child._yield_attr())
