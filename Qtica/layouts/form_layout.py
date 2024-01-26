@@ -23,9 +23,9 @@ class FormLayout(AbstractQObject, QFormLayout):
             if isinstance(child, Alignment):
                 _widget = child.child
 
-                if isinstance(child.child, QWidget):
+                if isinstance(_widget, QWidget):
                     _func = self.addWidget
-                elif isinstance(child.child, QLayoutItem):
+                elif isinstance(_widget, QLayoutItem):
                     _func = self.addItem
 
                 _func(_widget)
