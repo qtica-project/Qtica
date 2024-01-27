@@ -2,7 +2,7 @@
 
 import os
 import sys
-
+import signal
 from typing import Callable, NoReturn, Optional, Sequence, Union
 from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
 from PySide6.QtWidgets import QApplication, QStyleFactory, QWidget
@@ -49,7 +49,9 @@ class Application(AbstractQObject, QApplication):
         elif event == Qt.ApplicationState.ApplicationSuspended:
             self.on_suspend.emit()
 
-    def run(self) -> NoReturn:
+    def run(self, signal: bool = False) -> NoReturn:
+        if signal:
+            signal.signal(signal.SIGINT, signal.SIG_DFL)
         return sys.exit(self.exec())
 
     def style_list(self) -> list[str]:
