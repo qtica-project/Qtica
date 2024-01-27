@@ -1,11 +1,5 @@
 # Changelog
 
-## Unreleased - (Soon!)
-
-### Added
-
-- parent_child_widgets.py example
-
 ## 0.1.1 - (2023-11-05)
 
 ### Added
@@ -602,19 +596,38 @@
 - `utils.QStyleSheet` has been moved to `core.QStyleSheet`
 - `utils.exceptionHandler` has been renamed and moved to `core.TryExc`
 
+## 0.4.1 (2024-01-28)
 
-## 0.4.1 ()
+### Added
+
+- `tools.SpacerItem`
+- `widgets.ElidingLabel`
+- `services.eliding_text`
 
 ### Updated
 
 - `core.AbstractBase._set_events`
+- `core.AbstractBase` methods argument can accept `core.Args`
 
 ### Changed
 
-- ### remove force keyword argument
+- #### remove force keyword argument
   - `core.AbstractBase`
   - `core.AbstractTool`
   - `core.AbstractDialog`
   - `core.AbstractWidget`
 
 - `enums.events` remove **event** suffix
+
+### Removed
+
+- `widgets.AbstractButton`
+- `widgets.AbstractItemView`
+- `widgets.AbstractScrollArea`
+- `widgets.AbstractSlider`
+- `widgets.AbstractSpinBox`
+- `tools.ElidedText`
+
+### Fixed
+
+- `widgets.StackedWidget` Qtica.core.routes.Routes() argument after ** must be a mapping, not dict_items.
