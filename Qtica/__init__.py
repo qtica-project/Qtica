@@ -1,6 +1,6 @@
 # Qtica
-__version__ = "0.4.1"
-__version_info__ = (0, 4, 1, "", "")
+__version__ = "0.4.2"
+__version_info__ = (0, 4, 2, "", "")
 
 # Python
 __minimum_python_version__ = (3, 10)
