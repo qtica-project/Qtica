@@ -3,7 +3,7 @@
 
 from typing import Union
 from PySide6.QtWidgets import QGraphicsOpacityEffect, QGridLayout, QHBoxLayout, QSpacerItem, QWidget
-from PySide6.QtCore import QEasingCurve, QEvent, QPropertyAnimation, QSize, Qt
+from PySide6.QtCore import QEasingCurve, QEvent, QPropertyAnimation, QSize, Qt, QTimer
 from PySide6.QtGui import QColor, QIcon, QResizeEvent, QShowEvent
 from darkdetect import isDark
 from ...core import AbstractDialog
@@ -19,15 +19,17 @@ class MaskDialog(AbstractDialog):
                  margin: Union[QSize, tuple, int] = 90,
                  enable_animation: bool = True,
                  hide_title_bar: bool = False,
+                 fixed_size: bool = False,
                  **kwargs):
         super().__init__(**kwargs)
 
         self._child = child
-        self._child.closeEvent = lambda e: self.close()
+        # self._child.closeEvent = lambda e: self.close()
 
         self._grid_layout = QGridLayout(self)
         self._enable_animation = enable_animation
         self._hide_title_bar = hide_title_bar
+        self._fixed_size = fixed_size
 
         self._margin = self._set_margin(margin)
 
@@ -60,7 +62,7 @@ class MaskDialog(AbstractDialog):
         self._mask.resize(self.size())
 
         if self._auto_close:
-            self._mask.mouseReleaseEvent = lambda e: self.close()
+            self._mask.mouseReleaseEvent = lambda e: self.close_dialog()
 
     def _set_margin(self, margin) -> QSize:
         if not isinstance(margin, QSize):
@@ -90,7 +92,8 @@ class MaskDialog(AbstractDialog):
 
     def _resize_child(self):
         w, h =  max(40, self._margin.width()), max(40, self._margin.height())
-        self._child.setFixedSize(self.width() - w, self.height() - h)
+        if not self._fixed_size:
+            self._child.setFixedSize(self.width() - w, self.height() - h)
 
     def resizeEvent(self, e):
         self._mask.resize(self.size())
@@ -104,23 +107,6 @@ class MaskDialog(AbstractDialog):
         return super().eventFilter(obj, e)
 
     def init_title_bar(self):
-        def animation_close():
-            def _finished():
-                opacityEffect.deleteLater()
-                self.setGraphicsEffect(None)
-                self.close()
-
-            opacityEffect = QGraphicsOpacityEffect(self)
-            self.setGraphicsEffect(opacityEffect)
-
-            opacityAni = QPropertyAnimation(opacityEffect, b'opacity', self)
-            opacityAni.setStartValue(1)
-            opacityAni.setEndValue(0)
-            opacityAni.setDuration(100)
-            opacityAni.setEasingCurve(QEasingCurve.Type.OutCubic)
-            opacityAni.finished.connect(_finished)
-            opacityAni.start()
-
         title_bar = QWidget(self)
         title_bar.setSizePolicy(
             SizePolicy(
@@ -132,7 +118,7 @@ class MaskDialog(AbstractDialog):
         close_icon = IconWidget(QIcon.fromTheme("window-close"))
         close_icon.setCursor(Qt.CursorShape.PointingHandCursor)
         close_icon.setFixedSize(22, 22)
-        close_icon.mousePressEvent = lambda e: animation_close() if self._enable_animation else self.close()
+        close_icon.mousePressEvent = lambda e: self.close_dialog()
 
         h_layout = QHBoxLayout(title_bar)
         h_layout.setContentsMargins(0, 0, 8, 0)
@@ -141,3 +127,6 @@ class MaskDialog(AbstractDialog):
 
         title_bar.setLayout(h_layout)
         self._grid_layout.addWidget(title_bar)
+    
+    def close_dialog(self) -> None:
+        return QTimer.singleShot(0, self.close)
