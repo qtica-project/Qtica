@@ -4,7 +4,7 @@ from PySide6.QtGui import QFont, QFontMetrics, QResizeEvent, QTextLayout
 from ..core import AbstractWidget
 
 
-class ElidingLabel(AbstractWidget, QLabel):
+class _ElidingLabel(QLabel):
     """A QLabel variant that will elide text (add '…') to fit width.
 
     ElidingLabel(text: str = "Hi")
@@ -17,11 +17,9 @@ class ElidingLabel(AbstractWidget, QLabel):
 
     textChanged = Signal(str)
 
-    def __init__(self, text: str = None, elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight, **kwargs) -> None:
+    def __init__(self, text: str = None, elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight) -> None:
         self._elide_mode = elide_mode
         QLabel.__init__(self)
-        super().__init__(**kwargs)
-
         self._silent_set_text(text if text else "")
 
     def _silent_set_text(self, text: str):
@@ -112,4 +110,13 @@ class ElidingLabel(AbstractWidget, QLabel):
         return "".join(text[:nlines] + [last_line])
 
     def _wrappedText(self) -> list[str]:
-        return ElidingLabel.wrapText(self._text, self.width(), self.font())
+        return _ElidingLabel.wrapText(self._text, self.width(), self.font())
+
+
+class ElidingLabel(AbstractWidget, _ElidingLabel):
+    def __init__(self, 
+                 text: str = None, 
+                 elide_mode: Qt.TextElideMode = Qt.TextElideMode.ElideRight, 
+                 **kwargs) -> None:
+        _ElidingLabel.__init__(self, text, elide_mode)
+        super().__init__(**kwargs)
