@@ -1,16 +1,26 @@
 #!/usr/bin/python3
 
-# from enum import Enum, auto
-from PySide6.QtGui import QBrush, QPaintEvent, QPainter, QPen
+from enum import Enum, auto
+from PySide6.QtGui import (
+    QBrush, 
+    QIcon, 
+    QImage, 
+    QPaintEvent, 
+    QPainter, 
+    QPen, 
+    QPicture, 
+    QPixmap
+)
 from PySide6.QtCore import QPointF, QRectF, QSize, Qt
 from PySide6.QtWidgets import QWidget
 from ..core import AbstractPainter
 
 
 class StatusEdgePaint(AbstractPainter):
-    # class Style(Enum):
-    #     ellipse = auto()
-    #     rectangle = auto()
+    class Style(Enum):
+        ellipse = auto()
+        rectangle = auto()
+        icon = auto()
 
     def __init__(self,
                  *,
@@ -20,13 +30,14 @@ class StatusEdgePaint(AbstractPainter):
                  brush: QBrush = None,
                  padding: float = 1.5,
                  width: int = 13,
-                #  style: Style = Style.ellipse,
+                 style: Style = Style.icon,
                  **kwargs) -> QWidget:
 
         self._width = width
         self._corner = corner
         self._padding = padding
-        # self._style = style
+        self._style = style
+        self._icon = kwargs.get("icon", None)
 
         self._brush = brush
         self._pen = pen
@@ -71,4 +82,20 @@ class StatusEdgePaint(AbstractPainter):
         elif self._corner == Qt.Corner.TopLeftCorner:
             point = QPointF(self._padding, self._padding)
 
-        painter.drawEllipse(QRectF(point, QSize(self._width, self._width)))
+        if self._style == StatusEdgePaint.Style.ellipse:
+            painter.drawEllipse(QRectF(point, QSize(self._width, self._width)))
+        elif self._style == StatusEdgePaint.Style.rectangle:
+            painter.drawRect(QRectF(point, QSize(self._width, self._width)))
+        elif self._style == StatusEdgePaint.Style.icon and self._icon is not None:
+            if isinstance(self._icon, QPicture):
+                return painter.drawPicture(point, self._icon)
+            elif isinstance(self._icon, QIcon):
+                return self._icon.paint(painter, 
+                                        QRectF(point, QSize(self._width, self._width)).toRect(), 
+                                        Qt.AlignmentFlag.AlignCenter)
+            elif isinstance(self._icon, QPixmap):
+                func = painter.drawPixmap
+            elif isinstance(self._icon, QImage):
+                func = painter.drawImage
+
+            func(QRectF(point, QSize(self._width, self._width)).toRect(), self._icon)
