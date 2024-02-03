@@ -11,7 +11,6 @@ from ..core import AbstractQObject
 class Movie(AbstractQObject, QMovie):
     class Loop(IntEnum):
         infinite: int = -1
-        # finite: int = ...
 
     def __init__(self,
                  filename: str = None,
