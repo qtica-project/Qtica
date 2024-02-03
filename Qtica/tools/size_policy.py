@@ -7,14 +7,12 @@ from ..core import AbstractTool
 
 class SizePolicy(AbstractTool, QSizePolicy):
     def __init__(self,
-                 *,
                  horizontal: QSizePolicy.Policy = None,
                  vertical: QSizePolicy.Policy = None,
-                 stretch: Union[tuple[int, int], int] = None,
                  control_type: QSizePolicy.ControlType = None,
+                 stretch: Union[tuple[int, int], int] = None,
                  **kwargs) -> QWidget:
         QSizePolicy.__init__(self)
-        super().__init__(**kwargs)
 
         if control_type is not None:
             self.setControlType(control_type)
@@ -29,3 +27,5 @@ class SizePolicy(AbstractTool, QSizePolicy):
             h, v = (stretch,) * 2 if isinstance(stretch, int) else stretch
             self.setHorizontalStretch(h)
             self.setVerticalStretch(v)
+
+        super().__init__(**kwargs)
