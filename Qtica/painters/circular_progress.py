@@ -101,6 +101,5 @@ class CircularProgressPaint(AbstractPainter):
         # Create ARC / Circular progress
         self._pen.setColor(color)
         paint.setPen(self._pen)
-        paint.drawArc(margin, margin, width,
-                      height, -90 * 16, -value * 16)
+        paint.drawArc(margin, margin, width, height, -90 * 16, -value * 16)
         paint.end()
