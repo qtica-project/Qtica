@@ -4,6 +4,18 @@ from PySide6 import QtWidgets
 from ..core import AbstractWidget
 
 
+class Widget(AbstractWidget, QtWidgets.QWidget):
+    def __init__(self, **kwargs):
+        QtWidgets.QWidget.__init__(self)
+        super().__init__(**kwargs)
+
+
+class Frame(AbstractWidget, QtWidgets.QFrame):
+    def __init__(self, **kwargs):
+        QtWidgets.QFrame.__init__(self)
+        super().__init__(**kwargs)
+
+
 class CalendarWidget(AbstractWidget, QtWidgets.QCalendarWidget):
     def __init__(self, **kwargs):
         QtWidgets.QCalendarWidget.__init__(self)
