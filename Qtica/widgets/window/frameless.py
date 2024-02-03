@@ -60,10 +60,10 @@ class FramelessWindow(AbstractWidget, BaseWindow):
             self._set_titlebar(self._title_bar)
 
             if home is not None:
+                _func = self._vlayout.addWidget
                 if isinstance(home, QLayout):
-                    self._vlayout.addLayout(home)
-                else:
-                    self._vlayout.addWidget(home)
+                    _func = self._vlayout.addLayout
+                _func(home)
 
             return super()._set_home(self._vlayout)
 
@@ -100,13 +100,13 @@ class FramelessWindow(AbstractWidget, BaseWindow):
 
     def _mouseMoveEvent(self, event: QMouseEvent) -> None:
         if self._is_pressed:
-            if not self._is_system_move:
-                delta = QPoint(event.globalPos() - self._old_pos)
-                self.move(self.x() + delta.x(),
-                        self.y() + delta.y())
-                self._old_pos = event.globalPos()
-            else:
+
+            if self._is_system_move:
                 return super().mouseMoveEvent(event)
+
+            delta = QPoint(event.globalPos() - self._old_pos)
+            self.move(self.x() + delta.x(), self.y() + delta.y())
+            self._old_pos = event.globalPos()
 
     def _mouseReleaseEvent(self, event: QMouseEvent) -> None:
         self._is_pressed = False
