@@ -20,8 +20,8 @@ class LinePasswordAction(QObjectDec, QAction):
         self._hide_icon = hide_icon
         self._position = position
 
-        self._child.textChanged.connect(lambda: self._update_password_mode())
         self.triggered.connect(lambda: self._toggle_password_echo_mode_icon())
+        self._child.textChanged.connect(lambda: self._update_password_mode())
         self._child.addAction(self, self._position)
 
         self._toggle_icon()
@@ -76,5 +76,5 @@ class MenuAction(AbstractQObject, QAction):
 
         if callback is not None:
             self.triggered.connect(callback)
-        
+
         super().__init__(**kwargs)
