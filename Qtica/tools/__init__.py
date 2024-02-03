@@ -12,5 +12,5 @@ from .system_tray import SystemTray
 from .size_policy import SizePolicy
 from .smooth_scroll import SmoothScroll
 from .copy_progress import CopyProgress
-from .action import LinePasswordAction, MenuAction
 from .spacer_item import SpacerItem
+from .action import LinePasswordAction, MenuAction
