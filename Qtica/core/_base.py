@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 from typing import Any, Callable, Sequence, Union
-from PySide6.QtWidgets import QApplication
 from PySide6.QtCore import Qt, QObject
+from PySide6.QtWidgets import QApplication
 from ..enums.events import Events, EventTypeVar
 from ..enums.widgets import Widgets, WidgetTypeVar
 from ..enums.signals import Signals, SignalTypeVar
@@ -43,7 +43,6 @@ class MArgs:
 
     def args(self) -> list[Union[Args, Any]]:
         return self._args
-
 
 
 class AbstractBase:
