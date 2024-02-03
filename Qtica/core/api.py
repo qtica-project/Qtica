@@ -2,10 +2,7 @@ from typing import Any, Union
 from PySide6.QtCore import Qt, QObject
 from PySide6.QtWidgets import QApplication, QWidget
 from ..enums.widgets import Widgets, WidgetTypeVar
-from ._declarative import (
-    AbstractDec,
-    TrackingDec
-)
+from ._declarative import AbstractDec, TrackingDec
 
 
 class Api:
