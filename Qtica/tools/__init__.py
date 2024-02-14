@@ -14,3 +14,4 @@ from .smooth_scroll import SmoothScroll
 from .copy_progress import CopyProgress
 from .spacer_item import SpacerItem
 from .action import LinePasswordAction, MenuAction
+from .media_player import MediaPlayer
