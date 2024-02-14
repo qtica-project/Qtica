@@ -11,7 +11,7 @@ from PySide6.QtCore import QSettings, QTimer
 
 class Settings(AbstractQObject, QSettings):
     '''
-    Init
+    Config Class
     ----
     class _Line(AbstractConfig):
         def name(self) - str:
@@ -29,6 +29,12 @@ class Settings(AbstractQObject, QSettings):
         def signal(self) -> Signal:
             return Api.fetch("user-line").textChanged
 
+        def default(self) -> Any:
+            ...
+
+        def type(self) -> object:
+            ...
+
     Usage
     -----
     Settings(
@@ -39,8 +45,8 @@ class Settings(AbstractQObject, QSettings):
 
     Output Result
     -------------
-        [User]\n
-        Name=
+    [User]\n
+    Name=
     '''
 
     class System(Enum):
@@ -53,21 +59,9 @@ class Settings(AbstractQObject, QSettings):
         posix = linux
         unknow = auto()
 
-    def __init__(self,
-                 format: QSettings.Format = None,
-                 scope: QSettings.Scope = None,
-                 path: str = None,
-                 configs: list[AbstractConfig] = None,
-                 **kwargs):
-        QSettings.__init__(self)
+    def __init__(self, *args, configs: list[AbstractConfig] = None, **kwargs):
+        QSettings.__init__(self, *args)
         super().__init__(**kwargs)
-
-        if scope is not None:
-            self.setPath(
-                format if format is not None else self._get_default_format(),
-                scope,
-                path if path is not None else self._get_default_path()
-            )
 
         if not self.allKeys():
             self._init_configs(configs)
@@ -129,8 +123,7 @@ class Settings(AbstractQObject, QSettings):
     def _init_configs(self, configs: list[AbstractConfig]) -> None:
         for config in configs:
             config.signal().connect(
-                lambda: QTimer.singleShot(0, 
-                                          lambda: self._update_config(config)))
+                lambda: QTimer.singleShot(0, lambda: self._update_config(config)))
 
     def _setup_configs(self, configs: list[AbstractConfig]) -> None:
         for config in configs:
@@ -141,8 +134,7 @@ class Settings(AbstractQObject, QSettings):
 
             QTimer.singleShot(0, lambda: config.set()(_value))
             config.signal().connect(
-                lambda: QTimer.singleShot(0, 
-                                          lambda: self._update_config(config)))
+                lambda: QTimer.singleShot(0, lambda: self._update_config(config)))
 
     def _update_config(self, config) -> None:
         self.setValue(config.name(), 
