@@ -631,3 +631,27 @@
 ### Fixed
 
 - `widgets.StackedWidget` Qtica.core.routes.Routes() argument after ** must be a mapping, not dict_items.
+
+## 0.4.2 (2024-02-14)
+
+### Fixed
+
+- `widgets.ElidingLabel` some issus.
+
+### Updated
+
+- `widgets.MaskDialog` improve resize method when change child setFixedSize values.
+- `tools.qtcore.tools` can now set `*args` to init method
+
+### Added
+
+- `widgets.MaskDialog` **fixed_size** argument
+- `painters.StatusEdgePaint` Styles(ellipse, rectangle, icon)
+- `widgets.FrameContainer`
+- `widgets.WidgetContainer`
+- `widgets.VideoWidget`
+- `tools.MediaPlayer`
+
+### Changed
+
+- `widgets.frame.py` renamed to `widgets.container.py`
