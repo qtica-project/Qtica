@@ -17,23 +17,17 @@ class Application(AbstractQObject, QApplication):
     on_suspend = Signal()
 
     def __init__(self,
-                 args: Sequence[str] = None,
-                 *,
+                 *args,
                  resources: list[Union[str, tuple[Optional[int], bytes, bytes, bytes]]] = None,
                  fonts: list[str] = None,
                  **kwargs):
-        QApplication.__init__(self, args or [])
+        QApplication.__init__(self, *args)
 
         if resources is not None:
             self._set_resources(resources)
 
         if fonts is not None:
             self._set_fonts(fonts)
-
-        ## it's default enabled by the developer
-        ## it's enable by default in qt6
-        # self.setAttribute(Qt.ApplicationAttribute.AA_UseHighDpiPixmaps)
-        # self.setAttribute(Qt.ApplicationAttribute.AA_EnableHighDpiScaling)
 
         super().__init__(**kwargs)
 
@@ -49,8 +43,8 @@ class Application(AbstractQObject, QApplication):
         elif event == Qt.ApplicationState.ApplicationSuspended:
             self.on_suspend.emit()
 
-    def run(self, signal: bool = False) -> NoReturn:
-        if signal:
+    def run(self, term_exit: bool = False) -> NoReturn:
+        if term_exit:
             signal.signal(signal.SIGINT, signal.SIG_DFL)
         return sys.exit(self.exec())
 
