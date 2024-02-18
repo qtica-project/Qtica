@@ -48,9 +48,9 @@ class MArgs:
 class AbstractBase:
     def __init__(self,
                  uid: str = None,
-                 signals: SignalTypeVar = None,
-                 events: EventTypeVar = None,
-                 methods: Sequence[Union[tuple[str, Union[Any, Args]], Func]] = None,
+                 signals: Union[SignalTypeVar, dict[Union[Signals, str], Callable[..., Any]]] = None,
+                 events: Union[EventTypeVar, dict[Union[Events, str], Callable[..., Any]]] = None,
+                 methods: Union[Sequence[Union[tuple[str, Union[Any, Args]], Func]], dict[str, Union[Any, Args]]] = None,
                  enable_event_stack: bool = True,
                  **kwargs):
 
@@ -76,22 +76,30 @@ class AbstractBase:
         if not methods:
             return
 
-        for method in methods:
-            if isinstance(method, Func):
-                if (func := getattr(self, method.func())) is not None and callable(func):
-                    func(*method.args(), **method.kwargs())
-            elif (func := getattr(self, method[0])) is not None and callable(func):
-                arg = method[1]
-                if isinstance(arg, Args):
-                    func(*arg.args(), **arg.kwargs())
-                else:
-                    func(arg)
+        if isinstance(methods, dict):
+            for name, value in methods.items():
+                if (func := getattr(self, name)) is not None and callable(func):
+                    if isinstance(value, Args):
+                        func(*value.args(), **value.kwargs())
+                    else:
+                        func(value)
+        else:
+            for method in methods:
+                if isinstance(method, Func):
+                    if (func := getattr(self, method.func())) is not None and callable(func):
+                        func(*method.args(), **method.kwargs())
+                elif (func := getattr(self, method[0])) is not None and callable(func):
+                    arg = method[1]
+                    if isinstance(arg, Args):
+                        func(*arg.args(), **arg.kwargs())
+                    else:
+                        func(arg)
 
-    def _set_events(self, events: EventTypeVar):
+    def _set_events(self, events):
         if not events:
             return
 
-        for event, slot in events:
+        for event, slot in (events.items() if isinstance(events, dict) else events):
             if isinstance(event, Events):
                 _ename = camelcase(event.name) + "Event"
             else:
@@ -103,11 +111,11 @@ class AbstractBase:
 
             self.__setattr__(_ename, slot)
 
-    def _set_signals(self, signals: SignalTypeVar, disconnect: bool = False):
+    def _set_signals(self, signals, disconnect: bool = False):
         if not signals:
             return
 
-        for signal, slot in signals:
+        for signal, slot in (signals.items() if isinstance(signals, dict) else signals):
             if isinstance(signal, Signals):
                 _sname = camelcase(signal.name)
             else:
@@ -164,8 +172,8 @@ class AbstractBase:
                     self.setParent(parent)
 
                 elif (widget := parent.findChild(QObject, 
-                                                    value.strip(), 
-                                                    Qt.FindChildOption.FindChildrenRecursively)) is not None:
+                                                 value.strip(), 
+                                                 Qt.FindChildOption.FindChildrenRecursively)) is not None:
                     self.setParent(widget)
 
         elif callable(value):
