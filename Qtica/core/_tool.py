@@ -2,7 +2,7 @@
 
 from typing import Any, Sequence, Union
 from ._declarative import AbstractDec
-from ._base import AbstractBase, Func
+from ._base import AbstractBase, Func, Args
 
 
 class AbstractTool:
@@ -10,7 +10,8 @@ class AbstractTool:
     AbstractTool means that the object doesn't contain base methods
     like setObjectName, setProperty ...etc
     '''
-    def __init__(self, methods: Sequence[Union[tuple[str, Any], Func]] = None, **kwargs):
+    def __init__(self, methods: Union[Sequence[Union[tuple[str, Union[Any, Args]], Func]], 
+                                      dict[str, Union[Any, Args]]] = None, **kwargs):
         self._set_methods(methods)
         self._set_property_from_kwargs(**kwargs)
 
