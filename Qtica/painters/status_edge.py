@@ -30,7 +30,7 @@ class StatusEdgePaint(AbstractPainter):
                  brush: QBrush = None,
                  padding: float = 1.5,
                  width: int = 13,
-                 style: Style = Style.icon,
+                 style: Style = Style.ellipse,
                  **kwargs) -> QWidget:
 
         self._width = width
