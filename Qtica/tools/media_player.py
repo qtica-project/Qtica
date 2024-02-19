@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from ..core import AbstractQObject
-from PySide6.QtMultimedia import QMediaPlayer, QVideoSink
+from PySide6.QtMultimedia import QMediaPlayer
 
 
 class MediaPlayer(AbstractQObject, QMediaPlayer):
