@@ -183,6 +183,13 @@ class ListWidget(AbstractWidget, QtWidgets.QListWidget):
         QtWidgets.QListWidget.__init__(self)
         super().__init__(**kwargs)
 
+    def addItemDelegate(self, delegate: QtWidgets.QAbstractItemDelegate) -> None:
+        self.setItemDelegate(delegate)
+
+    def addItemWidget(self, item: QtWidgets.QListWidgetItem, widget: QtWidgets.QWidget) -> None:
+        self.addItem(item)
+        self.setItemWidget(item, widget)
+
 
 class MdiArea(AbstractWidget, QtWidgets.QMdiArea):
     def __init__(self, **kwargs):
