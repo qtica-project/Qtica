@@ -661,7 +661,7 @@
 ### Added
 
 - `core.AbstractBase` signals,events,methods dict type support
-- `core.QStyleSheet` convert python values to Qss element
+- `core.QStyleSheet` converts Python values to Qss element
   - `BorderRadius`
   - `RadialGradient`
   - `LinearGradient`
@@ -671,4 +671,4 @@
 
 ### Fixed
 
-- `tools.qtcore.tools`, `tools.qtgui.tools` has not attribute, in aarch64 machines
+- `tools.qtcore.tools`, `tools.qtgui.tools` has no attribute, in aarch64 machines
