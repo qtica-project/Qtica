@@ -123,11 +123,11 @@ class MarginsF(AbstractTool, QtCore.QMarginsF):
         QtCore.QMarginsF.__init__(self, *args)
         super().__init__(**kwargs)
 
-
-class NativeIpcKey(AbstractTool, QtCore.QNativeIpcKey):
-    def __init__(self, *args, **kwargs):
-        QtCore.QNativeIpcKey.__init__(self, *args)
-        super().__init__(**kwargs)
+if QtCore.QSysInfo.buildCpuArchitecture() != "arm64":
+    class NativeIpcKey(AbstractTool, QtCore.QNativeIpcKey):
+        def __init__(self, *args, **kwargs):
+            QtCore.QNativeIpcKey.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
 class Point(AbstractTool, QtCore.QPoint):
