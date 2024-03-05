@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from PySide6 import QtGui
+from PySide6 import QtCore, QtGui
 from ...core import AbstractTool
 
 
@@ -165,185 +165,185 @@ class Rgba64(AbstractTool, QtGui.QRgba64):
         QtGui.QRgba64.__init__(self, *args)
         super().__init__(**kwargs)
 
-
-class RhiBuffer(AbstractTool, QtGui.QRhiBuffer):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiBuffer.__init__(self, *args)
-        super().__init__(**kwargs)
-
-
-class RhiColorAttachment(AbstractTool, QtGui.QRhiColorAttachment):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiColorAttachment.__init__(self, *args)
-        super().__init__(**kwargs)
+if QtCore.QSysInfo.buildCpuArchitecture() != "arm64":
+    class RhiBuffer(AbstractTool, QtGui.QRhiBuffer):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiBuffer.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiCommandBuffer(AbstractTool, QtGui.QRhiCommandBuffer):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiCommandBuffer.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiColorAttachment(AbstractTool, QtGui.QRhiColorAttachment):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiColorAttachment.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiComputePipeline(AbstractTool, QtGui.QRhiComputePipeline):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiComputePipeline.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiCommandBuffer(AbstractTool, QtGui.QRhiCommandBuffer):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiCommandBuffer.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiDepthStencilClearValue(AbstractTool, QtGui.QRhiDepthStencilClearValue):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiDepthStencilClearValue.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiComputePipeline(AbstractTool, QtGui.QRhiComputePipeline):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiComputePipeline.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiGraphicsPipeline(AbstractTool, QtGui.QRhiGraphicsPipeline):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiGraphicsPipeline.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiDepthStencilClearValue(AbstractTool, QtGui.QRhiDepthStencilClearValue):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiDepthStencilClearValue.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiReadbackDescription(AbstractTool, QtGui.QRhiReadbackDescription):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiReadbackDescription.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiGraphicsPipeline(AbstractTool, QtGui.QRhiGraphicsPipeline):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiGraphicsPipeline.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiRenderBuffer(AbstractTool, QtGui.QRhiRenderBuffer):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiRenderBuffer.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiReadbackDescription(AbstractTool, QtGui.QRhiReadbackDescription):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiReadbackDescription.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiRenderTarget(AbstractTool, QtGui.QRhiRenderTarget):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiRenderTarget.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiRenderBuffer(AbstractTool, QtGui.QRhiRenderBuffer):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiRenderBuffer.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiSampler(AbstractTool, QtGui.QRhiSampler):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiSampler.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiRenderTarget(AbstractTool, QtGui.QRhiRenderTarget):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiRenderTarget.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiScissor(AbstractTool, QtGui.QRhiScissor):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiScissor.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiSampler(AbstractTool, QtGui.QRhiSampler):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiSampler.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiShaderResourceBindings(AbstractTool, QtGui.QRhiShaderResourceBindings):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiShaderResourceBindings.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiScissor(AbstractTool, QtGui.QRhiScissor):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiScissor.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiShaderStage(AbstractTool, QtGui.QRhiShaderStage):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiShaderStage.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiShaderResourceBindings(AbstractTool, QtGui.QRhiShaderResourceBindings):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiShaderResourceBindings.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiSwapChain(AbstractTool, QtGui.QRhiSwapChain):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiSwapChain.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiShaderStage(AbstractTool, QtGui.QRhiShaderStage):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiShaderStage.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiSwapChainRenderTarget(AbstractTool, QtGui.QRhiSwapChainRenderTarget):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiSwapChainRenderTarget.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiSwapChain(AbstractTool, QtGui.QRhiSwapChain):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiSwapChain.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTexture(AbstractTool, QtGui.QRhiTexture):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTexture.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiSwapChainRenderTarget(AbstractTool, QtGui.QRhiSwapChainRenderTarget):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiSwapChainRenderTarget.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTextureCopyDescription(AbstractTool, QtGui.QRhiTextureCopyDescription):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTextureCopyDescription.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTexture(AbstractTool, QtGui.QRhiTexture):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTexture.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTextureRenderTarget(AbstractTool, QtGui.QRhiTextureRenderTarget):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTextureRenderTarget.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTextureCopyDescription(AbstractTool, QtGui.QRhiTextureCopyDescription):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTextureCopyDescription.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTextureRenderTargetDescription(AbstractTool, QtGui.QRhiTextureRenderTargetDescription):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTextureRenderTargetDescription.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTextureRenderTarget(AbstractTool, QtGui.QRhiTextureRenderTarget):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTextureRenderTarget.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTextureSubresourceUploadDescription(AbstractTool, QtGui.QRhiTextureSubresourceUploadDescription):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTextureSubresourceUploadDescription.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTextureRenderTargetDescription(AbstractTool, QtGui.QRhiTextureRenderTargetDescription):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTextureRenderTargetDescription.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTextureUploadDescription(AbstractTool, QtGui.QRhiTextureUploadDescription):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTextureUploadDescription.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTextureSubresourceUploadDescription(AbstractTool, QtGui.QRhiTextureSubresourceUploadDescription):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTextureSubresourceUploadDescription.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiTextureUploadEntry(AbstractTool, QtGui.QRhiTextureUploadEntry):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiTextureUploadEntry.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTextureUploadDescription(AbstractTool, QtGui.QRhiTextureUploadDescription):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTextureUploadDescription.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiVertexInputAttribute(AbstractTool, QtGui.QRhiVertexInputAttribute):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiVertexInputAttribute.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiTextureUploadEntry(AbstractTool, QtGui.QRhiTextureUploadEntry):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiTextureUploadEntry.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiVertexInputBinding(AbstractTool, QtGui.QRhiVertexInputBinding):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiVertexInputBinding.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiVertexInputAttribute(AbstractTool, QtGui.QRhiVertexInputAttribute):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiVertexInputAttribute.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiVertexInputLayout(AbstractTool, QtGui.QRhiVertexInputLayout):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiVertexInputLayout.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiVertexInputBinding(AbstractTool, QtGui.QRhiVertexInputBinding):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiVertexInputBinding.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class RhiViewport(AbstractTool, QtGui.QRhiViewport):
-    def __init__(self, *args, **kwargs):
-        QtGui.QRhiViewport.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiVertexInputLayout(AbstractTool, QtGui.QRhiVertexInputLayout):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiVertexInputLayout.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class Shader(AbstractTool, QtGui.QShader):
-    def __init__(self, *args, **kwargs):
-        QtGui.QShader.__init__(self, *args)
-        super().__init__(**kwargs)
+    class RhiViewport(AbstractTool, QtGui.QRhiViewport):
+        def __init__(self, *args, **kwargs):
+            QtGui.QRhiViewport.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class ShaderCode(AbstractTool, QtGui.QShaderCode):
-    def __init__(self, *args, **kwargs):
-        QtGui.QShaderCode.__init__(self, *args)
-        super().__init__(**kwargs)
+    class Shader(AbstractTool, QtGui.QShader):
+        def __init__(self, *args, **kwargs):
+            QtGui.QShader.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class ShaderKey(AbstractTool, QtGui.QShaderKey):
-    def __init__(self, *args, **kwargs):
-        QtGui.QShaderKey.__init__(self, *args)
-        super().__init__(**kwargs)
+    class ShaderCode(AbstractTool, QtGui.QShaderCode):
+        def __init__(self, *args, **kwargs):
+            QtGui.QShaderCode.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
-class ShaderVersion(AbstractTool, QtGui.QShaderVersion):
-    def __init__(self, *args, **kwargs):
-        QtGui.QShaderVersion.__init__(self, *args)
-        super().__init__(**kwargs)
+    class ShaderKey(AbstractTool, QtGui.QShaderKey):
+        def __init__(self, *args, **kwargs):
+            QtGui.QShaderKey.__init__(self, *args)
+            super().__init__(**kwargs)
+
+
+    class ShaderVersion(AbstractTool, QtGui.QShaderVersion):
+        def __init__(self, *args, **kwargs):
+            QtGui.QShaderVersion.__init__(self, *args)
+            super().__init__(**kwargs)
 
 
 class StandardItem(AbstractTool, QtGui.QStandardItem):
