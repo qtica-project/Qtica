@@ -196,7 +196,7 @@ class AbstractBase:
                     if isinstance(v, Args):
                         func(*v.args(), **v.kwargs())
                     else:
-                        func(value)
+                        func(v)
             elif isinstance(value, Args):
                 func(*value.args(), **value.kwargs())
             else:
