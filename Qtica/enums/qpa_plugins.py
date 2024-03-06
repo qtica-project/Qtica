@@ -17,3 +17,6 @@ class QPA_Platforms(Enum):
     windows: str = "windows"
     wayland: str = "wayland"
     xcb: str = "xcb"
+    vnc: str = "vnc" 
+    wayland_egl: str = "wayland-egl" 
+    vkkhrdisplay: str = "vkkhrdisplay"
