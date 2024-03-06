@@ -24,8 +24,8 @@ class FrameContainer(AbstractWidget, QFrame):
                 child.setProperty("parent", self)
                 self.setLayout(child)
 
-            if padding is not None:
-                self.setContentsMargins(*padding if isinstance(padding, (tuple, list)) else padding)
+        if padding is not None:
+            self.setContentsMargins(*padding if isinstance(padding, (tuple, list)) else padding)
 
 
 class WidgetContainer(AbstractWidget, QWidget):
@@ -42,4 +42,4 @@ class WidgetContainer(AbstractWidget, QWidget):
 
 
 class Container(FrameContainer):
-    ...
+    pass
