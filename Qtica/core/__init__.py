@@ -3,7 +3,7 @@
 from .api import Api
 from ._base import AbstractBase, Args, MArgs, Func
 from ._qobject import AbstractQObject, QObjectDec
-from ._widget import AbstractWidget, WidgetDec
+from ._widget import AbstractWidget, WidgetDec, PosEvents, PosEventsArg, PosEventsRange, PosEventsTypeVar
 from ._tool import AbstractTool, ToolDec
 from ._icons import AbstractIcons
 from ._painter import AbstractPainter
