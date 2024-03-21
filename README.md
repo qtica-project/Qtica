@@ -9,7 +9,7 @@
 </p>
 
 <h2 align="center">
-  v0.4.3
+  v0.4.4
 </h2>
 
 # Qtica
@@ -24,7 +24,6 @@ Qtica is currently in active development and not yet ready for stable release.
 - **Declarative UI Techniques:** Facilitates the use of modern UI techniques directly within Python.
 - **Swift Prototyping:** Enables rapid GUI prototyping for efficient development.
 
-
 ## Installation
 
 You can install **Qtica** via pip:
@@ -32,7 +31,6 @@ You can install **Qtica** via pip:
 ```bash
 pip install qtica
 ```
-
 
 ## Usage
 
@@ -84,16 +82,13 @@ window.show()
 sys.exit(app.exec())
 ```
 
-
 ## Documentation
 
 For more information and detailed usage examples, refer to the [documentation](https://omamkaz.gitbook.io/qtica/).
 
-
 ## License
 
 This project is licensed under the [GPL3 License](https://github.com/qtica-project/Qtica/blob/main/LICENSE).
-
 
 ## NOTE
 
