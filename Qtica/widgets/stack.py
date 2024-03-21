@@ -89,12 +89,9 @@ class Stack(AbstractWidget, QFrame):
                     _widget = QWidget(self)
                     _widget.setProperty("parent", _widget)
                     _widget.setLayout(_widget)
-                    self.routes.add(route, _widget)
-                    self.setAlignment(_widget, child.alignment)
 
-                elif isinstance(_widget, QWidget):
-                    self.routes.add(route, _widget)
-                    self.setAlignment(_widget, child.alignment)
+                self.routes.add(route, _widget)
+                self.setAlignment(_widget, child.alignment)
             else:
                 self.routes.add(route, child)
 
