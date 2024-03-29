@@ -5,7 +5,7 @@ from .qtgui import *
 from .icon import Icon
 from .movie import Movie
 from .color import Color
-from .qt_file_open import File
+from .qt_file_open import OpenFile, TempFile
 from .settings import Settings
 from .ui_loader import UiLoader
 from .system_tray import SystemTray
