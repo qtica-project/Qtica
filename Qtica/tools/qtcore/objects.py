@@ -34,6 +34,12 @@ class EventLoop(AbstractQObject, QtCore.QEventLoop):
         super().__init__(**kwargs)
 
 
+class File(AbstractQObject, QtCore.QFile):
+    def __init__(self, *args, **kwargs):
+        QtCore.QFile.__init__(self, *args)
+        super().__init__(**kwargs)
+
+
 class FileDevice(AbstractQObject, QtCore.QFileDevice):
     def __init__(self, *args, **kwargs):
         QtCore.QFileDevice.__init__(self, *args)
