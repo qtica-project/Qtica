@@ -1,18 +1,28 @@
 #!/usr/bin/python3
 
+import os
 from typing import Any, Union
-from PySide6.QtCore import QUrl, Qt
+from PySide6.QtCore import QUrl
 from PySide6.QtQuickWidgets import QQuickWidget
 from ..core import AbstractWidget
+from ..tools.qt_file_open import TempFile
 
 
 class QuickWidget(AbstractWidget, QQuickWidget):
     def __init__(self, 
                  qml: Union[QUrl, str],
                  *,
-                 context: list[tuple[str, Any]] = None,
+                 context: Union[list[tuple[str, Any]], dict[str, Any]] = None,
                  **kwargs):
-        QQuickWidget.__init__(self, qml)
+
+        if not os.path.exists(qml):
+            with TempFile(TempFile.OpenModeFlag.ReadWrite) as tf:
+                tf.write(bytes(qml, encoding="utf-8"))
+                tf.readAll()
+                QQuickWidget.__init__(self, tf.fileName())
+            del tf
+        else:
+            QQuickWidget.__init__(self, qml)
 
         self._context = context
 
@@ -21,7 +31,6 @@ class QuickWidget(AbstractWidget, QQuickWidget):
         self.setMouseTracking(True)
 
         self.setResizeMode(QQuickWidget.ResizeMode.SizeRootObjectToView)
-        self.setAttribute(Qt.WidgetAttribute.WA_X11NetWmWindowTypeDesktop, True)
 
         super().__init__(**kwargs)
 
@@ -37,5 +46,7 @@ class QuickWidget(AbstractWidget, QQuickWidget):
 
     def __on_statusChanged(self, status):
         if self._context is not None:
-            for name, value in self._context:
+            for name, value in (self._context.items() 
+                                if isinstance(self._context, dict) 
+                                else self._context):
                 self.rootContext().setContextProperty(name, value)
