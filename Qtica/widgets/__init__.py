@@ -18,3 +18,4 @@ from .size_grip import WindowSizeGrip
 from .group_box import GroupBox
 from .eliding_label import ElidingLabel
 from .video_widget import VideoWidget
+from .quick_widget import QuickWidget
