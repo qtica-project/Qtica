@@ -1,7 +1,6 @@
-from typing import Union
 from PySide6.QtGui import QPainter
 from PySide6.QtCore import Qt, QEvent
-from PySide6.QtWidgets import QGridLayout, QLayout, QWidget
+from PySide6.QtWidgets import QGridLayout, QWidget
 from .tails import TeachingTipManager, _TailPos, _TailDirection
 from ....core import AbstractDialog
 
@@ -11,7 +10,7 @@ class TeachingTipDialog(AbstractDialog):
     TailDirection = _TailDirection
 
     def __init__(self,
-                 child: Union[QWidget, QLayout],
+                 child: QWidget,
                  target: QWidget = None,
                  tail_pos: TailPos = TailPos.bottom,
                  tail_direction: TailDirection = TailDirection.center,
@@ -35,10 +34,7 @@ class TeachingTipDialog(AbstractDialog):
 
         self.manager.doLayout(self)
 
-        if isinstance(child, QLayout):
-            self._layout.addLayout(child, 0, 0, Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignHCenter)
-        else:
-            self._layout.addWidget(child)
+        self._layout.addWidget(child)
 
         # set style
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
