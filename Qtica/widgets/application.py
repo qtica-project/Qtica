@@ -3,7 +3,7 @@
 import os
 import sys
 import signal
-from typing import Callable, NoReturn, Optional, Sequence, Union
+from typing import Callable, NoReturn, Optional, Union
 from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
 from PySide6.QtWidgets import QApplication, QStyleFactory, QWidget
 from PySide6.QtGui import QFontDatabase
