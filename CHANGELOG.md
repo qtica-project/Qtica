@@ -673,7 +673,7 @@
 
 - `tools.qtcore.tools`, `tools.qtgui.tools` has no attribute, in aarch64 machines
 
-## 0.5.0 ()
+## 0.5.0 (2024-05-24)
 
 ### Added
 
