@@ -9,14 +9,15 @@ import os
 
 class EnvVar:
     '''
-    ### Set Key, and Value
-    - e.g, EnvVar.set(EnvVars.scale_factor, "0")
-    - e.g, EnvVar.set("QT_SCALE_FACTOR", "0")
+    Set Key, and Value
+    >>> EnvVar.set(EnvVars.scale_factor, "0")
+    >>> EnvVar.set("QT_SCALE_FACTOR", "0")
 
-    ### Get Value, from Key
-    - e.g, EnvVar.get(EnvVars.scale_factor, "0")
-    - e.g, EnvVar.get("QT_SCALE_FACTOR", "0")
-    - e.g, EnvVar("QT_SCALE_FACTOR", "0")
+    Get Value, from Key
+    >>> EnvVar.get(EnvVars.scale_factor, "0")
+    >>> EnvVar.get("QT_SCALE_FACTOR", "0")
+    >>> env = EnvVar()
+    >>> env("QT_SCALE_FACTOR", "0")
     '''
 
     def __call__(self, key: Union[EnvVars, str], default: Any = None) -> Any:
