@@ -2,7 +2,7 @@
 
 from PySide6.QtWidgets import QApplication, QDialog, QWidget
 from PySide6.QtCore import QEvent, QObject, QTimer
-from PySide6.QtGui import QShowEvent
+from PySide6.QtGui import QCloseEvent, QShowEvent
 from ._widget import AbstractWidget
 
 
@@ -13,9 +13,9 @@ class AbstractDialog(AbstractWidget, QDialog):
                  **kwargs):
 
         _parent = QApplication.activeWindow()
-        if not auto_close:
-            _parent.hideEvent = lambda _: self.hide()
-            _parent.showEvent = lambda _: self.show()
+        # if not auto_close:
+        #     _parent.hideEvent = lambda _: self.hide()
+        #     _parent.showEvent = lambda _: self.show()
 
         QDialog.__init__(self, _parent)
         super().__init__(**kwargs)
@@ -38,6 +38,10 @@ class AbstractDialog(AbstractWidget, QDialog):
 
             super().showEvent(e)
             self.activateWindow()
+
+    def closeEvent(self, arg__1: QCloseEvent) -> None:
+        self.deleteLater()
+        return super().closeEvent(arg__1)
 
     def eventFilter(self, arg__1: QObject, arg__2: QEvent) -> bool:
         if arg__1 is self.window():
