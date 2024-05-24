@@ -18,7 +18,7 @@ class ScrollArea(AbstractWidget, QScrollArea):
         self.setSizeAdjustPolicy(QScrollArea.SizeAdjustPolicy.AdjustToContents)
 
         self.setFrameShape(QFrame.Shape.NoFrame)
-        self.setFrameShadow(QFrame.Shadow.Plain)
+        self.setFrameShadow(QFrame.Shadow.Raised)
 
         super().__init__(**kwargs)
 
