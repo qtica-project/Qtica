@@ -1,6 +1,8 @@
 # coding: utf-8
 from enum import EnumMeta
-from typing import Any, Callable
+from os import path as _os_path
+from inspect import getfile as _ins_getfile
+
 
 
 class staticproperty(property):
@@ -40,8 +42,6 @@ class QueryDict(dict):
 
         # it's the same as
         d['toto'] = 1
-
-    .. versionadded:: 1.0.4
     '''
 
     def __getattr__(self, attr):
@@ -55,14 +55,16 @@ class QueryDict(dict):
 
 
 class EnumDirectValueMeta(EnumMeta):
-    '''
-    class EnumClass(Enum, metaclass=EnumDirectValueMeta):
-        red = 0
-        green = 1
-        blue = 2
+    '''EnumDirectValueMeta can return the value without call value attr!
+    
+    ::
 
-    >> EnumClass.red
-    0
+        class EnumClass(Enum, metaclass=EnumDirectValueMeta):
+            red = 0
+            green = 1
+            blue = 2
+
+        print(EnumClass.red) # 0
     '''
     def __getattribute__(cls, name):
         value = super().__getattribute__(name)
@@ -71,20 +73,50 @@ class EnumDirectValueMeta(EnumMeta):
         return value
 
 
-class CheckNone:
-    '''
-    ### e.g
-    NoneCheck(self.setIcon, icon)
+class BaseDir:
+    """return the root path of you file
+    Example
+    --------
+    >>> BaseDir(__file__).path("dir", "file")
+    "/path/to/script/dir/file"
 
-    ### same to:
-    if icon is not None:
-        self.setIcon()
-    '''
+    >>> class Test:
+            ...
+    >>> BaseDir(Test).path("dir", "file")
+    "/path/to/class/dir/file"
 
-    def __new__(cls, *args, **kwargs) -> Any:
-        instance = super().__new__(cls)
-        return instance.__init__(*args, **kwargs)
+    >>> def test():
+            ...
+    >>> BaseDir(test).path("dir", "file")
+    "/path/to/function/dir/file"
 
-    def __init__(self, method: Callable, value: Any) -> Any:
-        if callable(method) and value is not None:
-            return method(value)
+    >>> BaseDir.tree(__file__, "dir", "file")
+    >>> BaseDir.tree(Test, "dir", "file")
+    >>> BaseDir.tree(test, "dir", "file")
+    """
+
+    def __init__(self, file: str | object = None) -> None:
+        self._file = file
+
+    @classmethod
+    def _args_to_path(cls, root: str, *files: list[str]) -> str:
+        return _os_path.join(_os_path.dirname(root), *files)
+
+    @classmethod
+    def _obj_to_path(cls, root: object, *files: list[str]) -> str:
+        return _os_path.join(_os_path.dirname(_ins_getfile(root)), *files)
+
+    def path(self, *files: list[str]) -> str:
+        if isinstance(self._file, str):
+            return self._args_to_path(self._file, *files)
+        return self._obj_to_path(self._file, *files)
+
+    @classmethod
+    def tree(cls, root: str | object, *files: list[str]) -> str:
+        if isinstance(root, str):
+            return cls._args_to_path(root, *files)
+        return cls._obj_to_path(root, *files)
+
+    @classmethod
+    def fetch(cls, root: str | object, *files: list[str]) -> str:
+        return cls.tree(root, *files)
