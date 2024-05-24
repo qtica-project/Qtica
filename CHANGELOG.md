@@ -672,3 +672,40 @@
 ### Fixed
 
 - `tools.qtcore.tools`, `tools.qtgui.tools` has no attribute, in aarch64 machines
+
+## 0.5.0 ()
+
+### Added
+
+- `layout.stacked.StackedLayout` Routes, dict types support.
+- `enums.QPA_Platforms` vnc, wayland_egl, vkkhrdisplay
+- `core.AbstractWidget` **PosEventsRange**, **PosEventsArg**, **PosEvents** classes
+- `core.AbstractWidget` **at_pos** argument.
+- `widgets.QuickWidget`
+- `tools.qtcore.objects.File`
+- `tools.TempFile`
+- `utils.BaseDir`
+- `utils.Modifiers`, `utils.Keys`, `utils.KeySequence`
+- `tools.LayoutWrapper`
+
+### Fixed
+
+- `core.AbstractBase` value type error when insert MArgs class type to add[Methods]
+
+### Changed
+
+- `tools.File` has been renamed to `tools.OpenFile`
+- `utils.modifiers.py` has been renamed to `utils.key_events.py`
+
+### Updated
+
+- `widgets.QuickWidget` **qml** argument can accept QML code from string.
+
+### Removed
+
+- `utils.CheckNone`
+- `tools.`
+  - `HLayoutWrapper`
+  - `ColumnLayoutWrapper`
+  - `RowLayoutWrapper`
+  - `VLayoutWrapper`
