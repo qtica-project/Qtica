@@ -6,27 +6,15 @@ from PySide6.QtCore import Signal
 from PySide6.QtGui import QShowEvent, QCloseEvent
 from PySide6.QtWidgets import (
     QMainWindow,
-    QWidget, 
-    QToolBar,
-    QDockWidget,
+    QWidget,
     QLayout
-)
-from ...tools.wrappers import (
-    DockWidgetWrapper, 
-    ToolBarBreakWrapper, 
-    ToolBarWrapper
 )
 
 
 class BaseWindow(QMainWindow):
     startup_changed = Signal()
 
-    def __init__(self, 
-                 *,
-                 home: Union[QWidget, QLayout] = None,
-                 toolbars: list[ToolBarWrapper, ToolBarBreakWrapper, QToolBar, str] = None,
-                 dockwidgets: list[DockWidgetWrapper] = None,
-                 **kwargs):
+    def __init__(self, *, home: Union[QWidget, QLayout] = None, **kwargs):
         QMainWindow.__init__(self)
 
         self.setAnimated(True)
@@ -36,12 +24,6 @@ class BaseWindow(QMainWindow):
 
         if home is not None:
             self._set_home(home)
-        
-        if toolbars is not None:
-            self._set_toolbars(toolbars)
-
-        if dockwidgets is not None:
-            self._set_dockwidgets(dockwidgets)
 
     def closeEvent(self, event: QCloseEvent) -> None:
         super().closeEvent(event)
@@ -63,19 +45,3 @@ class BaseWindow(QMainWindow):
         elif isinstance(home, QWidget):
             home.setParent(self)
             self.setCentralWidget(home)
-
-    def _set_toolbars(self, toolbars) -> None:
-        for bar in toolbars:
-            if isinstance(bar, ToolBarWrapper):
-                self.addToolBar(*[bar.area, bar.toolbar])
-            elif isinstance(bar, ToolBarBreakWrapper):
-                if bar.area is not None:
-                    self.addToolBarBreak(bar.area)
-                else:
-                    self.addToolBarBreak()
-            else:
-                self.addToolBar(bar)
-
-    def _set_dockwidgets(self, dockwidgets: QDockWidget) -> None:
-        for dock in dockwidgets:
-            self.addDockWidget(*[arg for arg in dock._args() if arg is not None])
