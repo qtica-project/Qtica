@@ -12,14 +12,12 @@ class StackedWidget(AbstractWidget, QStackedWidget):
         QStackedWidget.__init__(self)
         super().__init__(**kwargs)
 
-        if not children:
-            return
-
-        if isinstance(children, (Routes, dict)):
-            self.routes = Routes("/", **children) if isinstance(children, dict) else children
-            self.routes._set_stacked(self)
-            for route, child in children.items():
-                self.routes.add(route, child)
-        else:
-            for child in children:
-                self.addWidget(child)
+        if children is not None:
+            if isinstance(children, (Routes, dict)):
+                self.routes = Routes("/", **children) if isinstance(children, dict) else children
+                self.routes._set_stacked(self)
+                for route, child in children.items():
+                    self.routes.add(route, child)
+            else:
+                for child in children:
+                    self.addWidget(child)
