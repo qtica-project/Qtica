@@ -13,7 +13,7 @@ from .line import Line, HLine, VLine
 from .buttons import PushButton, ToolButton
 from .application import Application, App
 from .stacked_widget import StackedWidget
-from .container import Container, FrameContainer, WidgetContainer
+from .container import Container, FrameContainer, WidgetContainer, AbstractContainer
 from .size_grip import WindowSizeGrip
 from .group_box import GroupBox
 from .eliding_label import ElidingLabel
