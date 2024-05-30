@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 
-from typing import Union
+from typing import Any, Union
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QKeyEvent, QKeySequence
+from string import digits
 
 
 class Modifiers:
@@ -48,6 +49,12 @@ class Modifiers:
     def is_win(cls, event: QKeyEvent) -> bool:
         return cls.is_meta(event)
 
+    def __getattribute__(self, name: str) -> Any:
+        mod = name.title() + "Modifier"
+        if hasattr(self.Modifier, mod):
+            return getattr(self.Modifier, mod)
+        return super().__getattribute__(name)
+
 
 class Keys:
     Key = Qt.Key
@@ -61,6 +68,12 @@ class Keys:
     @staticmethod
     def matches(event: QKeyEvent, key: Union[Qt.Key, int]) -> bool:
         return event.key() == key
+
+    def __getattribute__(self, name: str) -> Any:
+        key = "Key" + ('_' + name) if name[1] not in digits else name
+        if hasattr(self.Key, key):
+            return getattr(self.Key, key)
+        return super().__getattribute__(name)
 
 
 class KeySequence:
@@ -81,7 +94,6 @@ class KeySequence:
     def matches(event: QKeyEvent, 
                 key: Union[int, Qt.Key],
                 *modifier: list[Qt.KeyboardModifier]) -> bool:
-
         return Modifiers.matches(event, *modifier) and Keys.matches(event, key)
 
     @staticmethod
