@@ -33,8 +33,8 @@ class OpenFile(AbstractIODevice, QFile):
 
 class TempFile(AbstractIODevice, QTemporaryFile):
     def __init__(self, 
-                 mode: QTemporaryFile.OpenModeFlag = QTemporaryFile.OpenModeFlag.WriteOnly,
                  name: str = None,
+                 mode: QTemporaryFile.OpenModeFlag = QTemporaryFile.OpenModeFlag.WriteOnly,
                  **kwargs) -> None:
         QTemporaryFile.__init__(self, name)
         super().__init__(mode, **kwargs)
