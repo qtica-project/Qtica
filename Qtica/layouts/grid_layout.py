@@ -43,7 +43,7 @@ class GridLayout(AbstractQObject, QGridLayout):
 
                 _func(_widget, 
                       child.row, 
-                      child.col, 
+                      child.column, 
                       child.rspan, 
                       child.cspan, 
                       child.align)
