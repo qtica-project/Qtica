@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from typing import Union
-from PySide6.QtCore import QSize, Qt
+from PySide6.QtCore import QByteArray, QSize, Qt
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import (
     QColor, 
@@ -13,6 +13,8 @@ from PySide6.QtGui import (
     QPainter, 
     QPixmap
 )
+from PySide6.QtSvgWidgets import QSvgWidget
+from PySide6.QtSvg import QSvgRenderer
 from ..core import AbstractIcons, AbstractWidget
 from ..tools.icon import Icon
 
@@ -73,3 +75,17 @@ class IconWidget(AbstractWidget, QWidget):
     def setIcon(self, icon) -> None:
         self._icon = Icon(icon)
         self.update()
+
+
+class SvgWidget(AbstractWidget, QSvgWidget):
+    def __init__(self, icon: Union[QByteArray, bytes, str] = None, **kwargs):
+        QSvgWidget.__init__(self)
+
+        if icon is not None:
+            self.load(icon)
+
+        super().__init__(**kwargs)
+
+    @property
+    def _renderer(self) -> QSvgRenderer:
+        return self.renderer()
