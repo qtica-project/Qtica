@@ -9,7 +9,7 @@ class GridLayoutWrapper:
         *,
         child: Union[QWidget, QLayout, QLayoutItem],
         row: int,
-        col: int,
+        column: int,
         rspan: int = 1,
         cspan: int = 1,
         align: Qt.AlignmentFlag = Qt.AlignmentFlag.AlignCenter
@@ -17,7 +17,7 @@ class GridLayoutWrapper:
 
         self.child = child
         self.row = row
-        self.col = col
+        self.column = column
         self.rspan = rspan
         self.cspan = cspan
         self.align = align
