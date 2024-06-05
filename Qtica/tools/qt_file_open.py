@@ -25,16 +25,15 @@ class OpenFile(QFile):
 
 class TempFile(QTemporaryFile):
     def __init__(self, 
-                 mode: QTemporaryFile.OpenModeFlag = None,
+                 mode: QTemporaryFile.OpenModeFlag = QTemporaryFile.OpenModeFlag.WriteOnly,
                  name: str = None,
                  *args, 
                  **kwargs) -> None:
+        super().__init__(*args, **kwargs)
 
         self._mode = mode
         if name is not None:
             self.setFileName(name)
-
-        super().__init__(*args, **kwargs)
     
     def __enter__(self):
         self.open(self._mode)
