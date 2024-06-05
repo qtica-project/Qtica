@@ -202,7 +202,7 @@ class MdiSubWindow(AbstractWidget, QtWidgets.QMdiSubWindow):
 
 class MenuBar(AbstractWidget, QtWidgets.QMenuBar):
     def __init__(self, *args, **kwargs):
-        QtW idgets.QMenuBar.__init__(self, *args)
+        QtWidgets.QMenuBar.__init__(self, *args)
         super().__init__(**kwargs)
 
 
