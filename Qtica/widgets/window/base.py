@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (
 class BaseWindow(QMainWindow):
     startup_changed = Signal()
 
-    def __init__(self, *, home: Union[QWidget, QLayout] = None, **kwargs):
+    def __init__(self, *, child: Union[QWidget, QLayout] = None, **kwargs):
         QMainWindow.__init__(self)
 
         self.setAnimated(True)
@@ -22,7 +22,7 @@ class BaseWindow(QMainWindow):
 
         self.__is_startup = False
 
-        if home is not None:
+        if (home := kwargs.get("home", child)) is not None:
             self._set_home(home)
 
     def closeEvent(self, event: QCloseEvent) -> None:
