@@ -40,6 +40,7 @@ class IconWidget(AbstractWidget, QWidget):
 
         if isinstance(icon, QMovie):
             self._icon = icon
+            self._icon.setParent(self)
             icon.frameChanged.connect(self.update)
         else:
             self._icon = Icon(icon, color, size)

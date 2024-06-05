@@ -4,7 +4,6 @@ from typing import Union
 from enum import IntEnum
 from PySide6.QtGui import QMovie
 from PySide6.QtCore import QByteArray
-from PySide6.QtWidgets import QApplication
 from ..core import AbstractQObject
 
 
@@ -19,11 +18,7 @@ class Movie(AbstractQObject, QMovie):
                  running: bool = True,
                  loop: Union[Loop, int] = Loop.infinite,
                  **kwargs):
-        QMovie.__init__(self, QApplication.instance())
-        super().__init__(**kwargs)
-
-        # put QApplication.instance() as parent becouse it's global tool.
-        # self.setParent(QApplication.instance())
+        QMovie.__init__(self)
 
         self.set_loop_count(loop)
         self._current_loop_count = self._get_loop_count(loop)
@@ -38,6 +33,8 @@ class Movie(AbstractQObject, QMovie):
 
         if running:
             self.start()
+
+        super().__init__(**kwargs)
 
     @property
     def current_value(self) -> int:
