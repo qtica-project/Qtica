@@ -14,7 +14,7 @@ from .base import BaseWindow
 
 class FramelessWindow(AbstractWidget, BaseWindow):
     def __init__(self, *,
-                 home: Union[QWidget, QLayout] = None,
+                 child: Union[QWidget, QLayout] = None,
                  title_bar: QWidget = None,
                  size_grip: WindowSizeGrip = None,
                  **kwargs):
@@ -44,7 +44,8 @@ class FramelessWindow(AbstractWidget, BaseWindow):
         if size_grip is not None:
             self._size_grip.setParent(self)
 
-        self._set_home(home)
+        if (home := kwargs.get("home", child)) is not None:
+            self._set_home(home)
 
     def _set_home(self, home) -> None:
         if self._title_bar is not None:
