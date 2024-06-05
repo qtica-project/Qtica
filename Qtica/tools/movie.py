@@ -16,7 +16,7 @@ class Movie(AbstractQObject, QMovie):
                  filename: str = None,
                  *,
                  format: QByteArray | bytes = None,
-                 running: bool = False,
+                 running: bool = True,
                  loop: Union[Loop, int] = Loop.infinite,
                  **kwargs):
         QMovie.__init__(self, QApplication.instance())
