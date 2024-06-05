@@ -191,8 +191,8 @@ class AbstractBase:
 
     def _handle_add_methods(self, name: str, value: Any) -> None:
         if (func := self._getattr(name)) is not None and callable(func):
-            if isinstance(value, MArgs):
-                for v in value.args():
+            if isinstance(value, (MArgs, set, list, tuple)):
+                for v in (value.args() if isinstance(value, MArgs) else value):
                     if isinstance(v, Args):
                         func(*v.args(), **v.kwargs())
                     else:
