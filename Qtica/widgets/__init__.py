@@ -8,7 +8,7 @@ from .menu import Menu
 from .label import Label
 from .stack import Stack
 from .scroll_area import ScrollArea
-from .icon_widget import IconWidget
+from .icon_widget import IconWidget, SvgWidget
 from .line import Line, HLine, VLine
 from .buttons import PushButton, ToolButton
 from .application import Application, App
