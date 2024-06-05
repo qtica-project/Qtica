@@ -62,6 +62,7 @@ class LinePasswordAction(QObjectDec, QAction):
 
 class MenuAction(AbstractQObject, QAction):
     def __init__(self,
+                 *,
                  text: str = None,
                  icon: Union[QIcon, QPixmap] = None,
                  callback: Callable = None,
