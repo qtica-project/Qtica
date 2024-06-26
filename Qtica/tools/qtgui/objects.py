@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6 import QtGui
 from ...core import AbstractQObject
 

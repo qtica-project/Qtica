@@ -1,6 +1,5 @@
-#!/usr/bin/python3
+import os.path
 
-import os
 from PySide6.QtCore import QThread, Signal, QUrl
 from PySide6.QtWidgets import QProgressBar, QWidget
 from ..core import AbstractDec, AbstractQObject

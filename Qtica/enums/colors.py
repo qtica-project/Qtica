@@ -1,7 +1,5 @@
 from enum import Enum
-from typing import TypeAlias, Union, Any
-from PySide6.QtGui import QColor, QRgba64
-from PySide6.QtCore import Qt
+from PySide6.QtGui import QColor
 
 
 class Colors(Enum):
@@ -1525,7 +1523,3 @@ class Colors(Enum):
     zinc_yellow_ral: QColor = QColor(0xF2CB2E)
     zinnwaldite_brown: QColor = QColor(0x2C1608)
     zombie_gray: QColor = QColor(0x63645E)
-
-ColorTypeVar: TypeAlias = Union[QColor, QRgba64, Any, 
-                                Qt.GlobalColor, Colors, 
-                                str, int]

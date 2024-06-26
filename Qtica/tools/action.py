@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from typing import Union, Callable
 from PySide6.QtWidgets import QLineEdit
 from PySide6.QtGui import QAction, QIcon, QPixmap
@@ -8,21 +6,22 @@ from ..core import AbstractQObject, QObjectDec
 
 class LinePasswordAction(QObjectDec, QAction):
     def __init__(self,
+                 *,
                  child: QLineEdit,
                  show_icon: Union[QIcon, QPixmap] = None,
                  hide_icon: Union[QIcon, QPixmap] = None,
-                 position: QLineEdit.ActionPosition = QLineEdit.ActionPosition.TrailingPosition,
+                 pos: QLineEdit.ActionPosition = QLineEdit.ActionPosition.TrailingPosition,
                  **kwargs) -> QLineEdit:
         super().__init__(**kwargs)
 
         self._child = child
         self._show_icon = show_icon
         self._hide_icon = hide_icon
-        self._position = position
+        self._pos = pos
 
         self.triggered.connect(lambda: self._toggle_password_echo_mode_icon())
         self._child.textChanged.connect(lambda: self._update_password_mode())
-        self._child.addAction(self, self._position)
+        self._child.addAction(self, self._pos)
 
         self._toggle_icon()
         self._update_password_mode()
@@ -50,8 +49,8 @@ class LinePasswordAction(QObjectDec, QAction):
     def _update_password_mode(self):
         self.setVisible(bool(self._child.text()))
 
-    def set_position(self, position):
-        self._position = position
+    def set_pos(self, pos: QLineEdit.ActionPosition):
+        self._pos = pos
 
     def toggle_show_icon(self):
         self.setIcon(self._show_icon)

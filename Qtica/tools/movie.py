@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from typing import Union
 from enum import IntEnum
 from PySide6.QtGui import QMovie
@@ -12,11 +10,11 @@ class Movie(AbstractQObject, QMovie):
         infinite: int = -1
 
     def __init__(self,
-                 filename: str = None,
+                 file: str = None,
                  *,
                  format: QByteArray | bytes = None,
-                 running: bool = True,
                  loop: Union[Loop, int] = Loop.infinite,
+                 running: bool = True,
                  **kwargs):
         QMovie.__init__(self)
 
@@ -25,8 +23,8 @@ class Movie(AbstractQObject, QMovie):
 
         self.frameChanged.connect(self._check_loop_count)
 
-        if filename is not None:
-            self.setFileName(filename)
+        if file is not None:
+            self.setFileName(file)
 
         if format is not None:
             self.setFormat(format)

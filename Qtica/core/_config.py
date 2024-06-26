@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from abc import ABCMeta, abstractmethod
 from typing import Any, Callable
 from PySide6.QtCore import Signal

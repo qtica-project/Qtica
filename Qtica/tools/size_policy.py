@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from typing import Union
 from PySide6.QtWidgets import QSizePolicy, QWidget
 from ..core import AbstractTool
@@ -17,11 +15,11 @@ class SizePolicy(AbstractTool, QSizePolicy):
         if control_type is not None:
             self.setControlType(control_type)
 
-        if (horizontal := kwargs.get("horizontal", hsizetype)) is not None:
-            self.setHorizontalPolicy(horizontal)
+        if hsizetype is not None:
+            self.setHorizontalPolicy(hsizetype)
 
-        if (vertical := kwargs.get("vertical", vsizetype)) is not None:
-            self.setVerticalPolicy(vertical)
+        if vsizetype is not None:
+            self.setVerticalPolicy(vsizetype)
 
         if stretch is not None:
             h, v = (stretch,) * 2 if isinstance(stretch, int) else stretch

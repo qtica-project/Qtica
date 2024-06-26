@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6.QtGui import QPaintEvent
 from PySide6.QtWidgets import QWidget
 from ._declarative import AbstractDec

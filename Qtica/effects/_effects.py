@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from ..core import AbstractQObject
 from PySide6.QtWidgets import (
     QWidget,

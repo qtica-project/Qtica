@@ -1,4 +1,3 @@
-from typing import TypeAlias, Union
 from PySide6.QtCore import QObject
 from PySide6 import QtWidgets
 from enum import Enum
@@ -198,6 +197,3 @@ class Widgets(Enum):
     widget_item: QObject = QtWidgets.QWidgetItem
     wizard: QObject = QtWidgets.QWizard
     wizard_page: QObject = QtWidgets.QWizardPage
-
-
-WidgetTypeVar: TypeAlias = Union[QObject, Widgets]

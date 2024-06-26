@@ -1,8 +1,6 @@
-#!/usr/bin/python3
-
 from typing import Union
+from PySide6.QtWidgets import QFrame
 from PySide6.QtCore import QByteArray, QSize, Qt
-from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import (
     QColor, 
     QIcon, 
@@ -15,28 +13,35 @@ from PySide6.QtGui import (
 )
 from PySide6.QtSvgWidgets import QSvgWidget
 from PySide6.QtSvg import QSvgRenderer
-from ..core import AbstractIcons, AbstractWidget
 from ..tools.icon import Icon
+from ..enums.colors import Colors
+from ..core import (
+    AbstractIcons, 
+    AbstractWidget, 
+    AbstractContainer, 
+    ContainerChildType
+)
 
 
-class IconWidget(AbstractWidget, QWidget):
+class IconWidget(AbstractContainer, QFrame):
     def __init__(self,
-                icon: Union[str,
+                 *,
+                 icon: Union[str,
                             QIcon,
                             QIconEngine,
                             QPixmap,
                             QImage,
                             AbstractIcons,
                             QMovie],
-                *,
-                alignment: Qt.AlignmentFlag = Qt.AlignmentFlag.AlignCenter | Qt.AlignmentFlag.AlignHCenter,
-                mode: QIcon.Mode = QIcon.Mode.Active,
-                state: QIcon.State = QIcon.State.On,
-                color: QColor = None,
-                size: Union[QSize, tuple, int] = None,
-                **kwargs):
-        QWidget.__init__(self)
-        super().__init__(**kwargs)
+                 child: ContainerChildType = None,
+                 alignment: Qt.AlignmentFlag = Qt.AlignmentFlag.AlignCenter,
+                 mode: QIcon.Mode = QIcon.Mode.Active,
+                 state: QIcon.State = QIcon.State.On,
+                 color: Union[QColor, Colors] = None,
+                 size: Union[QSize, tuple, int] = None,
+                 **kwargs):
+        QFrame.__init__(self)
+        super().__init__(child, **kwargs)
 
         if isinstance(icon, QMovie):
             self._icon = icon
@@ -54,7 +59,7 @@ class IconWidget(AbstractWidget, QWidget):
 
     @icon.setter
     def icon(self, icon) -> None:
-        self._icon = Icon(icon)
+        self._icon = Icon(icon) if not isinstance(icon, QIcon) else icon
 
     def paintEvent(self, event: QPaintEvent) -> None:
         super().paintEvent(event)

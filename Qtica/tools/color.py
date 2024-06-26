@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6.QtGui import QColor
 from ..core import AbstractTool
 from ..enums.colors import Colors

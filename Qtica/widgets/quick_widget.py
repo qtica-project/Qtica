@@ -1,6 +1,5 @@
-#!/usr/bin/python3
+import os.path
 
-import os
 from typing import Any, Union
 from PySide6.QtCore import QUrl
 from PySide6.QtQuickWidgets import QQuickWidget
@@ -16,7 +15,7 @@ class QuickWidget(AbstractWidget, QQuickWidget):
                  **kwargs):
 
         if not os.path.exists(qml):
-            with TempFile(TempFile.OpenModeFlag.ReadWrite) as tf:
+            with TempFile(mode=TempFile.OpenModeFlag.ReadWrite) as tf:
                 tf.write(bytes(qml, encoding="utf-8"))
                 tf.readAll()
                 QQuickWidget.__init__(self, tf.fileName())
@@ -26,10 +25,8 @@ class QuickWidget(AbstractWidget, QQuickWidget):
 
         self._context = context
 
-        self.setUpdatesEnabled(True)
         self.setTabletTracking(True)
         self.setMouseTracking(True)
-
         self.setResizeMode(QQuickWidget.ResizeMode.SizeRootObjectToView)
 
         super().__init__(**kwargs)

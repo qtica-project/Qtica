@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6 import QtCore
 from ...core import AbstractTool
 

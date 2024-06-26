@@ -1,8 +1,7 @@
-#!/usr/bin/python3
-
 import os
 import sys
 import signal
+
 from typing import Callable, NoReturn, Optional, Union
 from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
 from PySide6.QtWidgets import QApplication, QStyleFactory, QWidget
@@ -57,9 +56,7 @@ class Application(AbstractQObject, QApplication):
     def add_rcc_file(self,
                      rcc_file: str,
                      rcc_root: str = None) -> bool:
-        if rcc_root is not None:
-            return QResource.registerResource(rcc_file, rcc_root)
-        return QResource.registerResource(rcc_file)
+        return QResource.registerResource(rcc_file, rcc_root or "")
 
     def add_font(self, fontpath: str) -> int:
         return QFontDatabase.addApplicationFont(fontpath)
@@ -67,9 +64,8 @@ class Application(AbstractQObject, QApplication):
     def _set_fonts(self, fonts: list[str]):
         for font in fonts:
             if not os.path.exists(font):
-                raise FileNotFoundError(f"'{font}' font file not found!")
-
-            self.add_font(fonts)
+                raise FileNotFoundError(f"font file not found, '{font}'")
+            self.add_font(font)
 
     def _set_resources(self, resources: list[Union[Callable, tuple[Optional[int], bytes, bytes, bytes]]]):
         '''
@@ -87,7 +83,7 @@ class Application(AbstractQObject, QApplication):
                 try:
                     res()
                 except Exception:
-                    ...
+                    continue
 
     @staticmethod
     def active_window() -> QWidget:

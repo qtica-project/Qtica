@@ -2,7 +2,7 @@
 
 from typing import Any, Union
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent, QKeySequence
+from PySide6.QtGui import QKeyEvent, QKeySequence, QMouseEvent
 from string import digits
 
 
@@ -17,7 +17,7 @@ class Modifiers:
 
     @classmethod
     def matches(cls,
-                event: QKeyEvent, 
+                event: Union[QKeyEvent, QMouseEvent],
                *modifier: list[Qt.KeyboardModifier]) -> bool:
 
         _modifier = None
@@ -84,7 +84,7 @@ class KeySequence:
 
     def matche(self, 
                modifier: Union[Qt.KeyboardModifier, list[Qt.KeyboardModifier]],
-               key: Union[int, Qt.Key]) -> bool:
+               key: Union[Qt.Key, int]) -> bool:
         return KeySequence.matches(self._event, modifier, key)
 
     def matche_seq(self, key: QKeySequence.StandardKey) -> bool:
@@ -92,10 +92,29 @@ class KeySequence:
 
     @staticmethod
     def matches(event: QKeyEvent, 
-                key: Union[int, Qt.Key],
+                key: Union[Qt.Key, int],
                 *modifier: list[Qt.KeyboardModifier]) -> bool:
         return Modifiers.matches(event, *modifier) and Keys.matches(event, key)
 
     @staticmethod
     def matches_seq(event: QKeyEvent, key: QKeySequence.StandardKey) -> bool:
         return event.matches(key)
+
+
+class MouseButtons:
+    Button = Qt.MouseButton
+
+    def __init__(self, event: QMouseEvent = None) -> None:
+        self._event = event
+
+    def matche(self, button: Union[Qt.MouseButton, int]) -> bool:
+        return MouseButtons.matches(self._event, button)
+
+    @staticmethod
+    def matches(event: QMouseEvent, button: Union[Qt.MouseButton, int]) -> bool:
+        return event.button() == button
+
+    def __getattribute__(self, name: str) -> Any:
+        if hasattr(Qt.MouseButton, name):
+            return getattr(Qt.MouseButton, name)
+        return super().__getattribute__(name)

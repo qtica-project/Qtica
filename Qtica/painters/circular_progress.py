@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from typing import Callable
 from PySide6.QtWidgets import QWidget
 from PySide6.QtCore import QRect, QTimer, Qt

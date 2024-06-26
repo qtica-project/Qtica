@@ -1,4 +1,3 @@
-from typing import Union, List, Tuple, Callable, Any, TypeAlias 
 from PySide6 import QtCore
 from enum import Enum, auto
 
@@ -50,5 +49,3 @@ class Events(Enum):
     wheel: QtCore.QEvent = auto()
     widget: QtCore.QEvent = auto()
     window_frame: QtCore.QEvent = auto()
-
-EventTypeVar: TypeAlias = List[Tuple[Union[Events, str], Callable[..., Any]]]

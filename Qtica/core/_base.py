@@ -1,69 +1,39 @@
-#!/usr/bin/python3
-
-from typing import Any, Callable, Sequence, Union
+from typing import Any, Callable, TypeAlias, Union
 from PySide6.QtCore import Qt, QObject
 from PySide6.QtWidgets import QApplication
-from ..enums.events import Events, EventTypeVar
-from ..enums.widgets import Widgets, WidgetTypeVar
-from ..enums.signals import Signals, SignalTypeVar
 from ..utils.caseconverter import camelcase, snakecase
+from .objects import Args, MArgs, Func
+from .. import enums
 
 
-class Func:
-    def __init__(self, func, *args, **kwargs):
-        self._func = func
-        self._args = args
-        self._kwargs = kwargs
+EventsType: TypeAlias = Union[list[tuple[Union[enums.Events, str], Callable[..., Any]]], 
+                            dict[Union[enums.Events, str], Callable[..., Any]]]
+SignalsType: TypeAlias = Union[list[tuple[Union[enums.Signals, str], Callable[..., Any]]], 
+                            dict[Union[enums.Signals, str], Callable[..., Any]]]
+MethodsType: TypeAlias = Union[list[Union[tuple[str, Union[Any, Args]], Func]], dict[str, Union[Any, Args]]]
 
-    def func(self) -> Union[Callable, str]:
-        return self._func
-
-    def args(self) -> tuple[Any]:
-        return self._args
-
-    def kwargs(self) -> dict[str, Any]:
-        return self._kwargs
-
-
-class Args:
-    def __init__(self, *args, **kwargs):
-        self._args = args
-        self._kwargs = kwargs
-
-    def args(self) -> list[Any]:
-        return self._args
-
-    def kwargs(self) -> dict[str, Any]:
-        return self._kwargs
-
-
-class MArgs:
-    def __init__(self, *args: Union[Args, Any]):
-        self._args = args
-
-    def args(self) -> list[Union[Args, Any]]:
-        return self._args
+WidgetsType: TypeAlias = Union[QObject, enums.Widgets]
 
 
 class AbstractBase:
     def __init__(self,
                  uid: str = None,
-                 signals: Union[SignalTypeVar, dict[Union[Signals, str], Callable[..., Any]]] = None,
-                 events: Union[EventTypeVar, dict[Union[Events, str], Callable[..., Any]]] = None,
-                 methods: Union[Sequence[Union[tuple[str, Union[Any, Args]], Func]], dict[str, Union[Any, Args]]] = None,
+                 signals: SignalsType = None,
+                 events:  EventsType = None,
+                 methods: MethodsType = None,
                  enable_event_stack: bool = True,
                  **kwargs):
 
         self._enable_event_stack = enable_event_stack
 
         self._set_uid(uid)
-        self._set_events(events)
-        self._set_signals(signals)
-        self._set_methods(methods)
         self._set_property_from_kwargs(**kwargs)
+        self._set_signals(signals)
+        self._set_events(events)
+        self._set_methods(methods)
 
-    def setEventStackEnable(self, state: bool):
-        self._enable_event_stack = state
+    def setEventStackEnable(self, on: bool):
+        self._enable_event_stack = on
 
     def _getattr(self, name: str, default: object = None) -> object:
         return getattr(self, name, default)
@@ -72,7 +42,7 @@ class AbstractBase:
         if uid is not None:
             self.setObjectName(uid.strip())
 
-    def _set_methods(self, methods):
+    def _set_methods(self, methods: MethodsType):
         if not methods:
             return
 
@@ -95,12 +65,12 @@ class AbstractBase:
                     else:
                         func(arg)
 
-    def _set_events(self, events):
+    def _set_events(self, events: EventsType):
         if not events:
             return
 
         for event, slot in (events.items() if isinstance(events, dict) else events):
-            if isinstance(event, Events):
+            if isinstance(event, enums.Events):
                 _ename = camelcase(event.name) + "Event"
             else:
                 _ename = event.strip()
@@ -111,12 +81,12 @@ class AbstractBase:
 
             self.__setattr__(_ename, slot)
 
-    def _set_signals(self, signals, disconnect: bool = False):
+    def _set_signals(self, signals: SignalsType, disconnect: bool = False):
         if not signals:
             return
 
         for signal, slot in (signals.items() if isinstance(signals, dict) else signals):
-            if isinstance(signal, Signals):
+            if isinstance(signal, enums.Signals):
                 _sname = camelcase(signal.name)
             else:
                 _sname = signal.strip()
@@ -127,10 +97,10 @@ class AbstractBase:
                 else:
                     attr.connect(slot)
 
-    def _get_wtype(self, qtype: Union[WidgetTypeVar, QObject] = Widgets.any):
-        return qtype.value if isinstance(qtype, Widgets) else qtype
+    def _get_wtype(self, qtype: WidgetsType = enums.Widgets.any):
+        return qtype.value if isinstance(qtype, enums.Widgets) else qtype
 
-    def fetch(self, uid: str, qtype: Union[WidgetTypeVar, QObject] = Widgets.any) -> QObject:
+    def fetch(self, uid: str, qtype: WidgetsType = enums.Widgets.any) -> QObject:
         return self.findChild(
             self._get_wtype(qtype), 
             uid.strip(), 
@@ -142,11 +112,11 @@ class AbstractBase:
                 snake_case = snakecase(name)
 
                 # handle signals
-                if snake_case in Signals._member_names_:
+                if snake_case in enums.Signals._member_names_:
                     self._getattr(name).connect(value)
 
                 # handle events
-                elif snake_case in Events._member_names_:
+                elif snake_case in enums.Events._member_names_:
                     self.__setattr__(name, value)
 
                 # handle parent parametar
@@ -170,21 +140,19 @@ class AbstractBase:
             for parent in QApplication.topLevelWidgets():
                 if parent.objectName().strip() == value.strip():
                     self.setParent(parent)
-
-                elif (widget := parent.findChild(QObject, 
-                                                 value.strip(), 
-                                                 Qt.FindChildOption.FindChildrenRecursively)) is not None:
+                elif (widget := parent.findChild(QObject, value.strip(), Qt.FindChildOption.FindChildrenRecursively)) is not None:
                     self.setParent(widget)
-
         elif callable(value):
             self.setParent(value())
-
         else:
             self.setParent(value)
 
     def _handle_set_methods(self, name: str, value: Any) -> None:
         if (func := self._getattr(name)) is not None and callable(func):
-            if isinstance(value, Args):
+            if isinstance(value, MArgs):
+                for v in value.args():
+                    func(*v.args(), **v.kwargs())
+            elif isinstance(value, Args):
                 func(*value.args(), **value.kwargs())
             else:
                 func(value)

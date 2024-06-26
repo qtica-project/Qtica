@@ -1,3 +1,2 @@
 from .property_animation import PropertyAnimation
-from .parallel_animation_group import ParallelAnimationGroup
-from .sequential_animation_group import SequentialAnimationGroup
+from .animation_group import ParallelAnimationGroup, SequentialAnimationGroup

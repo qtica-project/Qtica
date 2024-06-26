@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-# coding:utf-8
-
 from typing import Union
 from PySide6.QtWidgets import QGraphicsOpacityEffect, QGridLayout, QHBoxLayout, QSpacerItem, QWidget
 from PySide6.QtCore import QEasingCurve, QEvent, QPropertyAnimation, QSize, Qt, QTimer
@@ -24,8 +21,6 @@ class MaskDialog(AbstractDialog):
         super().__init__(**kwargs)
 
         self._child = child
-        # self._child.closeEvent = lambda e: self.close()
-
         self._grid_layout = QGridLayout(self)
         self._enable_animation = enable_animation
         self._hide_title_bar = hide_title_bar

@@ -1,12 +1,11 @@
-#!/usr/bin/python3
-
-import os
 import platform
+import os.path
+
 from typing import Any
 from enum import Enum, auto
-from ..utils import EnvVar
-from ..core import AbstractQObject, AbstractConfig
 from PySide6.QtCore import QSettings, QTimer
+from ..core import AbstractQObject, AbstractConfig
+from ..utils import EnvVar
 
 
 class Settings(AbstractQObject, QSettings):

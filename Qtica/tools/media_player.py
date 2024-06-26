@@ -1,12 +1,9 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-from ..core import AbstractQObject
 from PySide6.QtMultimedia import QMediaPlayer
+from ..core import AbstractQObject
 
 
 class MediaPlayer(AbstractQObject, QMediaPlayer):
-    def __init__(self, running: bool = False, **kwargs):
+    def __init__(self, running: bool = True, **kwargs):
         QMediaPlayer.__init__(self)
         super().__init__(**kwargs)
 

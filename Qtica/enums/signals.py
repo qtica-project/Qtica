@@ -1,4 +1,3 @@
-from typing import Union, List, Tuple, Callable, Any, TypeAlias 
 from PySide6 import QtCore
 from enum import Enum, auto
 
@@ -234,5 +233,3 @@ class Signals(Enum):
     y_scale_changed: QtCore.Signal = auto()
     z_changed: QtCore.Signal = auto()
     z_scale_changed: QtCore.Signal = auto()
-
-SignalTypeVar: TypeAlias = List[Tuple[Union[Signals, str], Callable[..., Any]]]

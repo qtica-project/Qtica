@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6.QtWidgets import QLayoutItem, QWidget, QWidgetItem
 from ...enums.position import Positions
 

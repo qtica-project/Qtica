@@ -709,3 +709,38 @@
   - `ColumnLayoutWrapper`
   - `RowLayoutWrapper`
   - `VLayoutWrapper`
+
+## 0.6.0 ()
+
+## Added
+
+- `widgets.SvgWidget`
+- `tools.SvgRenderer`
+- `tools.SvgGenerator`
+- `core.AbstractIODevice`
+- `core.AbstractContainer`
+- `core.AbstractBoxLayout`
+- `core.AbstractButton`
+- `core.AbstractWindow`
+- `tools.qtmultimedia`
+- `utils.MouseButtons`
+- `effects.BoxShadow`
+- `effects.ShadowEffect`
+
+## Updated
+
+- `widgets.AbstractContainer` you can now add list of widgets to **child** argument as children of container widget.
+
+## Removed
+
+- `widgets.ListWidget.addItemDelegate`
+- `widgets.window.BaseWindow` **dockwidgets** argument
+- `widgets.window.BaseWindow` **toolbars** argument
+- `tools.wrappers.DockWidgetWrapper` we don't need it anymore
+- `tools.wrappers.ToolBarWrapper`, `tools.wrappers.ToolBarBreakWrapper` we don't need it anymore
+
+## Changed
+
+- `widgets.window.BaseWindow` **home** argument has been renamed to **child**
+- `tools.SizePolicy` **horizontal**, **vertical** arguments has been renamed to **hsizetype**, **vsizetype**
+- `tools.wrappers.GridLayoutWrapper` **col** argument has been renamed to **column**

@@ -26,11 +26,10 @@ class StackedLayout(AbstractQObject, QStackedLayout):
                     _widget = child.child
 
                     if isinstance(_widget, QWidget):
-                        _func = self.addWidget
+                        self.addWidget(_widget)
                     elif isinstance(_widget, QLayoutItem):
-                        _func = self.addItem
+                        self.addItem(_widget)
 
-                    _func(_widget)
                     self.setAlignment(_widget, child.alignment)
 
                 elif isinstance(child, QLayoutItem):

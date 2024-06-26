@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from enum import Enum, auto
 from PySide6.QtGui import (
     QBrush, 

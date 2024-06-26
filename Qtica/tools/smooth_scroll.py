@@ -1,8 +1,6 @@
-# coding:utf-8
 from collections import deque
 from math import cos, pi
 from enum import IntEnum
-
 from PySide6.QtGui import QWheelEvent
 from PySide6.QtCore import QDateTime, Qt, QTimer, QPoint
 from PySide6.QtWidgets import QApplication, QScrollArea, QAbstractScrollArea
@@ -22,15 +20,16 @@ class SmoothScroll(AbstractDec):
         cosine = 4
 
     def __init__(self,
-        child: QScrollArea, 
-        orient: Qt.Orientation = Qt.Orientation.Vertical,
-        mode: Mode = Mode.linear,
-        fps: int = 60,
-        duration: int = 400,
-        step_ratio: int = 1.5,
-        acceleration: int = 1,
-        steps_total: int = 0
-     ):
+                 *,
+                 child: QScrollArea,
+                 orient: Qt.Orientation = Qt.Orientation.Vertical,
+                 mode: Mode = Mode.linear,
+                 fps: int = 60,
+                 duration: int = 400,
+                 step_ratio: int = 1.5,
+                 acceleration: int = 1,
+                 steps_total: int = 0
+                 ):
         """
         Parameters
         ----------
@@ -54,6 +53,8 @@ class SmoothScroll(AbstractDec):
         self.smoothMoveTimer = QTimer(child)
         self.smoothMode = mode
         self.smoothMoveTimer.timeout.connect(self.__smoothMove)
+
+        return self.child
 
     def setSmoothMode(self, smoothMode):
         """ set smooth mode """

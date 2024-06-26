@@ -1,4 +1,3 @@
-
 from typing import Union
 from PySide6.QtGui import QIcon, QPixmap
 from ...core import AbstractDec

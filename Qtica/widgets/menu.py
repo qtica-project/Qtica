@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from typing import Union
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QMenu
@@ -23,18 +21,20 @@ class Menu(AbstractWidget, QMenu):
         QMenu.__init__(self)
         super().__init__(**kwargs)
 
-        if children is not None:
-            for child in children:
-                if isinstance(child, MenuSeparatorWrapper):
-                    self.addSeparator()
+        if not children:
+            return
 
-                elif isinstance(child, MenuSectionWrapper):
-                    self.addSection(*child)
+        for child in children:
+            if isinstance(child, MenuSeparatorWrapper):
+                self.addSeparator()
 
-                elif isinstance(child, (QAction, MenuAction)):
-                    child.setParent(self)
-                    self.addAction(child)
+            elif isinstance(child, MenuSectionWrapper):
+                self.addSection(*child)
 
-                elif isinstance(child, QMenu):
-                    child.setParent(self)
-                    self.addMenu(child)
+            elif isinstance(child, (QAction, MenuAction)):
+                child.setParent(self)
+                self.addAction(child)
+
+            elif isinstance(child, QMenu):
+                child.setParent(self)
+                self.addMenu(child)

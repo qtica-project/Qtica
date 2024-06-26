@@ -1,11 +1,11 @@
 
 # built-in
-from .grid_layout import GridLayout
-from .form_layout import FormLayout
-from .h_layout import HLayout, ColumnLayout 
-from .v_layout import VLayout, RowLayout
+from .grid import GridLayout
+from .form import FormLayout
+from .box import BoxLayout, HLayout, VLayout, Row, Column
 from .stacked import StackedLayout
 
 # additional
-from .border_layout import BorderLayout
-from .flow_layout import FlowLayout
+from .border import BorderLayout
+from .flow import FlowLayout
+from .expand import ExpandLayout

@@ -1,7 +1,7 @@
-from .colors import Colors, ColorTypeVar
-from .signals import Signals, SignalTypeVar
-from .widgets import Widgets, WidgetTypeVar
-from .events import Events, EventTypeVar
+from .colors import Colors
+from .signals import Signals
+from .widgets import Widgets
+from .events import Events
 from .env_vars import EnvVars
 from .qpa_plugins import QPA_Platforms
 from .position import Positions

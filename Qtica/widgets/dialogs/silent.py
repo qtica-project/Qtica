@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6.QtWidgets import QGraphicsOpacityEffect, QHBoxLayout, QLabel, QWidget
 from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt
 from PySide6.QtGui import QShowEvent

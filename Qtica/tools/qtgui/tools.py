@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6 import QtCore, QtGui
 from ...core import AbstractTool
 
@@ -33,6 +31,24 @@ class ConicalGradient(AbstractTool, QtGui.QConicalGradient):
         QtGui.QConicalGradient.__init__(self, *args)
         super().__init__(**kwargs)
 
+    def to_qss(self) -> str:
+        """qconicalgradient(cx: float, cy: float, angle: float, stop: float QColor, ...)"""
+        qss = self.__class__.__base__.__name__.lower()
+        qss += "("
+        qss += f"cx:{str(self._point_value(self.center().x()))}, "
+        qss += f"cy:{str(self._point_value(self.center().y()))}, "
+        qss += f"angle:{str(self.angle())}, "
+        qss += ", ".join(f"stop:{self._point_value(stop)} {self._color_to_rgba(color)}" 
+                         for stop, color in self.stops())
+        qss += ")"
+        return qss
+
+    def _color_to_rgba(self, color) -> str:
+        return f"rgba({','.join(map(str, color.toTuple()))})"
+
+    def _point_value(self, value) -> int:
+        return 100 / value if value > 1 else value
+
 
 class Cursor(AbstractTool, QtGui.QCursor):
     def __init__(self, *args, **kwargs):
@@ -63,6 +79,8 @@ class Gradient(AbstractTool, QtGui.QGradient):
         QtGui.QGradient.__init__(self, *args)
         super().__init__(**kwargs)
 
+    def to_qss(self) -> str: ...
+
 
 class Image(AbstractTool, QtGui.QImage):
     def __init__(self, *args, **kwargs):
@@ -92,6 +110,25 @@ class LinearGradient(AbstractTool, QtGui.QLinearGradient):
     def __init__(self, *args, **kwargs):
         QtGui.QLinearGradient.__init__(self, *args)
         super().__init__(**kwargs)
+
+    def to_qss(self) -> str:
+        """qlineargradient(x1: float, y1: float, x2: float, y2: float, stop: float QColor, ...)"""
+        qss = self.__class__.__base__.__name__.lower()
+        qss += "("
+        qss += f"x1:{str(self._point_value(self.start().x()))}, "
+        qss += f"y1:{str(self._point_value(self.start().y()))}, "
+        qss += f"x2:{str(self._point_value(self.finalStop().x()))}, "
+        qss += f"y2:{str(self._point_value(self.finalStop().y()))}, "
+        qss += ", ".join(f"stop:{self._point_value(stop)} {self._color_to_rgba(color)}" 
+                         for stop, color in self.stops())
+        qss += ")"
+        return qss
+
+    def _color_to_rgba(self, color) -> str:
+        return f"rgba({','.join(map(str, color.toTuple()))})"
+
+    def _point_value(self, value) -> int:
+        return 100 / value if value > 1 else value
 
 
 class PageLayout(AbstractTool, QtGui.QPageLayout):
@@ -158,6 +195,27 @@ class RadialGradient(AbstractTool, QtGui.QRadialGradient):
     def __init__(self, *args, **kwargs):
         QtGui.QRadialGradient.__init__(self, *args)
         super().__init__(**kwargs)
+
+    def to_qss(self) -> str:
+        """qradialgradient(cx: float, cy: float, radius: float, fx: float, fy: float, stop: float QColor, ...)"""
+        qss = self.__class__.__base__.__name__.lower()
+
+        qss += "("
+        qss += f"cx:{str(self._point_value(self.center().x()))}, "
+        qss += f"cy:{str(self._point_value(self.center().y()))}, "
+        qss += f"fx:{str(self._point_value(self.focalPoint().x()))}, "
+        qss += f"fy:{str(self._point_value(self.focalPoint().y()))}, "
+        qss += f"radius:{str(self.radius())}, "
+        qss += ", ".join(f"stop:{self._point_value(stop)} {self._color_to_rgba(color)}" 
+                         for stop, color in self.stops())
+        qss += ")"
+        return qss
+
+    def _color_to_rgba(self, color) -> str:
+        return f"rgba({','.join(map(str, color.toTuple()))})"
+
+    def _point_value(self, value) -> int:
+        return 100 / value if value > 1 else value
 
 
 class Rgba64(AbstractTool, QtGui.QRgba64):

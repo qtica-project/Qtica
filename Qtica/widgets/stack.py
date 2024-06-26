@@ -1,9 +1,8 @@
-
 from enum import Enum
 from typing import Union
 from PySide6.QtWidgets import QFrame, QWidget, QLayout, QLayoutItem, QStackedLayout
 from ..utils.alignment import Alignment
-from ..core.routes import Routes
+from ..core.objects.routes import Routes
 from ..core import AbstractWidget
 
 
@@ -21,10 +20,6 @@ class Stack(AbstractWidget, QFrame):
                  menu_bar: QWidget = None,
                  **kwargs):
         QFrame.__init__(self)
-
-        self.setFrameShape(QFrame.Shape.NoFrame)
-        self.setFrameShadow(QFrame.Shadow.Raised)
-
         super().__init__(**kwargs)
 
         self._layout = QStackedLayout()
@@ -57,9 +52,9 @@ class Stack(AbstractWidget, QFrame):
                 elif isinstance(_widget, QLayoutItem):
                     _func = self._layout.addItem
                 elif isinstance(_widget, QLayout):
-                    _widget_wrapper = QWidget(self)
-                    _widget.setProperty("parent", _widget_wrapper)
-                    _widget_wrapper.setLayout(_widget)
+                    self.childLayoutWidget = QWidget(self)
+                    _widget.setProperty("parent", self.childLayoutWidget)
+                    self.childLayoutWidget.setLayout(_widget)
                     _func = self._layout.addWidget
 
                 _func(_widget)
@@ -72,10 +67,10 @@ class Stack(AbstractWidget, QFrame):
                 self._layout.addWidget(child)
 
             elif isinstance(child, QLayout):
-                _widget = QWidget(self)
-                child.setProperty("parent", _widget)
-                _widget.setLayout(child)
-                self._layout.addWidget(_widget)
+                self.childLayoutWidget = QWidget(self)
+                child.setProperty("parent", self.childLayoutWidget)
+                self.childLayoutWidget.setLayout(child)
+                self._layout.addWidget(self.childLayoutWidget)
 
     def _set_children_from_dict(self, children):
         self.routes = Routes(**children.items()) if isinstance(children, dict) else children

@@ -1,5 +1,3 @@
-#!/usr/bin/python3
-
 from PySide6 import QtWidgets
 from ..core import AbstractWidget
 
@@ -43,12 +41,6 @@ class ColumnView(AbstractWidget, QtWidgets.QColumnView):
 class ComboBox(AbstractWidget, QtWidgets.QComboBox):
     def __init__(self, *args, **kwargs):
         QtWidgets.QComboBox.__init__(self, *args)
-        super().__init__(**kwargs)
-
-
-class CommandLinkButton(AbstractWidget, QtWidgets.QCommandLinkButton):
-    def __init__(self, *args, **kwargs):
-        QtWidgets.QCommandLinkButton.__init__(self, *args)
         super().__init__(**kwargs)
 
 
@@ -227,12 +219,6 @@ class ProgressBar(AbstractWidget, QtWidgets.QProgressBar):
 class ProgressDialog(AbstractWidget, QtWidgets.QProgressDialog):
     def __init__(self, *args, **kwargs):
         QtWidgets.QProgressDialog.__init__(self, *args)
-        super().__init__(**kwargs)
-
-
-class RadioButton(AbstractWidget, QtWidgets.QRadioButton):
-    def __init__(self, *args, **kwargs):
-        QtWidgets.QRadioButton.__init__(self, *args)
         super().__init__(**kwargs)
 
 
