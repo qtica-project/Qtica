@@ -1,4 +1,4 @@
-from PySide6.QtCore import QParallelAnimationGroup, QSequentialAnimationGroup
+from qtpy.QtCore import QParallelAnimationGroup, QSequentialAnimationGroup
 from ..core import AbstractQObject
 
 

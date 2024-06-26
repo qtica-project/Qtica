@@ -1,9 +1,10 @@
 # coding:utf-8
 from typing import Union
-from PySide6.QtCore import QSize, QPoint, Qt, QEvent, QRect
-from PySide6.QtWidgets import QLayout, QWidget, QLayoutItem
 from ..core import AbstractQObject
 from ..utils.alignment import Alignment
+
+from qtpy.QtCore import QSize, QPoint, Qt, QEvent, QRect
+from qtpy.QtWidgets import QLayout, QWidget, QLayoutItem
 
 
 class _ExpandLayout(QLayout):

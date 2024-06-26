@@ -1,5 +1,5 @@
-from PySide6 import QtMultimedia
 from ...core import AbstractQObject
+from qtpy import QtMultimedia
 
 
 class AudioDecoder(AbstractQObject, QtMultimedia.QAudioDecoder):

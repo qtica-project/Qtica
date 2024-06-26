@@ -4,9 +4,10 @@ import os.path
 
 from string import Template
 from typing import Mapping, Union
-from PySide6.QtCore import QFile
-from PySide6.QtGui import QGradient, QColor
-from PySide6.QtWidgets import QGraphicsDropShadowEffect, QWidget
+
+from qtpy.QtCore import QFile
+from qtpy.QtGui import QGradient, QColor
+from qtpy.QtWidgets import QGraphicsDropShadowEffect, QWidget
 
 
 INDENT_WIDTH: str = " " * 4

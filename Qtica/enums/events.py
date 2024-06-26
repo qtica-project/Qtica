@@ -1,5 +1,5 @@
-from PySide6 import QtCore
 from enum import Enum, auto
+from qtpy import QtCore
 
 
 class Events(Enum):

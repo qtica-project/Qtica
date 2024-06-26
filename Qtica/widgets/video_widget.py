@@ -1,6 +1,7 @@
-from PySide6.QtMultimediaWidgets import QVideoWidget
-from PySide6.QtMultimedia import QMediaPlayer
 from ..core import AbstractWidget
+
+from qtpy.QtMultimediaWidgets import QVideoWidget
+from qtpy.QtMultimedia import QMediaPlayer
 
 
 class VideoWidget(AbstractWidget, QVideoWidget):

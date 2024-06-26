@@ -1,5 +1,5 @@
-from PySide6.QtMultimedia import QMediaPlayer
 from ..core import AbstractQObject
+from qtpy.QtMultimedia import QMediaPlayer
 
 
 class MediaPlayer(AbstractQObject, QMediaPlayer):

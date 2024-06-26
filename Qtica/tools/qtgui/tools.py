@@ -1,5 +1,5 @@
-from PySide6 import QtCore, QtGui
 from ...core import AbstractTool
+from qtpy import QtCore, QtGui
 
 
 class BackingStore(AbstractTool, QtGui.QBackingStore):

@@ -1,7 +1,8 @@
 from typing import Union
-from PySide6.QtWidgets import QStackedWidget, QWidget
-from ..core.objects.routes import Routes
 from ..core import AbstractWidget
+from ..core.objects.routes import Routes
+
+from qtpy.QtWidgets import QStackedWidget, QWidget
 
 
 class StackedWidget(AbstractWidget, QStackedWidget):

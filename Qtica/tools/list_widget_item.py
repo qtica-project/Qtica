@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QListWidgetItem
 from ..core import AbstractTool
+from qtpy.QtWidgets import QListWidgetItem
 
 
 class ListWidgetItem(AbstractTool, QListWidgetItem):

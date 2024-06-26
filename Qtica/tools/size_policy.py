@@ -1,6 +1,7 @@
 from typing import Union
-from PySide6.QtWidgets import QSizePolicy, QWidget
 from ..core import AbstractTool
+
+from qtpy.QtWidgets import QSizePolicy, QWidget
 
 
 class SizePolicy(AbstractTool, QSizePolicy):

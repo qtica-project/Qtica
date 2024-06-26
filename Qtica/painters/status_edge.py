@@ -1,5 +1,9 @@
 from enum import Enum, auto
-from PySide6.QtGui import (
+from ..core import AbstractPainter
+
+from qtpy.QtCore import QPointF, QRectF, QSize, Qt
+from qtpy.QtWidgets import QWidget
+from qtpy.QtGui import (
     QBrush, 
     QIcon, 
     QImage, 
@@ -9,9 +13,6 @@ from PySide6.QtGui import (
     QPicture, 
     QPixmap
 )
-from PySide6.QtCore import QPointF, QRectF, QSize, Qt
-from PySide6.QtWidgets import QWidget
-from ..core import AbstractPainter
 
 
 class StatusEdgePaint(AbstractPainter):

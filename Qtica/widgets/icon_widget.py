@@ -1,7 +1,18 @@
 from typing import Union
-from PySide6.QtWidgets import QFrame
-from PySide6.QtCore import QByteArray, QSize, Qt
-from PySide6.QtGui import (
+from ..tools.icon import Icon
+from ..enums.colors import Colors
+from ..core import (
+    AbstractIcons, 
+    AbstractWidget, 
+    AbstractContainer, 
+    ContainerChildType
+)
+
+from qtpy.QtWidgets import QFrame
+from qtpy.QtSvg import QSvgRenderer
+from qtpy.QtSvgWidgets import QSvgWidget
+from qtpy.QtCore import QByteArray, QSize, Qt
+from qtpy.QtGui import (
     QColor, 
     QIcon, 
     QIconEngine, 
@@ -10,16 +21,6 @@ from PySide6.QtGui import (
     QPaintEvent, 
     QPainter, 
     QPixmap
-)
-from PySide6.QtSvgWidgets import QSvgWidget
-from PySide6.QtSvg import QSvgRenderer
-from ..tools.icon import Icon
-from ..enums.colors import Colors
-from ..core import (
-    AbstractIcons, 
-    AbstractWidget, 
-    AbstractContainer, 
-    ContainerChildType
 )
 
 

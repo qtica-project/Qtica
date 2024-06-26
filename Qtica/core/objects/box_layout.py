@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QWidget, QLayout
-from PySide6.QtCore import Qt
+from qtpy.QtWidgets import QWidget, QLayout
+from qtpy.QtCore import Qt
 
 
 class BoxLayoutWrapper:

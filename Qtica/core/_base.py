@@ -1,9 +1,10 @@
 from typing import Any, Callable, TypeAlias, Union
-from PySide6.QtCore import Qt, QObject
-from PySide6.QtWidgets import QApplication
-from ..utils.caseconverter import camelcase, snakecase
 from .objects import Args, MArgs, Func
+from ..utils.caseconverter import camelcase, snakecase
 from .. import enums
+
+from qtpy.QtCore import Qt, QObject
+from qtpy.QtWidgets import QApplication
 
 
 EventsType: TypeAlias = Union[list[tuple[Union[enums.Events, str], Callable[..., Any]]], 

@@ -1,6 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any, Callable
-from PySide6.QtCore import Signal
+
+from qtpy.QtCore import Signal
 
 
 class AbstractConfig(metaclass=ABCMeta):

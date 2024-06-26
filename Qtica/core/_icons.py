@@ -1,5 +1,6 @@
 from enum import Enum
-from PySide6.QtGui import QIcon, QIconEngine, QImage, QPixmap
+
+from qtpy.QtGui import QIcon, QIconEngine, QImage, QPixmap
 
 
 class AbstractIcons(Enum):

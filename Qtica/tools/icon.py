@@ -1,9 +1,10 @@
 from typing import Union
-from PySide6.QtGui import QIcon, QIconEngine, QImage, QPixmap, QPainter, QColor
-from PySide6.QtWidgets import QFileIconProvider
-from PySide6.QtCore import QFileInfo, QSize, Qt
-from ..core import AbstractTool, AbstractIcons
 from ..enums import Colors
+from ..core import AbstractTool, AbstractIcons
+
+from qtpy.QtGui import QIcon, QIconEngine, QImage, QPixmap, QPainter, QColor
+from qtpy.QtWidgets import QFileIconProvider
+from qtpy.QtCore import QFileInfo, QSize, Qt
 
 
 class Icon(AbstractTool, QIcon):

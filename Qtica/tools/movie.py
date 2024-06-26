@@ -1,8 +1,9 @@
 from typing import Union
 from enum import IntEnum
-from PySide6.QtGui import QMovie
-from PySide6.QtCore import QByteArray
 from ..core import AbstractQObject
+
+from qtpy.QtGui import QMovie
+from qtpy.QtCore import QByteArray
 
 
 class Movie(AbstractQObject, QMovie):

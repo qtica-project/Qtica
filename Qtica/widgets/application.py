@@ -2,11 +2,12 @@ import os
 import sys
 import signal
 
-from typing import Callable, NoReturn, Optional, Union
-from PySide6.QtCore import QResource, Qt, Signal, qRegisterResourceData
-from PySide6.QtWidgets import QApplication, QStyleFactory, QWidget
-from PySide6.QtGui import QFontDatabase
 from ..core import AbstractQObject
+from typing import Callable, NoReturn, Optional, Union
+
+from qtpy.QtCore import QResource, Qt, Signal, qRegisterResourceData
+from qtpy.QtWidgets import QApplication, QStyleFactory, QWidget
+from qtpy.QtGui import QFontDatabase
 
 
 class Application(AbstractQObject, QApplication):

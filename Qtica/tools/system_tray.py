@@ -1,7 +1,8 @@
 from typing import Union
-from PySide6.QtWidgets import QSystemTrayIcon
-from PySide6.QtGui import QIcon, QPixmap
 from ..core import AbstractQObject
+
+from qtpy.QtWidgets import QSystemTrayIcon
+from qtpy.QtGui import QIcon, QPixmap
 
 
 class SystemTray(AbstractQObject, QSystemTrayIcon):

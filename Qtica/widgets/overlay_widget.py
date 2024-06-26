@@ -1,7 +1,8 @@
 from typing import Union
-from PySide6.QtCore import Qt
-from PySide6 import QtCore, QtGui, QtWidgets
 from ..core import AbstractContainer, ContainerChildType
+
+from qtpy.QtCore import Qt
+from qtpy import QtCore, QtGui, QtWidgets
 
 
 class OverlayWidget(AbstractContainer, QtWidgets.QWidget):

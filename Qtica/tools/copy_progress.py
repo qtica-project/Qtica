@@ -1,8 +1,9 @@
 import os.path
 
-from PySide6.QtCore import QThread, Signal, QUrl
-from PySide6.QtWidgets import QProgressBar, QWidget
 from ..core import AbstractDec, AbstractQObject
+
+from qtpy.QtCore import QThread, Signal, QUrl
+from qtpy.QtWidgets import QProgressBar, QWidget
 
 
 class CopyProgress(AbstractDec):

@@ -1,7 +1,8 @@
 from typing import Union
-from PySide6.QtWidgets import QStackedLayout, QWidget, QLayoutItem
 from ..utils.alignment import Alignment
 from ..core import AbstractQObject, Routes
+
+from qtpy.QtWidgets import QStackedLayout, QWidget, QLayoutItem
 
 
 class StackedLayout(AbstractQObject, QStackedLayout):

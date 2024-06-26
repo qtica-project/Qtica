@@ -1,8 +1,9 @@
-from PySide6.QtGui import QPainter
-from PySide6.QtCore import Qt, QEvent
-from PySide6.QtWidgets import QGridLayout, QWidget
-from .tails import TeachingTipManager, _TailPos, _TailDirection
 from ....core import AbstractDialog
+from .tails import TeachingTipManager, _TailPos, _TailDirection
+
+from qtpy.QtGui import QPainter
+from qtpy.QtCore import Qt, QEvent
+from qtpy.QtWidgets import QGridLayout, QWidget
 
 
 class TeachingTipDialog(AbstractDialog):

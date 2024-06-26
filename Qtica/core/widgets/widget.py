@@ -1,10 +1,11 @@
 from typing import TypeAlias, Union
-from PySide6.QtWidgets import QGraphicsEffect
-from PySide6.QtCore import QAbstractAnimation, QAnimationGroup,QTimer, QVariantAnimation, Qt, Signal
 from .._base import AbstractBase
 from .._declarative import AbstractDec
 from ..objects import PosEvents, PosEventsRange, PosEventsArg, QStyleSheet
 from ...utils.key_events import MouseButtons, Modifiers
+
+from qtpy.QtWidgets import QGraphicsEffect
+from qtpy.QtCore import QAbstractAnimation, QAnimationGroup,QTimer, QVariantAnimation, Qt, Signal
 
 
 QssType: TypeAlias = Union[str, dict, QStyleSheet]

@@ -1,5 +1,6 @@
 from typing import Union
-from PySide6.QtWidgets import QStackedLayout, QStackedWidget, QWidget
+
+from qtpy.QtWidgets import QStackedLayout, QStackedWidget, QWidget
 
 
 class Routes:

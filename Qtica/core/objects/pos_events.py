@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Callable, TypeAlias, Union
-from PySide6.QtCore import QPoint, QPointF
-from Qtica import Qt
+
+from qtpy.QtCore import Qt, QPoint, QPointF
 
 
 @dataclass

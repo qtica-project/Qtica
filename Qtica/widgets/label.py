@@ -1,7 +1,8 @@
-from PySide6.QtCore import Signal
-from PySide6.QtGui import QMovie
-from PySide6.QtWidgets import QLabel
 from ..core import AbstractWidget
+
+from qtpy.QtCore import Signal
+from qtpy.QtGui import QMovie
+from qtpy.QtWidgets import QLabel
 
 
 class Label(AbstractWidget, QLabel):

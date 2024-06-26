@@ -1,11 +1,12 @@
 from typing import Union
-from PySide6.QtWidgets import QGraphicsOpacityEffect, QGridLayout, QHBoxLayout, QSpacerItem, QWidget
-from PySide6.QtCore import QEasingCurve, QEvent, QPropertyAnimation, QSize, Qt, QTimer
-from PySide6.QtGui import QColor, QIcon, QResizeEvent, QShowEvent
 from darkdetect import isDark
-from ...core import AbstractDialog
 from ...tools import SizePolicy
+from ...core import AbstractDialog
 from ..icon_widget import IconWidget
+
+from qtpy.QtWidgets import QGraphicsOpacityEffect, QGridLayout, QHBoxLayout, QSpacerItem, QWidget
+from qtpy.QtCore import QEasingCurve, QEvent, QPropertyAnimation, QSize, Qt, QTimer
+from qtpy.QtGui import QColor, QIcon, QResizeEvent, QShowEvent
 
 
 class MaskDialog(AbstractDialog):

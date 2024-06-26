@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QLabel
-from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
-from PySide6.QtGui import QFont, QFontMetrics, QResizeEvent, QTextLayout
 from ..core import AbstractWidget
+
+from qtpy.QtWidgets import QLabel
+from qtpy.QtCore import QPoint, QRect, QSize, Qt, Signal
+from qtpy.QtGui import QFont, QFontMetrics, QResizeEvent, QTextLayout
 
 
 class _ElidingLabel(QLabel):

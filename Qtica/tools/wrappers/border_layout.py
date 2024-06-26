@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QLayoutItem, QWidget, QWidgetItem
 from ...enums.position import Positions
+from qtpy.QtWidgets import QLayoutItem, QWidget, QWidgetItem
 
 
 class BorderLayoutWrapper:

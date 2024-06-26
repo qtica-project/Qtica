@@ -1,5 +1,5 @@
-from PySide6 import QtMultimedia
 from ...core import AbstractTool
+from qtpy import QtMultimedia
 
 
 class Audio(AbstractTool, QtMultimedia.QAudio):

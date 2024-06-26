@@ -1,6 +1,7 @@
 from typing import Union
-from PySide6.QtWidgets import QLayout, QMainWindow, QWidget
 from ..core import AbstractWindow
+
+from qtpy.QtWidgets import QLayout, QMainWindow, QWidget
 
 
 class MainWindow(AbstractWindow, QMainWindow):

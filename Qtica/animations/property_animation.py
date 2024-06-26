@@ -1,4 +1,4 @@
-from PySide6.QtCore import QPropertyAnimation
+from qtpy.QtCore import QPropertyAnimation
 from ..core import AbstractQObject
 
 

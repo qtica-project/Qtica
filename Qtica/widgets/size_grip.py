@@ -1,8 +1,9 @@
-from PySide6.QtWidgets import QSizeGrip
-from PySide6.QtGui import QMouseEvent
-from PySide6.QtCore import QRect, Qt
-from ..services import corner_to_edge
 from ..core import AbstractWidget
+from ..services import corner_to_edge
+
+from qtpy.QtWidgets import QSizeGrip
+from qtpy.QtGui import QMouseEvent
+from qtpy.QtCore import QRect, Qt
 
 
 class WindowSizeGrip(AbstractWidget, QSizeGrip):

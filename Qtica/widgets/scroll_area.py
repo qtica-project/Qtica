@@ -1,6 +1,7 @@
 from typing import Union
-from PySide6.QtWidgets import QLayout, QScrollArea, QWidget
 from ..core import AbstractWidget
+
+from qtpy.QtWidgets import QLayout, QScrollArea, QWidget
 
 
 class ScrollArea(AbstractWidget, QScrollArea):

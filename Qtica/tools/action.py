@@ -1,7 +1,8 @@
 from typing import Union, Callable
-from PySide6.QtWidgets import QLineEdit
-from PySide6.QtGui import QAction, QIcon, QPixmap
 from ..core import AbstractQObject, QObjectDec
+
+from qtpy.QtWidgets import QLineEdit
+from qtpy.QtGui import QAction, QIcon, QPixmap
 
 
 class LinePasswordAction(QObjectDec, QAction):

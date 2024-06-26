@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QApplication, QDialog, QWidget
-from PySide6.QtCore import QEvent, QObject, QTimer
-from PySide6.QtGui import QCloseEvent, QShowEvent
 from .widget import AbstractWidget
+
+from qtpy.QtWidgets import QApplication, QDialog, QWidget
+from qtpy.QtCore import QEvent, QObject, QTimer
+from qtpy.QtGui import QCloseEvent, QShowEvent
 
 
 class AbstractDialog(AbstractWidget, QDialog):

@@ -1,7 +1,9 @@
 import logging
+
 from contextlib import suppress
 from typing import List, NamedTuple, Optional
-from PySide6.QtCore import QMessageLogContext, QtMsgType, qInstallMessageHandler
+
+from qtpy.QtCore import QMessageLogContext, QtMsgType, qInstallMessageHandler
 
 
 class Record(NamedTuple):

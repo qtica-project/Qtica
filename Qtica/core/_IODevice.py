@@ -1,5 +1,6 @@
-from PySide6.QtCore import QIODevice
 from ._qobject import AbstractQObject
+
+from qtpy.QtCore import QIODevice
 
 
 class AbstractIODevice(AbstractQObject):

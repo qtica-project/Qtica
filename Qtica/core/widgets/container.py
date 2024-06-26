@@ -1,6 +1,7 @@
 from typing import TypeAlias, Union
-from PySide6.QtWidgets import QLayout, QWidget
 from .widget import AbstractWidget
+
+from qtpy.QtWidgets import QLayout, QWidget
 
 
 ContainerChildType: TypeAlias = Union[QWidget, QLayout, list[QWidget]]

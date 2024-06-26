@@ -1,8 +1,9 @@
 from typing import Union
-from PySide6.QtWidgets import QGridLayout, QWidget, QLayout, QLayoutItem
 from ..tools.wrappers.grid_layout import GridLayoutWrapper
 from ..utils.alignment import Alignment
 from ..core import AbstractQObject
+
+from qtpy.QtWidgets import QGridLayout, QWidget, QLayout, QLayoutItem
 
 
 class GridLayout(AbstractQObject, QGridLayout):

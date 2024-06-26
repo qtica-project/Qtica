@@ -1,6 +1,9 @@
 from typing import Union
-from PySide6.QtWidgets import QLayout, QLayoutItem, QWidget
-from PySide6.QtCore import (
+from ..core import AbstractQObject
+from ..utils.alignment import Alignment
+
+from qtpy.QtWidgets import QLayout, QLayoutItem, QWidget
+from qtpy.QtCore import (
     QSize, 
     QPoint, 
     Qt, 
@@ -8,9 +11,6 @@ from PySide6.QtCore import (
     QPropertyAnimation, 
     QParallelAnimationGroup
 )
-
-from ..core import AbstractQObject
-from ..utils.alignment import Alignment
 
 
 class _FlowLayout(QLayout):

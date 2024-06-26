@@ -1,10 +1,11 @@
-from collections import deque
 from math import cos, pi
 from enum import IntEnum
-from PySide6.QtGui import QWheelEvent
-from PySide6.QtCore import QDateTime, Qt, QTimer, QPoint
-from PySide6.QtWidgets import QApplication, QScrollArea, QAbstractScrollArea
+from collections import deque
 from ..core import AbstractDec
+
+from qtpy.QtGui import QWheelEvent
+from qtpy.QtCore import QDateTime, Qt, QTimer, QPoint
+from qtpy.QtWidgets import QApplication, QScrollArea, QAbstractScrollArea
 
 
 class SmoothScroll(AbstractDec):

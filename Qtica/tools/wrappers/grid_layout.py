@@ -1,6 +1,7 @@
-from PySide6.QtWidgets import QWidget, QLayout, QLayoutItem
-from PySide6.QtCore import Qt
 from typing import Union
+
+from qtpy.QtWidgets import QWidget, QLayout, QLayoutItem
+from qtpy.QtCore import Qt
 
 
 class GridLayoutWrapper:

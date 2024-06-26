@@ -1,9 +1,10 @@
 from typing import Any, Union
-from PySide6.QtCore import Qt, QObject
-from PySide6.QtWidgets import QApplication, QWidget
 from ._declarative import AbstractDec, TrackingDec
 from ._base import WidgetsType
 from .. import enums
+
+from qtpy.QtCore import Qt, QObject
+from qtpy.QtWidgets import QApplication, QWidget
 
 
 class Api:

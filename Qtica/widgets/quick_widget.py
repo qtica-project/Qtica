@@ -1,10 +1,11 @@
 import os.path
 
 from typing import Any, Union
-from PySide6.QtCore import QUrl
-from PySide6.QtQuickWidgets import QQuickWidget
 from ..core import AbstractWidget
 from ..tools.qt_file_open import TempFile
+
+from qtpy.QtCore import QUrl
+from qtpy.QtQuickWidgets import QQuickWidget
 
 
 class QuickWidget(AbstractWidget, QQuickWidget):

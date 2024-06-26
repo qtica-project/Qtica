@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QFrame
 from ..core import AbstractWidget
+from qtpy.QtWidgets import QFrame
 
 
 class Line(AbstractWidget, QFrame):

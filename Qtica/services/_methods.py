@@ -1,11 +1,13 @@
+import re
+
 from typing import Union
 from random import random
-from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QWidget
-from PySide6.QtGui import QColor, QGuiApplication, QLinearGradient, QPixmap, QScreen, QFontMetrics
 from ..utils.maths import deg_to_coordinates
 from ..core import AbstractDialog
-import re
+
+from qtpy.QtCore import Qt
+from qtpy.QtWidgets import QApplication, QWidget
+from qtpy.QtGui import QColor, QGuiApplication, QLinearGradient, QPixmap, QScreen, QFontMetrics
 
 
 CORNERS = {

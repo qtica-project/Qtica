@@ -1,7 +1,8 @@
 from typing import Union
-from PySide6.QtCore import QByteArray, QXmlStreamReader
-from PySide6.QtSvg import QSvgRenderer, QSvgGenerator
 from ..core import AbstractQObject, AbstractTool
+
+from qtpy.QtCore import QByteArray, QXmlStreamReader
+from qtpy.QtSvg import QSvgRenderer, QSvgGenerator
 
 
 class SvgRenderer(AbstractQObject, QSvgRenderer):

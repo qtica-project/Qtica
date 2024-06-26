@@ -1,10 +1,8 @@
-#!/usr/bin/python3
-
+import os
 
 from enum import Enum
 from typing import Any, Union
 from ..enums.env_vars import EnvVars
-import os
 
 
 class EnvVar:

@@ -1,15 +1,16 @@
 from typing import Union
-from PySide6.QtCore import QPoint, Qt
-from PySide6.QtGui import QMouseEvent, QResizeEvent
-from PySide6.QtWidgets import (
+from ..core import AbstractWindow
+from .size_grip import WindowSizeGrip
+
+from qtpy.QtCore import QPoint, Qt
+from qtpy.QtGui import QMouseEvent, QResizeEvent
+from qtpy.QtWidgets import (
     QVBoxLayout,
     QSizePolicy,
     QMainWindow,
     QLayout, 
     QWidget
 )
-from .size_grip import WindowSizeGrip
-from ..core import AbstractWindow
 
 
 class FramelessWindow(AbstractWindow, QMainWindow):

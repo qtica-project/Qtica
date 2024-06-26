@@ -1,6 +1,7 @@
-from PySide6.QtGui import QPaintEvent
-from PySide6.QtWidgets import QWidget
 from ._declarative import AbstractDec
+
+from qtpy.QtGui import QPaintEvent
+from qtpy.QtWidgets import QWidget
 
 
 class AbstractPainter(AbstractDec):

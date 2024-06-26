@@ -1,5 +1,5 @@
 from typing import Optional, Union
-from PySide6.QtWidgets import QWidget, QLayout
+from qtpy.QtWidgets import QWidget, QLayout
 
 
 class FormLayoutWrapper:

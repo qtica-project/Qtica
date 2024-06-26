@@ -1,9 +1,10 @@
 from enum import Enum
 from typing import Union
-from PySide6.QtWidgets import QFrame, QWidget, QLayout, QLayoutItem, QStackedLayout
+from ..core import AbstractWidget
 from ..utils.alignment import Alignment
 from ..core.objects.routes import Routes
-from ..core import AbstractWidget
+
+from qtpy.QtWidgets import QFrame, QWidget, QLayout, QLayoutItem, QStackedLayout
 
 
 class Stack(AbstractWidget, QFrame):

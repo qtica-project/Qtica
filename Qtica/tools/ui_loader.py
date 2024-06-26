@@ -1,10 +1,11 @@
 import os
 
 from typing import Union
-from PySide6.QtCore import QIODevice
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QWidget
 from ..core import QObjectDec
+
+from qtpy.QtCore import QIODevice
+from qtpy.QtUiTools import QUiLoader
+from qtpy.QtWidgets import QWidget
 
 
 class UiLoader(QObjectDec, QUiLoader):

@@ -1,6 +1,7 @@
-from PySide6.QtCore import QObject
-from PySide6 import QtWidgets
 from enum import Enum
+
+from qtpy.QtCore import QObject
+from qtpy import QtWidgets
 
 
 class Widgets(Enum):

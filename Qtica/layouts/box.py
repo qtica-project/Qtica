@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QBoxLayout, QHBoxLayout, QVBoxLayout
 from ..core import AbstractBoxLayout, BoxLayoutChildrenType
+from qtpy.QtWidgets import QBoxLayout, QHBoxLayout, QVBoxLayout
 
 
 class BoxLayout(AbstractBoxLayout, QBoxLayout):

@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QSpacerItem, QSizePolicy
 from ..core import AbstractTool
+from qtpy.QtWidgets import QSpacerItem, QSizePolicy
 
 
 class SpacerItem(AbstractTool, QSpacerItem):

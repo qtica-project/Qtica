@@ -1,6 +1,7 @@
-from PySide6.QtGui import QColor
 from ..core import AbstractTool
 from ..enums.colors import Colors
+
+from qtpy.QtGui import QColor
 
 
 class Color(AbstractTool, QColor):

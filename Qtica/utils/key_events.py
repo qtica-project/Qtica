@@ -1,9 +1,8 @@
-#!/usr/bin/python3
-
-from typing import Any, Union
-from PySide6.QtCore import Qt
-from PySide6.QtGui import QKeyEvent, QKeySequence, QMouseEvent
 from string import digits
+from typing import Any, Union
+
+from qtpy.QtCore import Qt
+from qtpy.QtGui import QKeyEvent, QKeySequence, QMouseEvent
 
 
 class Modifiers:

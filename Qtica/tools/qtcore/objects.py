@@ -1,5 +1,5 @@
-from PySide6 import QtCore
 from ...core import AbstractQObject
+from qtpy import QtCore
 
 
 class AnimationGroup(AbstractQObject, QtCore.QAnimationGroup):

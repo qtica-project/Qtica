@@ -1,7 +1,8 @@
-from PySide6.QtWidgets import QGraphicsOpacityEffect, QHBoxLayout, QLabel, QWidget
-from PySide6.QtCore import QEasingCurve, QPropertyAnimation, Qt
-from PySide6.QtGui import QShowEvent
 from ...core import AbstractDialog
+
+from qtpy.QtWidgets import QGraphicsOpacityEffect, QHBoxLayout, QLabel, QWidget
+from qtpy.QtCore import QEasingCurve, QPropertyAnimation, Qt
+from qtpy.QtGui import QShowEvent
 
 
 class SilentDialog(AbstractDialog):

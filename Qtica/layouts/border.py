@@ -1,15 +1,16 @@
 from typing import Union
-from PySide6.QtCore import QRect, QSize, Qt
-from PySide6.QtWidgets import (
+from ..enums.position import Positions
+from ..enums.size import Sizes
+from ..core import AbstractQObject
+from ..tools.wrappers.border_layout import BorderLayoutWrapper
+
+from qtpy.QtCore import QRect, QSize, Qt
+from qtpy.QtWidgets import (
     QLayout,
     QLayoutItem,
     QWidget,
     QWidgetItem,
 )
-from ..enums.position import Positions
-from ..enums.size import Sizes
-from ..core import AbstractQObject
-from ..tools.wrappers.border_layout import BorderLayoutWrapper
 
 
 class _BorderLayout(QLayout):

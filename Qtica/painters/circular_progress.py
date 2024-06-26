@@ -1,8 +1,9 @@
 from typing import Callable
-from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import QRect, QTimer, Qt
-from PySide6.QtGui import QColor, QPainter, QPen
 from ..core import AbstractPainter
+
+from qtpy.QtWidgets import QWidget
+from qtpy.QtCore import QRect, QTimer, Qt
+from qtpy.QtGui import QColor, QPainter, QPen
 
 
 class CircularProgressPaint(AbstractPainter):

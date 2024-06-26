@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QWidget
 from ..core import AbstractContainer, ContainerChildType
+from qtpy.QtWidgets import QWidget
 
 
 class WidgetContainer(AbstractContainer, QWidget):

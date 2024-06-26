@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QPushButton, QToolButton, QCommandLinkButton, QRadioButton
 from ..core import AbstractButton
+from qtpy.QtWidgets import QPushButton, QToolButton, QCommandLinkButton, QRadioButton
 
 
 class PushButton(AbstractButton, QPushButton):

@@ -1,5 +1,5 @@
-from PySide6 import QtGui
 from ...core import AbstractQObject
+from qtpy import QtGui
 
 
 class Action(AbstractQObject, QtGui.QAction):

@@ -3,9 +3,10 @@ import os.path
 
 from typing import Any
 from enum import Enum, auto
-from PySide6.QtCore import QSettings, QTimer
-from ..core import AbstractQObject, AbstractConfig
 from ..utils import EnvVar
+from ..core import AbstractQObject, AbstractConfig
+
+from qtpy.QtCore import QSettings, QTimer
 
 
 class Settings(AbstractQObject, QSettings):

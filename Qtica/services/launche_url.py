@@ -1,6 +1,7 @@
 from typing import Iterable, Union
-from PySide6.QtGui import QDesktopServices
-from PySide6.QtCore import QUrl
+
+from qtpy.QtGui import QDesktopServices
+from qtpy.QtCore import QUrl
 
 
 class LauncheURL:

@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QFrame
 from ..core import AbstractContainer, ContainerChildType
+from qtpy.QtWidgets import QFrame
 
 
 class FrameContainer(AbstractContainer, QFrame):

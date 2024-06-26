@@ -1,12 +1,13 @@
 from typing import Union
-from PySide6.QtGui import QAction
-from PySide6.QtWidgets import QMenu
+from ..tools import MenuAction
+from ..core import AbstractWidget
 from ..tools.wrappers.menu import (
     MenuSectionWrapper, 
     MenuSeparatorWrapper
 )
-from ..tools import MenuAction
-from ..core import AbstractWidget
+
+from qtpy.QtGui import QAction
+from qtpy.QtWidgets import QMenu
 
 
 class Menu(AbstractWidget, QMenu):

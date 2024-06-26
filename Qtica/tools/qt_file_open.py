@@ -1,5 +1,5 @@
-from PySide6.QtCore import QFile, QTemporaryFile
 from ..core import AbstractIODevice
+from qtpy.QtCore import QFile, QTemporaryFile
 
 
 class OpenFile(AbstractIODevice, QFile):
