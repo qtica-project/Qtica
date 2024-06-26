@@ -37,11 +37,13 @@ pip install qtica
 ```python
 import os
 import sys
-from PySide6.QtGui import QColor
-from PySide6.QtCore import QSize, Qt
+
+from Qtica import BehaviorDec, Api
 from Qtica.services import randomColor, colorToHex
 from Qtica.widgets import MainWindow, Label, Application
-from Qtica import BehaviorDec, Api
+
+from qtpy.QtGui import QColor
+from qtpy.QtCore import QSize, Qt
 
 
 class Window(BehaviorDec):
