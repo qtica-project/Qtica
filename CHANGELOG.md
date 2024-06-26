@@ -714,6 +714,7 @@
 
 ## Added
 
+- `QtPy` support
 - `widgets.SvgWidget`
 - `tools.SvgRenderer`
 - `tools.SvgGenerator`
