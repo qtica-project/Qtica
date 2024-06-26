@@ -729,7 +729,7 @@
 
 ## Updated
 
-- `widgets.AbstractContainer` you can now add list of widgets to **child** argument as children of container widget.
+- `widgets.AbstractContainer` you can now add list of widgets to **child** argument as children of container widgets.
 
 ## Removed
 
