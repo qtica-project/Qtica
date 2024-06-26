@@ -15,7 +15,7 @@ import os
 os.environ["QT_API"] = "pyside6"
 
 
-from PySide6.QtCore import (
+from qtpy.QtCore import (
     Qt, 
     Property, 
     Signal, 
