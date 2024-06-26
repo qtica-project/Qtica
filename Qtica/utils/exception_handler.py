@@ -1,6 +1,6 @@
 from copy import deepcopy
-from typing import Callable, Union
 from ..core.objects import Func
+from typing import Callable, Union
 
 
 def TryExc(func: Union[Callable, Func], *default):

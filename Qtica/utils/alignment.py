@@ -1,8 +1,7 @@
-#!/usr/bin/python3
+from enum import IntFlag
 
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QWidget
-from enum import IntFlag
 
 
 class Alignment:

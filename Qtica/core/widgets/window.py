@@ -1,11 +1,9 @@
 from typing import Union
+from .widget import AbstractWidget
+
 from PySide6.QtCore import Signal
 from PySide6.QtGui import QShowEvent, QCloseEvent
-from PySide6.QtWidgets import (
-    QWidget,
-    QLayout
-)
-from .widget import AbstractWidget
+from PySide6.QtWidgets import QWidget,QLayout
 
 
 class AbstractWindow(AbstractWidget):

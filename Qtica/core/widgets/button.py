@@ -1,5 +1,5 @@
-from PySide6.QtCore import Signal
 from .widget import AbstractWidget
+from PySide6.QtCore import Signal
 
 
 class AbstractButton(AbstractWidget):

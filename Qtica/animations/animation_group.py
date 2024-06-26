@@ -1,5 +1,5 @@
-from PySide6.QtCore import QParallelAnimationGroup, QSequentialAnimationGroup
 from ..core import AbstractQObject
+from PySide6.QtCore import QParallelAnimationGroup, QSequentialAnimationGroup
 
 
 class SequentialAnimationGroup(AbstractQObject, QSequentialAnimationGroup):

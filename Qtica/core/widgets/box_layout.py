@@ -1,8 +1,9 @@
 from typing import TypeAlias, Union
-from PySide6.QtWidgets import QLayoutItem, QSpacerItem, QWidget, QLayout
-from ...utils.alignment import Alignment
 from .._qobject import AbstractQObject
 from ..objects import BoxLayoutWrapper
+from ...utils.alignment import Alignment
+
+from PySide6.QtWidgets import QLayoutItem, QSpacerItem, QWidget, QLayout
 
 
 BoxLayoutChildrenType: TypeAlias = list[Union[QWidget, QLayout, BoxLayoutWrapper, Alignment]]

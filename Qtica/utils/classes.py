@@ -1,4 +1,3 @@
-# coding: utf-8
 from enum import EnumMeta
 from os import path as _os_path
 from inspect import getfile as _ins_getfile

@@ -1,9 +1,10 @@
 from typing import Union
 from enum import Enum, auto
+from ..utils.caseconverter import camelcase
+
 from PySide6.QtCore import QMimeData
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QClipboard, QImage, QPixmap
-from ..utils.caseconverter import camelcase
 
 
 class Clipboard:
